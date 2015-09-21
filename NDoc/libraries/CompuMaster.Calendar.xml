@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>CompuMaster.Calendar</name>
+    <version>2009.1.106.39877</version>
+    <fullname>CompuMaster.Calendar, Version=2009.1.106.39877, Culture=neutral, PublicKeyToken=null</fullname>
+  </assembly>
+  <members>
+    <member name="T:CompuMaster.Calendar.DateInformation.WeekNumber">
+      <summary>
+     A data structure for a complete week number inclusive the year information which is related to a pure week number 
+ </summary>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminsupport]	17.11.2005	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.WeekOfYear(System.DateTime)">
+      <summary>
+     Lookup the calendar week of the year based on the current culture set 
+ </summary>
+ <param name="dateValue">A date value whose week number is required</param>
+ <returns>A week number</returns>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminwezel]	31.10.2005	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.WeekOfYear(System.DateTime,System.Globalization.CultureInfo)">
+      <summary>
+     Lookup the calendar week of the year based on the current culture set 
+ </summary>
+ <param name="dateValue">A date value whose week number is required</param>
+ <param name="cultureInfo">The culture information which shall be the base of all date calculations</param>
+ <returns>A week number</returns>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminwezel]	31.10.2005	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.FirstDateOfWeek(System.Int32,System.Int32)">
+      <summary>
+     Lookup the first date of a week 
+ </summary>
+ <param name="year">The year</param>
+ <param name="week">The week</param>
+ <returns>The date of the first day of the week</returns>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminwezel]	31.10.2005	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.FirstDateOfWeek(System.Int32,System.Int32,System.Globalization.CultureInfo)">
+      <summary>
+     Lookup the first date of a week 
+ </summary>
+ <param name="year">The year</param>
+ <param name="week">The week</param>
+ <param name="cultureInfo">The culture information which shall be the base of all date calculations</param>
+ <returns>The date of the first day of the week</returns>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminwezel]	31.10.2005	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.LastDateOfWeek(System.Int32,System.Int32)">
+      <summary>
+     Lookup the last date of a week 
+ </summary>
+ <param name="year">The year</param>
+ <param name="week">The week</param>
+ <returns>The date of the last day of the week on 0 o'clock (not 24 o'clock!)</returns>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminwezel]	31.10.2005	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.LastDateOfWeek(System.Int32,System.Int32,System.Globalization.CultureInfo)">
+      <summary>
+     Lookup the last date of a week 
+ </summary>
+ <param name="year">The year</param>
+ <param name="week">The week</param>
+ <param name="cultureInfo">The culture information which shall be the base of all date calculations</param>
+ <returns>The date of the last day of the week on 0 o'clock (not 24 o'clock!)</returns>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminwezel]	31.10.2005	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.WorkDays.CountTypicalWorkDays(System.DateTime,System.DateTime)">
+      <summary>
+ Count the number of weekdays Monday to Friday, also known as workdays 
+ </summary>
+ <param name="fromDate">The begin of the period</param>
+ <param name="toDate">The last inclusive day of the period</param>
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	10.02.2009	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.WorkDays.CountTypicalFreeDays(System.DateTime,System.DateTime)">
+      <summary>
+ Count the number of weekdays Saturday to Sunday, also known as free days 
+ </summary>
+ <param name="fromDate">The begin of the period</param>
+ <param name="toDate">The last inclusive day of the period</param>
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	10.02.2009	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.WorkDays.CountWeekDays(System.DateTime,System.DateTime,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+      <summary>
+ Count the number of weekdays 
+ </summary>
+ <param name="fromDate">The begin of the period</param>
+ <param name="toDate">The last inclusive day of the period</param>
+ <param name="countSundays">True if Sundays shall be counted</param>
+ <param name="countMondays">True if Monday shall be counted</param>
+ <param name="countTuesdays">True if Tuesdays shall be counted</param>
+ <param name="countWednesdays">True if Wednesdays shall be counted</param>
+ <param name="countThursdays">True if Thursdays shall be counted</param>
+ <param name="countFridays">True if Fridays shall be counted</param>
+ <param name="countSaturdays">True if Saturdays shall be counted</param>
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	10.02.2009	Created 
+ </history></member>
+  </members>
+</doc>

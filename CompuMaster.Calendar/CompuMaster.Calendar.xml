@@ -1,0 +1,385 @@
+<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>CompuMaster.Calendar</name>
+    <version>2012.10.30.100</version>
+    <fullname>CompuMaster.Calendar, Version=2012.10.30.100, Culture=neutral, PublicKeyToken=null</fullname>
+  </assembly>
+  <members>
+    <member name="T:CompuMaster.Calendar.DateInformation.WeekNumber">
+      <summary>
+     A data structure for a complete week number inclusive the year information which is related to a pure week number 
+ </summary>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminsupport]	17.11.2005	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.WeekOfYear(System.DateTime)">
+      <summary>
+     Lookup the calendar week of the year based on the current culture set 
+ </summary>
+ <param name="dateValue">A date value whose week number is required</param>
+ <returns>A week number</returns>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminwezel]	31.10.2005	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.WeekOfYear(System.DateTime,System.Globalization.CultureInfo)">
+      <summary>
+     Lookup the calendar week of the year based on the current culture set 
+ </summary>
+ <param name="dateValue">A date value whose week number is required</param>
+ <param name="cultureInfo">The culture information which shall be the base of all date calculations</param>
+ <returns>A week number</returns>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminwezel]	31.10.2005	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.FirstDateOfWeek(System.Int32,System.Int32)">
+      <summary>
+     Lookup the first date of a week 
+ </summary>
+ <param name="year">The year</param>
+ <param name="week">The week</param>
+ <returns>The date of the first day of the week</returns>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminwezel]	31.10.2005	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.FirstDateOfWeek(System.Int32,System.Int32,System.Globalization.CultureInfo)">
+      <summary>
+     Lookup the first date of a week 
+ </summary>
+ <param name="year">The year</param>
+ <param name="week">The week</param>
+ <param name="cultureInfo">The culture information which shall be the base of all date calculations</param>
+ <returns>The date of the first day of the week</returns>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminwezel]	31.10.2005	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.LastDateOfWeek(System.Int32,System.Int32)">
+      <summary>
+     Lookup the last date of a week 
+ </summary>
+ <param name="year">The year</param>
+ <param name="week">The week</param>
+ <returns>The date of the last day of the week on 0 o'clock (not 24 o'clock!)</returns>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminwezel]	31.10.2005	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.LastDateOfWeek(System.Int32,System.Int32,System.Globalization.CultureInfo)">
+      <summary>
+     Lookup the last date of a week 
+ </summary>
+ <param name="year">The year</param>
+ <param name="week">The week</param>
+ <param name="cultureInfo">The culture information which shall be the base of all date calculations</param>
+ <returns>The date of the last day of the week on 0 o'clock (not 24 o'clock!)</returns>
+ <remarks>
+ </remarks>
+ <history>
+ 	[adminwezel]	31.10.2005	Created 
+ </history></member>
+    <member name="T:CompuMaster.Calendar.DateInformation.Accuracy">
+      <summary>
+ The precision of a datetime representation which may have got an influence on rounded values 
+ </summary>
+ <remarks>
+ Some database or application systems don't fully support the high precision of the .NET framework's datetime value. In this case, those systems may round the datetime value to store/handle the value. But you may want to prevent roundings to the next day. 
+ <example>You want to filter for records till the end of a day, but don't want records from the next day with time 00:00:00 because of any roundings.</example>
+ </remarks>
+ <history>
+ 	[wezel]	13.12.2010	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.BeginOfYear(System.DateTime)">
+      <summary>
+ The first moment of a year 
+ </summary>
+ <param name="value" />
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	13.12.2010	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.EndOfYear(System.DateTime,CompuMaster.Calendar.DateInformation.Accuracy)">
+      <summary>
+ The last moment of a year 
+ </summary>
+ <param name="value" />
+ <param name="precision" />
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	13.12.2010	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.BeginOfMonth(System.DateTime)">
+      <summary>
+ The first moment of a month 
+ </summary>
+ <param name="value" />
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	13.12.2010	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.EndOfMonth(System.DateTime,CompuMaster.Calendar.DateInformation.Accuracy)">
+      <summary>
+ The last moment of a month 
+ </summary>
+ <param name="value" />
+ <param name="precision" />
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	13.12.2010	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.BeginOfDay(System.DateTime)">
+      <summary>
+ The first moment of a day 
+ </summary>
+ <param name="value" />
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	13.12.2010	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.DateInformation.EndOfDay(System.DateTime,CompuMaster.Calendar.DateInformation.Accuracy)">
+      <summary>
+ The last moment of a day 
+ </summary>
+ <param name="value" />
+ <param name="precision" />
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	13.12.2010	Created 
+ </history></member>
+    <member name="T:CompuMaster.Calendar.Month">
+      <summary>
+ A representation for a month period 
+ </summary>
+ <remarks /></member>
+    <member name="P:CompuMaster.Calendar.Month.Year">
+      <summary>
+ The year of the month 
+ </summary>
+ <value />
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	12.01.2011	Created 
+ </history></member>
+    <member name="P:CompuMaster.Calendar.Month.Month">
+      <summary>
+ The number of the month (Jan = 1, Dec = 12) 
+ </summary>
+ <value />
+ <remarks>
+ </remarks></member>
+    <member name="M:CompuMaster.Calendar.Month.ToString">
+      <summary>
+ Text formatting with yyyy-MM 
+ </summary>
+ <returns />
+ <remarks /></member>
+    <member name="M:CompuMaster.Calendar.Month.ToString(System.String)">
+      <summary>
+ Format the month with a typical datetime format string using the begin date of the period 
+ </summary>
+ <param name="format" />
+ <returns />
+ <remarks>
+ </remarks></member>
+    <member name="M:CompuMaster.Calendar.Month.ToString(System.IFormatProvider)">
+      <summary>
+ Format the month with a typical datetime format using the given format provider and using the begin date of the period 
+ </summary>
+ <param name="provider" />
+ <returns />
+ <remarks>
+ </remarks></member>
+    <member name="M:CompuMaster.Calendar.Month.ToString(System.String,System.IFormatProvider)">
+      <summary>
+ Format the month with a typical datetime format string and the given format provider using the begin date of the period 
+ </summary>
+ <param name="format" />
+ <param name="provider" />
+ <returns />
+ <remarks>
+ </remarks></member>
+    <member name="M:CompuMaster.Calendar.Month.UniqueShortName">
+      <summary>
+ A short name in format MMM/yyyy 
+ </summary>
+ <returns />
+ <remarks /></member>
+    <member name="M:CompuMaster.Calendar.Month.Equals(CompuMaster.Calendar.Month)">
+      <summary>
+ Equals method for period classes 
+ </summary>
+ <param name="value" />
+ <returns />
+ <remarks /></member>
+    <member name="F:CompuMaster.Calendar.Month.Operato">
+      <summary>
+ Equals operator for Month classes 
+ </summary>
+ <param name="value1" />
+ <param name="value2" />
+ <returns />
+ <remarks /></member>
+    <member name="F:CompuMaster.Calendar.Month.Operato">
+      <summary>
+ Not-Equals operator for Month classes 
+ </summary>
+ <param name="value1" />
+ <param name="value2" />
+ <returns />
+ <remarks /></member>
+    <member name="F:CompuMaster.Calendar.Month.Operato">
+      <summary>
+ Smaller than operator for Month classes 
+ </summary>
+ <param name="value1" />
+ <param name="value2" />
+ <returns />
+ <remarks /></member>
+    <member name="F:CompuMaster.Calendar.Month.Operato">
+      <summary>
+ Greater than operator for Month classes 
+ </summary>
+ <param name="value1" />
+ <param name="value2" />
+ <returns />
+ <remarks /></member>
+    <member name="F:CompuMaster.Calendar.Month.Operato">
+      <summary>
+ Smaller than operator for Month classes 
+ </summary>
+ <param name="value1" />
+ <param name="value2" />
+ <returns />
+ <remarks /></member>
+    <member name="F:CompuMaster.Calendar.Month.Operato">
+      <summary>
+ Greater than operator for Month classes 
+ </summary>
+ <param name="value1" />
+ <param name="value2" />
+ <returns />
+ <remarks /></member>
+    <member name="F:CompuMaster.Calendar.Month.Operato">
+      <summary>
+ The number of total months between two values 
+ </summary>
+ <param name="value1" />
+ <param name="value2" />
+ <returns />
+ <remarks /></member>
+    <member name="M:CompuMaster.Calendar.Month.NextPeriod">
+      <summary>
+ Create an instance of the following period 
+ </summary>
+ <returns />
+ <remarks /></member>
+    <member name="M:CompuMaster.Calendar.Month.PreviousPeriod">
+      <summary>
+ Create an instance of the previous period 
+ </summary>
+ <returns />
+ <remarks /></member>
+    <member name="M:CompuMaster.Calendar.Month.BeginOfPeriod">
+      <summary>
+ The begin of the month 
+ </summary>
+ <returns />
+ <remarks /></member>
+    <member name="M:CompuMaster.Calendar.Month.EndOfPeriod(CompuMaster.Calendar.DateInformation.Accuracy)">
+      <summary>
+ The end of the month 
+ </summary>
+ <param name="precision" />
+ <returns />
+ <remarks /></member>
+    <member name="M:CompuMaster.Calendar.Month.CompareTo(System.Object)">
+      <summary>
+ Compares a value to the current instance value 
+ </summary>
+ <param name="obj" />
+ <returns />
+ <remarks /></member>
+    <member name="M:CompuMaster.Calendar.Month.CompareTo(CompuMaster.Calendar.Month)">
+      <summary>
+ Compares a value to the current instance value 
+ </summary>
+ <param name="value" />
+ <returns>0 if value is greater, 2 if value is smaller, 1 if value equals</returns>
+ <remarks /></member>
+    <member name="T:CompuMaster.Calendar.WorkDays">
+      <summary>
+ Provides several methods for working with work days 
+ </summary>
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	13.12.2010	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.WorkDays.CountTypicalWorkDays(System.DateTime,System.DateTime)">
+      <summary>
+ Count the number of weekdays Monday to Friday, also known as workdays 
+ </summary>
+ <param name="fromDate">The begin of the period</param>
+ <param name="toDate">The last inclusive day of the period</param>
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	10.02.2009	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.WorkDays.CountTypicalFreeDays(System.DateTime,System.DateTime)">
+      <summary>
+ Count the number of weekdays Saturday to Sunday, also known as free days 
+ </summary>
+ <param name="fromDate">The begin of the period</param>
+ <param name="toDate">The last inclusive day of the period</param>
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	10.02.2009	Created 
+ </history></member>
+    <member name="M:CompuMaster.Calendar.WorkDays.CountWeekDays(System.DateTime,System.DateTime,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+      <summary>
+ Count the number of weekdays 
+ </summary>
+ <param name="fromDate">The begin of the period</param>
+ <param name="toDate">The last inclusive day of the period</param>
+ <param name="countSundays">True if Sundays shall be counted</param>
+ <param name="countMondays">True if Monday shall be counted</param>
+ <param name="countTuesdays">True if Tuesdays shall be counted</param>
+ <param name="countWednesdays">True if Wednesdays shall be counted</param>
+ <param name="countThursdays">True if Thursdays shall be counted</param>
+ <param name="countFridays">True if Fridays shall be counted</param>
+ <param name="countSaturdays">True if Saturdays shall be counted</param>
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[wezel]	10.02.2009	Created 
+ </history></member>
+  </members>
+</doc>

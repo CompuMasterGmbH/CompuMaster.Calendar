@@ -1,0 +1,73 @@
+Building documentation...
+Initializing...
+Merging XML documentation...
+Building file mapping...
+Loading XSLT files...
+    namespace.xslt
+    namespacehierarchy.xslt
+    type.xslt
+    typehierarchy.xslt
+    allmembers.xslt
+    individualmembers.xslt
+    event.xslt
+    member.xslt
+    memberoverload.xslt
+    property.xslt
+    field.xslt
+    htmlcontents.xslt
+Generating HTML pages...
+CompuMaster.Calendar.html
+CompuMaster.CalendarHierarchy.html
+CompuMaster.Calendar.DateInformation.html
+CompuMaster.Calendar.DateInformationMembers.html
+CompuMaster.Calendar.DateInformationConstructor.html
+CompuMaster.Calendar.DateInformationMethods.html
+CompuMaster.Calendar.DateInformation.BeginOfDay.html
+CompuMaster.Calendar.DateInformation.BeginOfMonth.html
+CompuMaster.Calendar.DateInformation.BeginOfYear.html
+CompuMaster.Calendar.DateInformation.EndOfDay.html
+CompuMaster.Calendar.DateInformation.EndOfMonth.html
+CompuMaster.Calendar.DateInformation.EndOfYear.html
+CompuMaster.Calendar.DateInformation.FirstDateOfWeek_overloads.html
+CompuMaster.Calendar.DateInformation.FirstDateOfWeek_overload_1.html
+CompuMaster.Calendar.DateInformation.FirstDateOfWeek_overload_2.html
+CompuMaster.Calendar.DateInformation.LastDateOfWeek_overloads.html
+CompuMaster.Calendar.DateInformation.LastDateOfWeek_overload_1.html
+CompuMaster.Calendar.DateInformation.LastDateOfWeek_overload_2.html
+CompuMaster.Calendar.DateInformation.WeekOfYear_overloads.html
+CompuMaster.Calendar.DateInformation.WeekOfYear_overload_1.html
+CompuMaster.Calendar.DateInformation.WeekOfYear_overload_2.html
+CompuMaster.Calendar.DateInformation.Accuracy.html
+CompuMaster.Calendar.DateInformation.WeekNumber.html
+CompuMaster.Calendar.DateInformation.WeekNumberMembers.html
+CompuMaster.Calendar.DateInformation.WeekNumberFields.html
+CompuMaster.Calendar.DateInformation.WeekNumber.Week.html
+CompuMaster.Calendar.DateInformation.WeekNumber.Year.html
+CompuMaster.Calendar.WorkDays.html
+CompuMaster.Calendar.WorkDaysMembers.html
+CompuMaster.Calendar.WorkDaysConstructor.html
+CompuMaster.Calendar.WorkDaysMethods.html
+CompuMaster.Calendar.WorkDays.CountTypicalFreeDays.html
+CompuMaster.Calendar.WorkDays.CountTypicalWorkDays.html
+CompuMaster.Calendar.WorkDays.CountWeekDays.html
+Generating HTML content file...
+transform the HHC contents file into html
+Compiling HTML Help file...
+Compiling Html Help file
+Microsoft HTML Help Compiler 4.74.8702
+
+Compiling \\wks23\g$\svn_repository\compumaster_products\tools\CompuMaster.Calendar\NDoc\MSDN\doc\ndoc_msdn_temp\CompuMaster.Data.chm
+
+
+Compile time: 0 minutes, 1 second
+71	Topics
+212	Local links
+34	Internet links
+4	Graphics
+
+
+Created \\wks23\g$\svn_repository\compumaster_products\tools\CompuMaster.Calendar\NDoc\MSDN\doc\ndoc_msdn_temp\CompuMaster.Data.chm, 29,719 bytes
+Compression decreased file by 109,187 bytes.
+
+Html Help compile complete
+Done.
