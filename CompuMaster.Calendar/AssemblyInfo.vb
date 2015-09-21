@@ -2,7 +2,7 @@ Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
-<Assembly: AssemblyTitle("CompuMaster.Calendar")> 
+<Assembly: AssemblyTitle("CompuMaster.Calendar - LGPL 2.1 edition")>
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("CompuMaster GmbH")> 
 <Assembly: AssemblyProduct("camm Tools")> 
@@ -15,7 +15,4 @@ Imports System.Runtime.InteropServices
 
 
 <Assembly: AssemblyVersion("2012.10.30.100")> 
-<Assembly: AssemblyDelaySign(False)> 
-#If SIGNASSEMBLY Then
-<Assembly: AssemblyKeyFile("R:\Shared\Technik\Company Keys\camm.biz.snk")> 
-#End If
+<Assembly: AssemblyDelaySign(False)>
