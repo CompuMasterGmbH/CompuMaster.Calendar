@@ -5,14 +5,14 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("CompuMaster.Calendar - MIT license edition")>
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("CompuMaster GmbH")> 
-<Assembly: AssemblyProduct("camm Tools")> 
-<Assembly: AssemblyCopyright("2005-2015 CompuMaster GmbH")> 
+<Assembly: AssemblyProduct("camm Tools")>
+<Assembly: AssemblyCopyright("2005-2016 CompuMaster GmbH")>
 <Assembly: AssemblyTrademark("camm")> 
 <Assembly: CLSCompliant(True)> 
 <Assembly: ComVisibleAttribute(False)> 
 <Assembly: System.Security.AllowPartiallyTrustedCallers()> 
 
-<Assembly: Guid("5F847B21-B1CA-4D9E-81CB-8BDE9D59978C")> 
+<Assembly: Guid("5F847B21-B1CA-4D9E-81CB-8BDE9D59978C")>
 
-<Assembly: AssemblyVersion("2015.09.22.100")> 
+<Assembly: AssemblyVersion("2016.03.31.100")>
 <Assembly: AssemblyDelaySign(False)>
