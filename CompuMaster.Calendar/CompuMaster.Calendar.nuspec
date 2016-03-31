@@ -13,6 +13,6 @@
     <description>.NET library with common methods for some usual calendar calculations</description>
     <releaseNotes></releaseNotes>
     <copyright>2005-2015 CompuMaster GmbH</copyright>
-    <tags>CompuMaster Calendar Begin End Day Week Month Year WeekNumber WeekOfYear WeekDays WorkDays</tags>
+    <tags>CompuMaster Common Utils Calendar Begin End Day Week Month Year WeekNumber WeekOfYear WeekDays WorkDays</tags>
   </metadata>
 </package>
