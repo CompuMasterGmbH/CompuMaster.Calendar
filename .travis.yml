@@ -1,0 +1,10 @@
+language: csharp
+solution: CompuMaster.Calendar.VS2012.sln
+mono:
+  - latest
+install:
+  - nuget restore CompuMaster.Calendar.VS2012.sln
+  - nuget install NUnit.Runners -Version 3.4.1 -OutputDirectory testrunner
+script:
+  - xbuild /p:Configuration=Release CompuMaster.Calendar.VS2012.sln
+  - mono ./testrunner/NUnit.ConsoleRunner.3.4.1/tools/nunit3-console.exe ./CompuMaster.Test.Calendar/bin/CompuMaster.Test.Calendar.dll
