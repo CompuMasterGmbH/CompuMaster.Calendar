@@ -1,7 +1,9 @@
 language: csharp
 solution: CompuMaster.Calendar.VS2012.sln
-mono:
-  - latest
+dotnet: 1.0.1
+dist: trusty
+#sudo: required
+mono: none
 install:
   - nuget restore CompuMaster.Calendar.VS2012.sln
   - nuget install NUnit.Runners -Version 3.4.1 -OutputDirectory testrunner
