@@ -34,6 +34,25 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(False, value1 < value3)
         End Sub
 
+        <Test()> Public Sub MonthNames()
+            Dim value1 As New CompuMaster.Calendar.Month(2010, 1)
+            Dim value2 As New CompuMaster.Calendar.Month(2009, 12)
+            Assert.AreEqual("Jan/2010", value1.UniqueShortName)
+            Assert.AreEqual("Dec/2009", value2.UniqueShortName)
+            Assert.AreEqual("Jan", value1.MonthShortName(System.Globalization.CultureInfo.GetCultureInfo("en-US")))
+            Assert.AreEqual("Dec", value2.MonthShortName(System.Globalization.CultureInfo.GetCultureInfo("en-US")))
+            Assert.AreEqual("Jan", value1.MonthShortName(System.Globalization.CultureInfo.GetCultureInfo("de-DE")))
+            Assert.AreEqual("Dez", value2.MonthShortName(System.Globalization.CultureInfo.GetCultureInfo("de-DE")))
+            Assert.AreEqual("January", value1.MonthName(System.Globalization.CultureInfo.GetCultureInfo("en-US")))
+            Assert.AreEqual("December", value2.MonthName(System.Globalization.CultureInfo.GetCultureInfo("en-US")))
+            Assert.AreEqual("Januar", value1.MonthName(System.Globalization.CultureInfo.GetCultureInfo("de-DE")))
+            Assert.AreEqual("Dezember", value2.MonthName(System.Globalization.CultureInfo.GetCultureInfo("de-DE")))
+            Assert.AreEqual("Jan", value1.MonthShortName("en-US"))
+            Assert.AreEqual("Dec", value2.MonthShortName("en-US"))
+            Assert.AreEqual("January", value1.MonthName("en-US"))
+            Assert.AreEqual("December", value2.MonthName("en-US"))
+        End Sub
+
     End Class
 
 End Namespace

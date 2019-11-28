@@ -6,7 +6,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("CompuMaster GmbH")> 
 <Assembly: AssemblyProduct("camm Tools")>
-<Assembly: AssemblyCopyright("2005-2016 CompuMaster GmbH")>
+<Assembly: AssemblyCopyright("2005-2016,2019 CompuMaster GmbH")>
 <Assembly: AssemblyTrademark("camm")> 
 <Assembly: CLSCompliant(True)> 
 <Assembly: ComVisibleAttribute(False)> 
@@ -14,5 +14,5 @@ Imports System.Runtime.InteropServices
 
 <Assembly: Guid("5F847B21-B1CA-4D9E-81CB-8BDE9D59978C")>
 
-<Assembly: AssemblyVersion("2016.09.07.102")>
+<Assembly: AssemblyVersion("2019.11.28.100")>
 <Assembly: AssemblyDelaySign(False)>

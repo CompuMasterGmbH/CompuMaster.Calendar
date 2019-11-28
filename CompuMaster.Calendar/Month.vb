@@ -111,7 +111,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
-        ''' A short name in format MMM/yyyy
+        ''' A short name in format MMM/yyyy (English names)
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
@@ -145,6 +145,22 @@ Namespace CompuMaster.Calendar
             End Select
             Result &= "/" & Me.Year.ToString("0000")
             Return Result
+        End Function
+
+        Public Function MonthShortName(cultureName As String) As String
+            Return Me.MonthShortName(System.Globalization.CultureInfo.GetCultureInfo(cultureName))
+        End Function
+
+        Public Function MonthShortName(culture As System.Globalization.CultureInfo) As String
+            Return Me.BeginOfPeriod.ToString("MMM", culture.DateTimeFormat)
+        End Function
+
+        Public Function MonthName(cultureName As String) As String
+            Return Me.MonthName(System.Globalization.CultureInfo.GetCultureInfo(cultureName))
+        End Function
+
+        Public Function MonthName(culture As System.Globalization.CultureInfo) As String
+            Return Me.BeginOfPeriod.ToString("MMMM", culture.DateTimeFormat)
         End Function
 
         ''' <summary>
