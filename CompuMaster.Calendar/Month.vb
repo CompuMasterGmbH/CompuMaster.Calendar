@@ -110,14 +110,95 @@ Namespace CompuMaster.Calendar
             Return Me.BeginOfPeriod.ToString(format, provider)
         End Function
 
-        ''' <summary>
-        ''' A short name in format MMM/yyyy (English names)
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Function UniqueShortName() As String
-            Dim Result As String = ""
-            Select Case Me.Month
+        Public Shared Function Parse(value As String, format As String, culture As System.Globalization.CultureInfo) As Month
+            If value = Nothing Then
+                Throw New ArgumentException("Invalid value", "value")
+            End If
+            Dim MonthShortNames As New System.Collections.Generic.List(Of String)
+            Dim MonthLongNames As New System.Collections.Generic.List(Of String)
+            For MyCounter As Integer = 1 To 12
+                MonthShortNames.Add(New Month(2000, MyCounter).MonthShortName(culture))
+                MonthLongNames.Add(New Month(2000, MyCounter).MonthName(culture))
+            Next
+            Dim Pattern As String = System.Text.RegularExpressions.Regex.Escape(format).Replace("MMMM", "(?<m>" & Strings.Join(MonthLongNames.ToArray, "|") & ")").Replace("MMM", "(?<m>" & Strings.Join(MonthShortNames.ToArray, "|") & ")").Replace("MM", "(?<m>\d\d)").Replace("M", "(?<m>\d?\d)").Replace("YYYY", "(?<yyyy>\d\d\d\d)").Replace("YY", "(?<yy>\d\d)")
+            Dim RegEx As New System.Text.RegularExpressions.Regex(Pattern, Text.RegularExpressions.RegexOptions.Compiled Or Text.RegularExpressions.RegexOptions.Singleline Or Text.RegularExpressions.RegexOptions.Multiline)
+            If RegEx.IsMatch(value) = False Then
+                Throw New ArgumentException("Invalid value", "value")
+            End If
+            Dim RegMatch As System.Text.RegularExpressions.Match = RegEx.Match(value)
+            Dim GroupNames As New System.Collections.Generic.List(Of String)(RegEx.GetGroupNames())
+            If RegMatch.Groups.Count >= 2 Then
+                Dim FoundYear As Integer
+                If GroupNames.Contains("yyyy") Then
+                    FoundYear = Integer.Parse(RegMatch.Groups("yyyy").Value)
+                ElseIf GroupNames.Contains("yy") Then
+                    FoundYear = culture.Calendar.ToFourDigitYear(Integer.Parse(RegMatch.Groups("yy").Value))
+                Else
+                    Throw New ArgumentException("Invalid value", "value")
+                End If
+                Dim FoundMonthName As String = RegMatch.Groups("m").Value
+                Dim FoundMonth As Integer = 0
+                For MyCounter As Integer = 1 To 12
+                    If MonthLongNames(MyCounter - 1) = FoundMonthName OrElse MonthShortNames(MyCounter - 1) = FoundMonthName OrElse MyCounter.ToString("00") = FoundMonthName OrElse MyCounter.ToString("0") = FoundMonthName Then
+                        FoundMonth = MyCounter
+                        Exit For
+                    End If
+                Next
+                If FoundYear = 0 OrElse FoundMonth = 0 Then
+                    Throw New ArgumentException("Invalid value", "value")
+                Else
+                    Return New Month(FoundYear, FoundMonth)
+                End If
+            Else
+                Throw New ArgumentException("Invalid value", "value")
+            End If
+            Throw New NotImplementedException
+        End Function
+
+        Public Shared Function TryParse(value As String, format As String, culture As System.Globalization.CultureInfo, ByRef result As Month) As Boolean
+            Try
+                result = Parse(value, format, culture)
+                Return True
+            Catch
+                Return False
+            End Try
+        End Function
+
+        Public Shared Function ParseFromUniqueShortName(value As String) As Month
+            Dim MonthNames As New System.Collections.Generic.List(Of String)
+            For MyCounter As Integer = 1 To 12
+                MonthNames.Add(UniqueMonthShortName(MyCounter))
+            Next
+            Dim Pattern As String = "(?<m>" & Strings.Join(MonthNames.ToArray, "|") & ")\/(?<y>\d\d\d\d)"
+            Dim RegEx As New System.Text.RegularExpressions.Regex(Pattern, Text.RegularExpressions.RegexOptions.Compiled Or Text.RegularExpressions.RegexOptions.Singleline Or Text.RegularExpressions.RegexOptions.Multiline)
+            If RegEx.IsMatch(value) = False Then
+                Throw New ArgumentException("Invalid value", "value")
+            End If
+            Dim RegMatch As System.Text.RegularExpressions.Match = RegEx.Match(value)
+            Dim GroupNames As String() = RegEx.GetGroupNames()
+            If RegMatch.Groups.Count >= 2 Then
+                Dim FoundYear As Integer = Integer.Parse(RegMatch.Groups("y").Value)
+                Dim FoundMonthName As String = RegMatch.Groups("m").Value
+                Dim FoundMonth As Integer = 0
+                For MyCounter As Integer = 1 To 12
+                    If MonthNames(MyCounter - 1) = FoundMonthName Then
+                        FoundMonth = MyCounter
+                        Exit For
+                    End If
+                Next
+                If FoundYear = 0 OrElse FoundMonth = 0 Then
+                    Throw New ArgumentException("Invalid value", "value")
+                Else
+                    Return New Month(FoundYear, FoundMonth)
+                End If
+            Else
+                Throw New ArgumentException("Invalid value", "value")
+            End If
+        End Function
+
+        Private Shared Function UniqueMonthShortName(monthNo As Integer) As String
+            Dim Result As String
+            Select Case monthNo
                 Case 1
                     Result = "Jan"
                 Case 2
@@ -142,9 +223,19 @@ Namespace CompuMaster.Calendar
                     Result = "Nov"
                 Case 12
                     Result = "Dec"
+                Case Else
+                    Throw New ArgumentOutOfRangeException("monthNo")
             End Select
-            Result &= "/" & Me.Year.ToString("0000")
             Return Result
+        End Function
+
+        ''' <summary>
+        ''' A short name in format MMM/yyyy (English names)
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function UniqueShortName() As String
+            Return UniqueMonthShortName(Me.Month) & "/" & Me.Year.ToString("0000")
         End Function
 
         Public Function MonthShortName(cultureName As String) As String
