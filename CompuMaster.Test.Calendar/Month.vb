@@ -34,6 +34,8 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("1900-01", Buffer.ToString)
             Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Dec/9999", "MMM/YYYY", System.Globalization.CultureInfo.GetCultureInfo("en-US"), Buffer))
             Assert.AreEqual("9999-12", Buffer.ToString)
+            Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Mrz/2010", "MMM/YYYY", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer))
+            Assert.AreEqual("2010-03", Buffer.ToString)
             Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Okt/2010", "MMM/YYYY", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer))
             Assert.AreEqual("2010-10", Buffer.ToString)
             Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Jan/1900", "MMM/YYYY", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer))
