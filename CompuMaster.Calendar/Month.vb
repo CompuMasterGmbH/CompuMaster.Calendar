@@ -101,7 +101,7 @@ Namespace CompuMaster.Calendar
         ''' <summary>
         ''' Format the month with a typical datetime format string and the given format provider using the begin date of the period
         ''' </summary>
-        ''' <param name="format"></param>
+        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits</param>
         ''' <param name="provider"></param>
         ''' <returns></returns>
         ''' <remarks>
@@ -130,7 +130,7 @@ Namespace CompuMaster.Calendar
             ElseIf Pattern.Contains("M") Then
                 Pattern = Pattern.Replace("M", "(?<m>\d?\d)")
             End If
-            Pattern = Pattern.Replace("YYYY", "(?<yyyy>\d\d\d\d)").Replace("YY", "(?<yy>\d\d)")
+            Pattern = Pattern.Replace("yyyy", "(?<year4>\d\d\d\d)").Replace("yy", "(?<year2>\d\d)")
             Dim RegEx As New System.Text.RegularExpressions.Regex(Pattern, Text.RegularExpressions.RegexOptions.Compiled Or Text.RegularExpressions.RegexOptions.Singleline Or Text.RegularExpressions.RegexOptions.Multiline)
             If RegEx.IsMatch(value) = False Then
                 Throw New ArgumentException("Invalid value", "value")
@@ -139,10 +139,10 @@ Namespace CompuMaster.Calendar
             Dim GroupNames As New System.Collections.Generic.List(Of String)(RegEx.GetGroupNames())
             If RegMatch.Groups.Count >= 2 Then
                 Dim FoundYear As Integer
-                If GroupNames.Contains("yyyy") Then
-                    FoundYear = Integer.Parse(RegMatch.Groups("yyyy").Value)
-                ElseIf GroupNames.Contains("yy") Then
-                    FoundYear = culture.Calendar.ToFourDigitYear(Integer.Parse(RegMatch.Groups("yy").Value))
+                If GroupNames.Contains("year4") Then
+                    FoundYear = Integer.Parse(RegMatch.Groups("year4").Value)
+                ElseIf GroupNames.Contains("year2") Then
+                    FoundYear = culture.Calendar.ToFourDigitYear(Integer.Parse(RegMatch.Groups("year2").Value))
                 Else
                     Throw New ArgumentException("Invalid value", "value")
                 End If
