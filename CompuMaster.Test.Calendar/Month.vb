@@ -98,6 +98,7 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(True, value1 >= value3)
             Assert.AreEqual(True, value1 <= value3)
             Assert.AreEqual(True, value1 = value3)
+            Assert.AreEqual(value1, value3)
             Assert.AreEqual(False, value1 <> value3)
             Assert.AreEqual(False, value1 > value3)
             Assert.AreEqual(False, value1 < value3)
@@ -120,6 +121,27 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("Dec", value2.MonthShortName("en-US"))
             Assert.AreEqual("January", value1.MonthName("en-US"))
             Assert.AreEqual("December", value2.MonthName("en-US"))
+        End Sub
+
+        <Test> Public Sub Add()
+            Dim value1 As New CompuMaster.Calendar.Month(2010, 1)
+            Dim value2 As New CompuMaster.Calendar.Month(2007, 12)
+            Dim value3 As New CompuMaster.Calendar.Month(2017, 12)
+            Dim value4 As New CompuMaster.Calendar.Month(2011, 1)
+            Dim value5 As New CompuMaster.Calendar.Month(2010, 5)
+            Dim value6 As New CompuMaster.Calendar.Month(2009, 5)
+            Assert.AreEqual(value4, value1.AddYears(1))
+            Assert.AreEqual(value5, value1.AddMonths(4))
+            Assert.AreEqual(value6, value1.AddMonths(-8))
+            Assert.AreEqual(value3, value1.AddYears(8).AddMonths(-1))
+            Assert.AreEqual(value2, value1.AddMonths(-3 * 12 + 11))
+            Assert.AreEqual(value2, value1.AddMonths(-2 * 12 + -1))
+            Assert.AreEqual(value2, value1.Add(-3, 11))
+            Assert.AreEqual(value2, value1.Add(-2, -1))
+            Assert.AreEqual(value1, value2.AddMonths(3 * 12 - 11))
+            Assert.AreEqual(value1, value2.AddMonths(2 * 12 - -1))
+            Assert.AreEqual(value1, value2.Add(3, -11))
+            Assert.AreEqual(value1, value2.Add(2, 1))
         End Sub
 
     End Class

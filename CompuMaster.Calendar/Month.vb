@@ -69,6 +69,29 @@ Namespace CompuMaster.Calendar
             End Set
         End Property
 
+        Public Function Add(years As Integer, months As Integer) As CompuMaster.Calendar.Month
+            Return Me.AddYears(years).AddMonths(months)
+        End Function
+        Public Function AddYears(value As Integer) As CompuMaster.Calendar.Month
+            Return New CompuMaster.Calendar.Month(Me.Year + value, Me.Month)
+        End Function
+        Public Function AddMonths(value As Integer) As CompuMaster.Calendar.Month
+            Dim NewMonthValue As Integer = Me.Month + value
+            Dim NewYearValue As Integer = Me.Year
+            If NewMonthValue > 12 Then
+                Dim AddYears As Integer = NewMonthValue \ 12
+                NewMonthValue -= AddYears * 12
+                NewYearValue += AddYears
+            End If
+            If NewMonthValue < 1 Then
+                Dim MonthsToGoBack As Integer = 1 - NewMonthValue
+                Dim SubstractYears As Integer = MonthsToGoBack \ 12
+                NewMonthValue += (SubstractYears + 1) * 12
+                NewYearValue -= SubstractYears + 1
+            End If
+            Return New CompuMaster.Calendar.Month(NewYearValue, NewMonthValue)
+        End Function
+
         ''' <summary>
         ''' Text formatting with yyyy-MM
         ''' </summary>
@@ -443,6 +466,21 @@ Namespace CompuMaster.Calendar
             End If
         End Function
 
+        Public Overrides Function Equals(obj As Object) As Boolean
+            If ReferenceEquals(Me, obj) Then
+                Return True
+            End If
+
+            If ReferenceEquals(obj, Nothing) Then
+                Return False
+            End If
+
+            Return Me.Year = CType(obj, Month).Year AndAlso Me.Month = CType(obj, Month).Month
+        End Function
+
+        Public Overrides Function GetHashCode() As Integer
+            Return Me.Year * 100 + Me.Month
+        End Function
     End Class
 
 End Namespace
