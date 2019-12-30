@@ -102,6 +102,16 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(False, value1 <> value3)
             Assert.AreEqual(False, value1 > value3)
             Assert.AreEqual(False, value1 < value3)
+            Assert.AreNotEqual(Nothing, value3)
+            Assert.AreNotEqual(value3, Nothing)
+            Assert.AreNotEqual(DBNull.Value, value3)
+            Assert.AreNotEqual(value3, DBNull.Value)
+            Assert.AreNotEqual(New System.Text.StringBuilder, value3)
+            Assert.AreNotEqual(value3, New System.Text.StringBuilder)
+            Assert.AreNotEqual(String.Empty, value3)
+            Assert.AreNotEqual(value3, String.Empty)
+            Assert.AreNotEqual(5, value3)
+            Assert.AreNotEqual(value3, 5)
         End Sub
 
         <Test()> Public Sub MonthNames()

@@ -475,6 +475,10 @@ Namespace CompuMaster.Calendar
                 Return False
             End If
 
+            If GetType(Month).IsInstanceOfType(obj) = False Then
+                Return False
+            End If
+
             Return Me.Year = CType(obj, Month).Year AndAlso Me.Month = CType(obj, Month).Month
         End Function
 
