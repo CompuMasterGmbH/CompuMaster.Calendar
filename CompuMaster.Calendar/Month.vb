@@ -314,7 +314,13 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Operator =(ByVal value1 As Month, ByVal value2 As Month) As Boolean
-            Return value1.Equals(value2)
+            If value1 Is Nothing And value2 Is Nothing Then
+                Return True
+            ElseIf value1 Is Nothing And value2 IsNot Nothing Then
+                Return False
+            Else
+                Return value1.Equals(value2)
+            End If
         End Operator
 
         ''' <summary>
@@ -325,7 +331,13 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Operator <>(ByVal value1 As Month, ByVal value2 As Month) As Boolean
-            Return Not value1.Equals(value2)
+            If value1 Is Nothing And value2 Is Nothing Then
+                Return False
+            ElseIf value1 Is Nothing And value2 IsNot Nothing Then
+                Return True
+            Else
+                Return Not value1.Equals(value2)
+            End If
         End Operator
 
         ''' <summary>
@@ -336,7 +348,13 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Operator <(ByVal value1 As Month, ByVal value2 As Month) As Boolean
-            Return value1.CompareTo(value2) < 1
+            If value1 Is Nothing And value2 Is Nothing Then
+                Return False
+            ElseIf value1 Is Nothing And value2 IsNot Nothing Then
+                Return True
+            Else
+                Return value1.CompareTo(value2) < 1
+            End If
         End Operator
 
         ''' <summary>
@@ -347,7 +365,13 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Operator >(ByVal value1 As Month, ByVal value2 As Month) As Boolean
-            Return value1.CompareTo(value2) > 1
+            If value1 Is Nothing And value2 Is Nothing Then
+                Return False
+            ElseIf value1 Is Nothing And value2 IsNot Nothing Then
+                Return False
+            Else
+                Return value1.CompareTo(value2) > 1
+            End If
         End Operator
 
         ''' <summary>
@@ -358,7 +382,13 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Operator <=(ByVal value1 As Month, ByVal value2 As Month) As Boolean
-            Return value1.CompareTo(value2) <= 1
+            If value1 Is Nothing And value2 Is Nothing Then
+                Return True
+            ElseIf value1 Is Nothing And value2 IsNot Nothing Then
+                Return True
+            Else
+                Return value1.CompareTo(value2) <= 1
+            End If
         End Operator
 
         ''' <summary>
@@ -369,7 +399,13 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Operator >=(ByVal value1 As Month, ByVal value2 As Month) As Boolean
-            Return value1.CompareTo(value2) >= 1
+            If value1 Is Nothing And value2 Is Nothing Then
+                Return True
+            ElseIf value1 Is Nothing And value2 IsNot Nothing Then
+                Return False
+            Else
+                Return value1.CompareTo(value2) >= 1
+            End If
         End Operator
 
         ''' <summary>
@@ -457,7 +493,9 @@ Namespace CompuMaster.Calendar
         ''' <returns>0 if value is greater, 2 if value is smaller, 1 if value equals</returns>
         ''' <remarks></remarks>
         Public Function CompareTo(ByVal value As Month) As Integer
-            If Me.BeginOfPeriod < value.BeginOfPeriod Then
+            If value Is Nothing Then
+                Return 2
+            ElseIf Me.BeginOfPeriod < value.BeginOfPeriod Then
                 Return 0
             ElseIf Me.BeginOfPeriod > value.BeginOfPeriod Then
                 Return 2
