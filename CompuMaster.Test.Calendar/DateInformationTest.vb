@@ -2,7 +2,7 @@ Imports NUnit.Framework
 
 Namespace CompuMaster.Test.Calendar
 
-    <TestFixture()> Public Class DateInformation
+    <TestFixture()> Public Class DateInformationTest
 
         <Test()> Public Sub LastDateOfWeekday()
             Dim Today0 As Date = Now
@@ -34,8 +34,8 @@ Namespace CompuMaster.Test.Calendar
                 Catch ex As Exception
                     Throw New Exception("Error found for week " & MyCounter & "/" & Jahr, ex)
                 End Try
-                If LastDate.Year <> Jahr And lastdate.Year <> Jahr + 1 Then
-                    Throw New Exception("Invalid date " & lastdate.ToString & " (requested year: " & Jahr & ")")
+                If LastDate.Year <> Jahr And LastDate.Year <> Jahr + 1 Then
+                    Throw New Exception("Invalid date " & LastDate.ToString & " (requested year: " & Jahr & ")")
                 End If
             Next
 
@@ -47,8 +47,8 @@ Namespace CompuMaster.Test.Calendar
                 Catch ex As Exception
                     Throw New Exception("Error found for week " & MyCounter & "/" & Jahr, ex)
                 End Try
-                If LastDate.Year <> Jahr And lastdate.Year <> Jahr + 1 Then
-                    Throw New Exception("Invalid date " & lastdate.ToString & " (requested year: " & Jahr & ")")
+                If LastDate.Year <> Jahr And LastDate.Year <> Jahr + 1 Then
+                    Throw New Exception("Invalid date " & LastDate.ToString & " (requested year: " & Jahr & ")")
                 End If
             Next
 

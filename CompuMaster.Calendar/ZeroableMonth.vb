@@ -7,12 +7,12 @@ Namespace CompuMaster.Calendar
     ''' A representation for a month period
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Month
+    Public Class ZeroableMonth
         Implements IComparable
 
         Public Sub New()
             Me.Year = 1
-            Me.Month = 1
+            Me.Month = 0
         End Sub
         Public Sub New(ByVal value As DateTime)
             Me.Year = value.Year
@@ -47,7 +47,6 @@ Namespace CompuMaster.Calendar
                 Return _Year
             End Get
             Set(ByVal value As Integer)
-                If value = 0 Then Throw New ArgumentOutOfRangeException("value")
                 _Year = value
             End Set
         End Property
@@ -69,13 +68,13 @@ Namespace CompuMaster.Calendar
             End Set
         End Property
 
-        Public Function Add(years As Integer, months As Integer) As CompuMaster.Calendar.Month
+        Public Function Add(years As Integer, months As Integer) As CompuMaster.Calendar.ZeroableMonth
             Return Me.AddYears(years).AddMonths(months)
         End Function
-        Public Function AddYears(value As Integer) As CompuMaster.Calendar.Month
-            Return New CompuMaster.Calendar.Month(Me.Year + value, Me.Month)
+        Public Function AddYears(value As Integer) As CompuMaster.Calendar.ZeroableMonth
+            Return New CompuMaster.Calendar.ZeroableMonth(Me.Year + value, Me.Month)
         End Function
-        Public Function AddMonths(value As Integer) As CompuMaster.Calendar.Month
+        Public Function AddMonths(value As Integer) As CompuMaster.Calendar.ZeroableMonth
             Dim NewMonthValue As Integer = Me.Month + value
             Dim NewYearValue As Integer = Me.Year
             If NewMonthValue > 12 Then
@@ -89,7 +88,7 @@ Namespace CompuMaster.Calendar
                 NewMonthValue += (SubstractYears + 1) * 12
                 NewYearValue -= SubstractYears + 1
             End If
-            Return New CompuMaster.Calendar.Month(NewYearValue, NewMonthValue)
+            Return New CompuMaster.Calendar.ZeroableMonth(NewYearValue, NewMonthValue)
         End Function
 
         ''' <summary>
@@ -133,21 +132,25 @@ Namespace CompuMaster.Calendar
             Return Me.BeginOfPeriod.ToString(format, provider)
         End Function
 
-        Public Shared Function Parse(value As String, format As String, culture As System.Globalization.CultureInfo) As Month
+        Public Shared Function Parse(value As String, format As String, culture As System.Globalization.CultureInfo) As ZeroableMonth
             If value = Nothing Then
                 Throw New ArgumentException("Invalid value", "value")
             End If
             Dim MonthShortNames As New System.Collections.Generic.List(Of String)
             Dim MonthLongNames As New System.Collections.Generic.List(Of String)
-            For MyCounter As Integer = 1 To 12
-                MonthShortNames.Add(New Month(2000, MyCounter).MonthShortName(culture))
-                MonthLongNames.Add(New Month(2000, MyCounter).MonthName(culture))
+            Dim MonthShortNamesForRegEx As New System.Collections.Generic.List(Of String)
+            Dim MonthLongNamesForRegEx As New System.Collections.Generic.List(Of String)
+            For MyCounter As Integer = 0 To 12
+                MonthShortNames.Add(New ZeroableMonth(2000, MyCounter).MonthShortName(culture))
+                MonthLongNames.Add(New ZeroableMonth(2000, MyCounter).MonthName(culture))
+                MonthShortNamesForRegEx.Add(New ZeroableMonth(2000, MyCounter).MonthShortName(culture).Replace("???", "\?\?\?"))
+                MonthLongNamesForRegEx.Add(New ZeroableMonth(2000, MyCounter).MonthName(culture).Replace("???", "\?\?\?"))
             Next
             Dim Pattern As String = System.Text.RegularExpressions.Regex.Escape(format)
             If Pattern.Contains("MMMM") Then
-                Pattern = Pattern.Replace("MMMM", "(?<m>" & Strings.Join(MonthLongNames.ToArray, "|") & ")")
+                Pattern = Pattern.Replace("MMMM", "(?<m>" & Strings.Join(MonthLongNamesForRegEx.ToArray, "|") & ")")
             ElseIf Pattern.Contains("MMM") Then
-                Pattern = Pattern.Replace("MMM", "(?<m>" & Strings.Join(MonthShortNames.ToArray, "|") & ")")
+                Pattern = Pattern.Replace("MMM", "(?<m>" & Strings.Join(MonthShortNamesForRegEx.ToArray, "|") & ")")
             ElseIf Pattern.Contains("MM") Then
                 Pattern = Pattern.Replace("MM", "(?<m>\d\d)")
             ElseIf Pattern.Contains("M") Then
@@ -161,7 +164,7 @@ Namespace CompuMaster.Calendar
             Dim RegMatch As System.Text.RegularExpressions.Match = RegEx.Match(value)
             Dim GroupNames As New System.Collections.Generic.List(Of String)(RegEx.GetGroupNames())
             If RegMatch.Groups.Count >= 2 Then
-                Dim FoundYear As Integer
+                Dim FoundYear As Integer = -1
                 If GroupNames.Contains("year4") Then
                     FoundYear = Integer.Parse(RegMatch.Groups("year4").Value)
                 ElseIf GroupNames.Contains("year2") Then
@@ -170,17 +173,17 @@ Namespace CompuMaster.Calendar
                     Throw New ArgumentException("Invalid value", "value")
                 End If
                 Dim FoundMonthName As String = RegMatch.Groups("m").Value
-                Dim FoundMonth As Integer = 0
-                For MyCounter As Integer = 1 To 12
-                    If MonthLongNames(MyCounter - 1) = FoundMonthName OrElse MonthShortNames(MyCounter - 1) = FoundMonthName OrElse MyCounter.ToString("00") = FoundMonthName OrElse MyCounter.ToString("0") = FoundMonthName Then
+                Dim FoundMonth As Integer = -1
+                For MyCounter As Integer = 0 To 12
+                    If MonthLongNames(MyCounter) = FoundMonthName OrElse MonthShortNames(MyCounter) = FoundMonthName OrElse MyCounter.ToString("00") = FoundMonthName OrElse MyCounter.ToString("0") = FoundMonthName Then
                         FoundMonth = MyCounter
                         Exit For
                     End If
                 Next
-                If FoundYear = 0 OrElse FoundMonth = 0 Then
+                If FoundYear = -1 OrElse FoundMonth = -1 Then
                     Throw New ArgumentException("Invalid value", "value")
                 Else
-                    Return New Month(FoundYear, FoundMonth)
+                    Return New ZeroableMonth(FoundYear, FoundMonth)
                 End If
             Else
                 Throw New ArgumentException("Invalid value", "value")
@@ -188,7 +191,7 @@ Namespace CompuMaster.Calendar
             Throw New NotImplementedException
         End Function
 
-        Public Shared Function TryParse(value As String, format As String, culture As System.Globalization.CultureInfo, ByRef result As Month) As Boolean
+        Public Shared Function TryParse(value As String, format As String, culture As System.Globalization.CultureInfo, ByRef result As ZeroableMonth) As Boolean
             Try
                 result = Parse(value, format, culture)
                 Return True
@@ -197,12 +200,14 @@ Namespace CompuMaster.Calendar
             End Try
         End Function
 
-        Public Shared Function ParseFromUniqueShortName(value As String) As Month
+        Public Shared Function ParseFromUniqueShortName(value As String) As ZeroableMonth
             Dim MonthNames As New System.Collections.Generic.List(Of String)
-            For MyCounter As Integer = 1 To 12
+            Dim MonthNamesForRegEx As New System.Collections.Generic.List(Of String)
+            For MyCounter As Integer = 0 To 12
                 MonthNames.Add(UniqueMonthShortName(MyCounter))
+                MonthNamesForRegEx.Add(UniqueMonthShortName(MyCounter).Replace("???", "\?\?\?"))
             Next
-            Dim Pattern As String = "(?<m>" & Strings.Join(MonthNames.ToArray, "|") & ")\/(?<y>\d\d\d\d)"
+            Dim Pattern As String = "(?<m>" & Strings.Join(MonthNamesForRegEx.ToArray, "|") & ")\/(?<y>\d\d\d\d)"
             Dim RegEx As New System.Text.RegularExpressions.Regex(Pattern, Text.RegularExpressions.RegexOptions.Compiled Or Text.RegularExpressions.RegexOptions.Singleline Or Text.RegularExpressions.RegexOptions.Multiline)
             If RegEx.IsMatch(value) = False Then
                 Throw New ArgumentException("Invalid value", "value")
@@ -210,19 +215,22 @@ Namespace CompuMaster.Calendar
             Dim RegMatch As System.Text.RegularExpressions.Match = RegEx.Match(value)
             Dim GroupNames As String() = RegEx.GetGroupNames()
             If RegMatch.Groups.Count >= 2 Then
-                Dim FoundYear As Integer = Integer.Parse(RegMatch.Groups("y").Value)
+                Dim FoundYear As Integer = -1
+                If RegMatch.Groups("y").Value IsNot Nothing Then
+                    FoundYear = Integer.Parse(RegMatch.Groups("y").Value)
+                End If
                 Dim FoundMonthName As String = RegMatch.Groups("m").Value
-                Dim FoundMonth As Integer = 0
-                For MyCounter As Integer = 1 To 12
-                    If MonthNames(MyCounter - 1) = FoundMonthName Then
+                Dim FoundMonth As Integer = -1
+                For MyCounter As Integer = 0 To 12
+                    If MonthNames(MyCounter) = FoundMonthName Then
                         FoundMonth = MyCounter
                         Exit For
                     End If
                 Next
-                If FoundYear = 0 OrElse FoundMonth = 0 Then
+                If FoundYear = -1 OrElse FoundMonth = -1 Then
                     Throw New ArgumentException("Invalid value", "value")
                 Else
-                    Return New Month(FoundYear, FoundMonth)
+                    Return New ZeroableMonth(FoundYear, FoundMonth)
                 End If
             Else
                 Throw New ArgumentException("Invalid value", "value")
@@ -232,6 +240,8 @@ Namespace CompuMaster.Calendar
         Private Shared Function UniqueMonthShortName(monthNo As Integer) As String
             Dim Result As String
             Select Case monthNo
+                Case 0
+                    Result = "???"
                 Case 1
                     Result = "Jan"
                 Case 2
@@ -276,7 +286,12 @@ Namespace CompuMaster.Calendar
         End Function
 
         Public Function MonthShortName(culture As System.Globalization.CultureInfo) As String
-            Return Me.BeginOfPeriod.ToString("MMM", culture.DateTimeFormat)
+            Select Case Me.Month
+                Case 0
+                    Return "???"
+                Case Else
+                    Return Me.BeginOfPeriod.ToString("MMM", culture.DateTimeFormat)
+            End Select
         End Function
 
         Public Function MonthName(cultureName As String) As String
@@ -284,7 +299,12 @@ Namespace CompuMaster.Calendar
         End Function
 
         Public Function MonthName(culture As System.Globalization.CultureInfo) As String
-            Return Me.BeginOfPeriod.ToString("MMMM", culture.DateTimeFormat)
+            Select Case Me.Month
+                Case 0
+                    Return "???"
+                Case Else
+                    Return Me.BeginOfPeriod.ToString("MMMM", culture.DateTimeFormat)
+            End Select
         End Function
 
         ''' <summary>
@@ -293,7 +313,7 @@ Namespace CompuMaster.Calendar
         ''' <param name="value"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Function Equals(ByVal value As Month) As Boolean
+        Public Overloads Function Equals(ByVal value As ZeroableMonth) As Boolean
             If Not value Is Nothing Then
                 If Me.Year = value.Year AndAlso Me.Month = value.Month Then
                     Return True
@@ -313,7 +333,7 @@ Namespace CompuMaster.Calendar
         ''' <param name="value2"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Operator =(ByVal value1 As Month, ByVal value2 As Month) As Boolean
+        Public Shared Operator =(ByVal value1 As ZeroableMonth, ByVal value2 As ZeroableMonth) As Boolean
             If value1 Is Nothing And value2 Is Nothing Then
                 Return True
             ElseIf value1 Is Nothing And value2 IsNot Nothing Then
@@ -330,7 +350,7 @@ Namespace CompuMaster.Calendar
         ''' <param name="value2"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Operator <>(ByVal value1 As Month, ByVal value2 As Month) As Boolean
+        Public Shared Operator <>(ByVal value1 As ZeroableMonth, ByVal value2 As ZeroableMonth) As Boolean
             If value1 Is Nothing And value2 Is Nothing Then
                 Return False
             ElseIf value1 Is Nothing And value2 IsNot Nothing Then
@@ -347,7 +367,7 @@ Namespace CompuMaster.Calendar
         ''' <param name="value2"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Operator <(ByVal value1 As Month, ByVal value2 As Month) As Boolean
+        Public Shared Operator <(ByVal value1 As ZeroableMonth, ByVal value2 As ZeroableMonth) As Boolean
             If value1 Is Nothing And value2 Is Nothing Then
                 Return False
             ElseIf value1 Is Nothing And value2 IsNot Nothing Then
@@ -364,7 +384,7 @@ Namespace CompuMaster.Calendar
         ''' <param name="value2"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Operator >(ByVal value1 As Month, ByVal value2 As Month) As Boolean
+        Public Shared Operator >(ByVal value1 As ZeroableMonth, ByVal value2 As ZeroableMonth) As Boolean
             If value1 Is Nothing And value2 Is Nothing Then
                 Return False
             ElseIf value1 Is Nothing And value2 IsNot Nothing Then
@@ -381,7 +401,7 @@ Namespace CompuMaster.Calendar
         ''' <param name="value2"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Operator <=(ByVal value1 As Month, ByVal value2 As Month) As Boolean
+        Public Shared Operator <=(ByVal value1 As ZeroableMonth, ByVal value2 As ZeroableMonth) As Boolean
             If value1 Is Nothing And value2 Is Nothing Then
                 Return True
             ElseIf value1 Is Nothing And value2 IsNot Nothing Then
@@ -398,7 +418,7 @@ Namespace CompuMaster.Calendar
         ''' <param name="value2"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Operator >=(ByVal value1 As Month, ByVal value2 As Month) As Boolean
+        Public Shared Operator >=(ByVal value1 As ZeroableMonth, ByVal value2 As ZeroableMonth) As Boolean
             If value1 Is Nothing And value2 Is Nothing Then
                 Return True
             ElseIf value1 Is Nothing And value2 IsNot Nothing Then
@@ -415,11 +435,11 @@ Namespace CompuMaster.Calendar
         ''' <param name="value2"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Operator -(value1 As Month, value2 As Month) As Integer
+        Public Shared Operator -(value1 As ZeroableMonth, value2 As ZeroableMonth) As Integer
             If value1 Is Nothing Then Throw New ArgumentNullException("value1")
             If value2 Is Nothing Then Throw New ArgumentNullException("value2")
             Dim Result As Integer = 0
-            Dim SwappedValues As Boolean, StartMonth As Month, EndMonth As Month
+            Dim SwappedValues As Boolean, StartMonth As ZeroableMonth, EndMonth As ZeroableMonth
             If value2 > value1 Then
                 EndMonth = value2
                 StartMonth = value1
@@ -444,8 +464,8 @@ Namespace CompuMaster.Calendar
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function [NextPeriod]() As Month
-            Return New Month(BeginOfPeriod.AddMonths(1))
+        Public Function [NextPeriod]() As ZeroableMonth
+            Return New ZeroableMonth(BeginOfPeriod.AddMonths(1))
         End Function
 
         ''' <summary>
@@ -453,8 +473,32 @@ Namespace CompuMaster.Calendar
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function [PreviousPeriod]() As Month
-            Return New Month(BeginOfPeriod.AddMonths(-1))
+        Public Function [PreviousPeriod]() As ZeroableMonth
+            Return New ZeroableMonth(BeginOfPeriod.AddMonths(-1))
+        End Function
+
+        ''' <summary>
+        ''' Create an instance of ZeroablePeriod with same year, but month part is zeroed
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function ZeroPeriod() As ZeroableMonth
+            Return New ZeroableMonth(Me.Year, 0)
+        End Function
+
+        ''' <summary>
+        ''' Create an instance of ZeroablePeriod with same year, but first month
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function FirstPeriod() As ZeroableMonth
+            Return New ZeroableMonth(Me.Year, 1)
+        End Function
+
+        ''' <summary>
+        ''' Create an instance of ZeroablePeriod with same year, but last month
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function LastPeriod() As ZeroableMonth
+            Return New ZeroableMonth(Me.Year, 12)
         End Function
 
         ''' <summary>
@@ -463,7 +507,11 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function BeginOfPeriod() As DateTime
-            Return New DateTime(Year, Month, 1)
+            If Month = 0 Then
+                Throw New ArgumentException("Only month periods between 1 and 12 can be converted to DateTime")
+            Else
+                Return New DateTime(Year, Month, 1)
+            End If
         End Function
 
         ''' <summary>
@@ -473,7 +521,11 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function EndOfPeriod(ByVal precision As CompuMaster.Calendar.DateInformation.Accuracy) As DateTime
-            Return CompuMaster.Calendar.DateInformation.EndOfMonth(BeginOfPeriod, precision)
+            If Month = 0 Then
+                Throw New ArgumentException("Only month periods between 1 and 12 can be converted to DateTime")
+            Else
+                Return CompuMaster.Calendar.DateInformation.EndOfMonth(BeginOfPeriod, precision)
+            End If
         End Function
 
         ''' <summary>
@@ -483,7 +535,7 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function CompareTo(ByVal obj As Object) As Integer Implements System.IComparable.CompareTo
-            Return Me.CompareTo(CType(obj, Month))
+            Return Me.CompareTo(CType(obj, ZeroableMonth))
         End Function
 
         ''' <summary>
@@ -492,7 +544,7 @@ Namespace CompuMaster.Calendar
         ''' <param name="value"></param>
         ''' <returns>0 if value is greater, 2 if value is smaller, 1 if value equals</returns>
         ''' <remarks></remarks>
-        Public Function CompareTo(ByVal value As Month) As Integer
+        Public Function CompareTo(ByVal value As ZeroableMonth) As Integer
             If value Is Nothing Then
                 Return 2
             ElseIf Me.BeginOfPeriod < value.BeginOfPeriod Then
@@ -513,11 +565,11 @@ Namespace CompuMaster.Calendar
                 Return False
             End If
 
-            If GetType(Month).IsInstanceOfType(obj) = False Then
+            If GetType(ZeroableMonth).IsInstanceOfType(obj) = False Then
                 Return False
             End If
 
-            Return Me.Year = CType(obj, Month).Year AndAlso Me.Month = CType(obj, Month).Month
+            Return Me.Year = CType(obj, ZeroableMonth).Year AndAlso Me.Month = CType(obj, ZeroableMonth).Month
         End Function
 
         Public Overrides Function GetHashCode() As Integer

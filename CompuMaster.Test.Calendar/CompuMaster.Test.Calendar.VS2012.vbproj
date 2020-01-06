@@ -117,10 +117,11 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DateInformation.vb">
+    <Compile Include="DateInformationTest.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Month.vb" />
+    <Compile Include="ZeroableMonthTest.vb" />
+    <Compile Include="MonthTest.vb" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\" />

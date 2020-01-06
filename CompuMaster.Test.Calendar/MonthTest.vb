@@ -2,7 +2,7 @@
 
 Namespace CompuMaster.Test.Calendar
 
-    <TestFixture()> Public Class Month
+    <TestFixture()> Public Class MonthTest
 
         <Test> Public Sub Parse()
             Assert.AreEqual("2010-10", CompuMaster.Calendar.Month.Parse("Oct/2010", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US")).ToString)
