@@ -53,7 +53,7 @@ Namespace CompuMaster.Calendar
 
         Private _Month As Integer
         ''' <summary>
-        ''' The number of the month (Jan = 1, Dec = 12)
+        ''' The number of the month (Jan = 1, Dec = 12, Unspecified=0)
         ''' </summary>
         ''' <value></value>
         ''' <remarks>
@@ -547,6 +547,24 @@ Namespace CompuMaster.Calendar
         Public Function CompareTo(ByVal value As ZeroableMonth) As Integer
             If value Is Nothing Then
                 Return 2
+            ElseIf Me.Year = value.year AndAlso Me.month = value.month Then
+                Return 1
+            ElseIf Me.Month = 0 Then
+                If Me.Year < value.Year Then
+                    Return 0
+                ElseIf Me.Year > value.Year Then
+                    Return 2
+                Else 'Me.Year = value.Year, but 0 < value.Month
+                    Return 0
+                End If
+            ElseIf value.Month = 0 Then
+                If Me.Year < value.Year Then
+                    Return 0
+                ElseIf Me.Year > value.Year Then
+                    Return 2
+                Else 'Me.Year = value.Year, but Me.Month > 0
+                    Return 2
+                End If
             ElseIf Me.BeginOfPeriod < value.BeginOfPeriod Then
                 Return 0
             ElseIf Me.BeginOfPeriod > value.BeginOfPeriod Then
@@ -575,6 +593,23 @@ Namespace CompuMaster.Calendar
         Public Overrides Function GetHashCode() As Integer
             Return Me.Year * 100 + Me.Month
         End Function
+
+        Public Shared Function Min(value1 As ZeroableMonth, value2 As ZeroableMonth) As ZeroableMonth
+            If value1 < value2 Then
+                Return value1
+            Else
+                Return value2
+            End If
+        End Function
+
+        Public Shared Function Max(value1 As ZeroableMonth, value2 As ZeroableMonth) As ZeroableMonth
+            If value1 > value2 Then
+                Return value1
+            Else
+                Return value2
+            End If
+        End Function
+
     End Class
 
 End Namespace

@@ -174,6 +174,52 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(value1, value2.Add(2, 1))
         End Sub
 
+        <Test> Public Sub Min()
+            Dim value0 As CompuMaster.Calendar.Month = Nothing
+            Dim value0initialized As New CompuMaster.Calendar.Month
+            Dim value1 As New CompuMaster.Calendar.Month(2010, 1)
+            Dim value2 As New CompuMaster.Calendar.Month(2007, 12)
+            Dim value3 As New CompuMaster.Calendar.Month(2017, 12)
+            Dim value4 As New CompuMaster.Calendar.Month(2011, 1)
+            Dim value5 As New CompuMaster.Calendar.Month(2010, 5)
+            Dim value6 As New CompuMaster.Calendar.Month(2009, 5)
+            Assert.AreEqual(value0, CompuMaster.Calendar.Month.min(value0, value0))
+            Assert.AreEqual(value0, CompuMaster.Calendar.Month.min(value0, value1))
+            Assert.AreEqual(value0, CompuMaster.Calendar.Month.min(value1, value0))
+            Assert.AreEqual(value0, CompuMaster.Calendar.Month.Min(value0initialized, value0))
+            Assert.AreEqual(value0, CompuMaster.Calendar.Month.Min(value0, value0initialized))
+            Assert.AreEqual(value1, CompuMaster.Calendar.Month.Min(value1, value1))
+            Assert.AreEqual(value2, CompuMaster.Calendar.Month.min(value1, value2))
+            Assert.AreEqual(value1, CompuMaster.Calendar.Month.min(value1, value3))
+            Assert.AreEqual(value1, CompuMaster.Calendar.Month.min(value1, value4))
+            Assert.AreEqual(value1, CompuMaster.Calendar.Month.min(value1, value5))
+            Assert.AreEqual(value1, CompuMaster.Calendar.Month.min(value5, value1))
+            Assert.AreEqual(value6, CompuMaster.Calendar.Month.min(value1, value6))
+        End Sub
+
+        <Test> Public Sub Max()
+            Dim value0 As CompuMaster.Calendar.Month = Nothing
+            Dim value0initialized As New CompuMaster.Calendar.Month
+            Dim value1 As New CompuMaster.Calendar.Month(2010, 1)
+            Dim value2 As New CompuMaster.Calendar.Month(2007, 12)
+            Dim value3 As New CompuMaster.Calendar.Month(2017, 12)
+            Dim value4 As New CompuMaster.Calendar.Month(2011, 1)
+            Dim value5 As New CompuMaster.Calendar.Month(2010, 5)
+            Dim value6 As New CompuMaster.Calendar.Month(2009, 5)
+            Assert.AreEqual(value0, CompuMaster.Calendar.Month.max(value0, value0))
+            Assert.AreEqual(value1, CompuMaster.Calendar.Month.Max(value0, value1))
+            Assert.AreEqual(value1, CompuMaster.Calendar.Month.Max(value1, value0))
+            Assert.AreEqual(value0initialized, CompuMaster.Calendar.Month.Max(value0initialized, value0))
+            Assert.AreEqual(value0initialized, CompuMaster.Calendar.Month.Max(value0, value0initialized))
+            Assert.AreEqual(value1, CompuMaster.Calendar.Month.Max(value1, value1))
+            Assert.AreEqual(value1, CompuMaster.Calendar.Month.Max(value1, value2))
+            Assert.AreEqual(value3, CompuMaster.Calendar.Month.Max(value1, value3))
+            Assert.AreEqual(value4, CompuMaster.Calendar.Month.Max(value1, value4))
+            Assert.AreEqual(value5, CompuMaster.Calendar.Month.Max(value1, value5))
+            Assert.AreEqual(value5, CompuMaster.Calendar.Month.Max(value5, value1))
+            Assert.AreEqual(value1, CompuMaster.Calendar.Month.Max(value1, value6))
+        End Sub
+
     End Class
 
 End Namespace

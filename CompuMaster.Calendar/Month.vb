@@ -523,6 +523,23 @@ Namespace CompuMaster.Calendar
         Public Overrides Function GetHashCode() As Integer
             Return Me.Year * 100 + Me.Month
         End Function
+
+        Public Shared Function Min(value1 As Month, value2 As Month) As Month
+            If value1 < value2 Then
+                Return value1
+            Else
+                Return value2
+            End If
+        End Function
+
+        Public Shared Function Max(value1 As Month, value2 As Month) As Month
+            If value1 > value2 Then
+                Return value1
+            Else
+                Return value2
+            End If
+        End Function
+
     End Class
 
 End Namespace
