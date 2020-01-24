@@ -5,15 +5,17 @@ Namespace CompuMaster.Test.Calendar
     <TestFixture()> Public Class MonthTest
 
         <Test> Public Sub Parse()
+            Assert.AreEqual("2010-10", CompuMaster.Calendar.Month.Parse("2010-10").ToString)
+            Assert.AreEqual("1900-01", CompuMaster.Calendar.Month.Parse("1900-01").ToString)
             Assert.AreEqual("2010-10", CompuMaster.Calendar.Month.Parse("Oct/2010", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US")).ToString)
             Assert.AreEqual("1900-01", CompuMaster.Calendar.Month.Parse("Jan/1900", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US")).ToString)
             Assert.AreEqual("9999-12", CompuMaster.Calendar.Month.Parse("Dec/9999", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US")).ToString)
-            Assert.Throws(Of ArgumentException)(Sub()
-                                                    CompuMaster.Calendar.Month.Parse(Nothing, "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))
-                                                End Sub)
-            Assert.Throws(Of ArgumentException)(Sub()
-                                                    CompuMaster.Calendar.Month.Parse("", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))
-                                                End Sub)
+            Assert.Throws(Of ArgumentNullException)(Sub()
+                                                        CompuMaster.Calendar.Month.Parse(Nothing, "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))
+                                                    End Sub)
+            Assert.Throws(Of ArgumentNullException)(Sub()
+                                                        CompuMaster.Calendar.Month.Parse("", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))
+                                                    End Sub)
             Assert.Throws(Of ArgumentException)(Sub()
                                                     CompuMaster.Calendar.Month.Parse("invalid-value", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))
                                                 End Sub)
@@ -71,6 +73,12 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("2010-10", CompuMaster.Calendar.Month.ParseFromUniqueShortName("Oct/2010").ToString)
             Assert.AreEqual("1900-01", CompuMaster.Calendar.Month.ParseFromUniqueShortName("Jan/1900").ToString)
             Assert.AreEqual("9999-12", CompuMaster.Calendar.Month.ParseFromUniqueShortName("Dec/9999").ToString)
+        End Sub
+
+        <Test> Public Sub UniqueShortName()
+            Assert.AreEqual("Oct/2010", (New CompuMaster.Calendar.Month("2010-10")).UniqueShortName)
+            Assert.AreEqual("Jan/1900", (New CompuMaster.Calendar.Month("1900-01")).UniqueShortName)
+            Assert.AreEqual("Dec/9999", (New CompuMaster.Calendar.Month("9999-12")).UniqueShortName)
         End Sub
 
         <Test()> Public Sub OperatorMinus()

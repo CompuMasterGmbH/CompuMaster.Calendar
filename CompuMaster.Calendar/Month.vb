@@ -30,6 +30,16 @@ Namespace CompuMaster.Calendar
             Me.Month = Integer.Parse(value.Substring(5, 2))
         End Sub
 
+        Public Shared Function Parse(value As String) As Month
+            If value = Nothing Then
+                Return Nothing
+            ElseIf value.Length <> 7 OrElse value.Substring(4, 1) <> "-" Then
+                Throw New ArgumentException("value must be formatted as yyyy-MM")
+            Else
+                Return New Month(Integer.Parse(value.Substring(0, 4)), Integer.Parse(value.Substring(5, 2)))
+            End If
+        End Function
+
         Private _Year As Integer
         ''' -----------------------------------------------------------------------------
         ''' <summary>
@@ -135,7 +145,7 @@ Namespace CompuMaster.Calendar
 
         Public Shared Function Parse(value As String, format As String, culture As System.Globalization.CultureInfo) As Month
             If value = Nothing Then
-                Throw New ArgumentException("Invalid value", "value")
+                Throw New ArgumentNullException(NameOf(value))
             End If
             Dim MonthShortNames As New System.Collections.Generic.List(Of String)
             Dim MonthLongNames As New System.Collections.Generic.List(Of String)
