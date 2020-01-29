@@ -3,7 +3,7 @@ Option Strict On
 
 Namespace CompuMaster.Calendar
 
-    Public Class DateInformation
+    Public NotInheritable Class DateInformation
 
 #Region "Week functions"
 
@@ -15,25 +15,6 @@ Namespace CompuMaster.Calendar
             Next
             Throw New Exception("Unexpected position in operation workflow")
         End Function
-
-        ''' -----------------------------------------------------------------------------
-        ''' Project	 : CompuMaster.Calendar
-        ''' Struct	 : Tools.Calendar.DateInformation.WeekNumber
-        ''' 
-        ''' -----------------------------------------------------------------------------
-        ''' <summary>
-        '''     A data structure for a complete week number inclusive the year information which is related to a pure week number
-        ''' </summary>
-        ''' <remarks>
-        ''' </remarks>
-        ''' <history>
-        ''' 	[adminsupport]	17.11.2005	Created
-        ''' </history>
-        ''' -----------------------------------------------------------------------------
-        Public Structure WeekNumber
-            Dim Week As Integer
-            Dim Year As Integer
-        End Structure
 
         ''' -----------------------------------------------------------------------------
         ''' <summary>
@@ -112,10 +93,10 @@ Namespace CompuMaster.Calendar
 
             'Parameter validation
             If year < DateTime.MinValue.Year Or year > DateTime.MaxValue.Year Then
-                Throw New ArgumentException("Invalid year value: " & year, "year")
+                Throw New ArgumentException("Invalid year value: " & year, NameOf(year))
             End If
             If week < 1 Or week > 53 Then
-                Throw New ArgumentException("Invalid week number: " & week, "week")
+                Throw New ArgumentException("Invalid week number: " & week, NameOf(week))
             End If
 
             Dim Result As Date
@@ -124,7 +105,7 @@ Namespace CompuMaster.Calendar
             Dim DaysPerWeek As Integer = cultureInfo.DateTimeFormat.DayNames.Length
             For MyDayOfYearCounter As Integer = week * DaysPerWeek - 2 * DaysPerWeek To week * DaysPerWeek + 2 * DaysPerWeek
                 Dim DayOfYear As Date = New Date(year, 1, 1, cultureInfo.DateTimeFormat.Calendar).AddDays(MyDayOfYearCounter - 1)
-                Dim WeekOfDay As CompuMaster.Calendar.DateInformation.WeekNumber = WeekOfYear(DayOfYear)
+                Dim WeekOfDay As CompuMaster.Calendar.WeekNumber = WeekOfYear(DayOfYear)
                 If WeekOfDay.Week = week And WeekOfDay.Year = year Then
                     'This is a match, save the value
                     Result = DayOfYear
@@ -175,10 +156,10 @@ Namespace CompuMaster.Calendar
 
             'Parameter validation
             If year < DateTime.MinValue.Year Or year > DateTime.MaxValue.Year Then
-                Throw New ArgumentException("Invalid year value: " & year, "year")
+                Throw New ArgumentException("Invalid year value: " & year, NameOf(year))
             End If
             If week < 1 Or week > 53 Then
-                Throw New ArgumentException("Invalid week number: " & week, "week")
+                Throw New ArgumentException("Invalid week number: " & week, NameOf(week))
             End If
 
             Dim Result As Date
@@ -187,7 +168,7 @@ Namespace CompuMaster.Calendar
             Dim DaysPerWeek As Integer = cultureInfo.DateTimeFormat.DayNames.Length
             For MyDayOfYearCounter As Integer = week * DaysPerWeek - 2 * DaysPerWeek To week * DaysPerWeek + 2 * DaysPerWeek
                 Dim DayOfYear As Date = New Date(year, 1, 1).AddDays(MyDayOfYearCounter - 1)
-                Dim WeekOfDay As CompuMaster.Calendar.DateInformation.WeekNumber = WeekOfYear(DayOfYear)
+                Dim WeekOfDay As CompuMaster.Calendar.WeekNumber = WeekOfYear(DayOfYear)
                 If WeekOfDay.Week = week AndAlso WeekOfDay.Year = year Then
                     'This is a match, save the value
                     Result = DayOfYear
@@ -297,7 +278,7 @@ Namespace CompuMaster.Calendar
             ElseIf precision = Accuracy.Second Then
                 Return BeginOfYear(value).AddYears(1).AddSeconds(-1)
             Else
-                Throw New ArgumentOutOfRangeException("precision")
+                Throw New ArgumentOutOfRangeException(NameOf(precision))
             End If
         End Function
 
@@ -338,7 +319,7 @@ Namespace CompuMaster.Calendar
             ElseIf precision = Accuracy.Second Then
                 Return BeginOfMonth(value).AddMonths(1).AddSeconds(-1)
             Else
-                Throw New ArgumentOutOfRangeException("precision")
+                Throw New ArgumentOutOfRangeException(NameOf(precision))
             End If
         End Function
 
@@ -379,7 +360,7 @@ Namespace CompuMaster.Calendar
             ElseIf precision = Accuracy.Second Then
                 Return BeginOfDay(value).AddDays(1).AddSeconds(-1)
             Else
-                Throw New ArgumentOutOfRangeException("precision")
+                Throw New ArgumentOutOfRangeException(NameOf(precision))
             End If
         End Function
 #End Region

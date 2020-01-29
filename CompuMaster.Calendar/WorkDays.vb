@@ -11,7 +11,7 @@ Namespace CompuMaster.Calendar
     ''' <history>
     ''' 	[wezel]	13.12.2010	Created
     ''' </history>
-    Public Class WorkDays
+    Public NotInheritable Class WorkDays
 
         ''' -----------------------------------------------------------------------------
         ''' <summary>

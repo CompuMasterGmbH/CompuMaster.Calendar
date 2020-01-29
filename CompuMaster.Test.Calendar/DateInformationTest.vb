@@ -91,7 +91,7 @@ Namespace CompuMaster.Test.Calendar
             Dim TestCulture As System.Globalization.CultureInfo = System.Globalization.CultureInfo.CreateSpecificCulture("de-DE")
             For MyCounter As Integer = 0 To 364 '365 days per year
                 Dim DateOfYear As Date = New Date(Jahr, 1, 1).AddDays(MyCounter)
-                Dim week As CompuMaster.Calendar.DateInformation.WeekNumber = CompuMaster.Calendar.DateInformation.WeekOfYear(DateOfYear, TestCulture)
+                Dim week As CompuMaster.Calendar.WeekNumber = CompuMaster.Calendar.DateInformation.WeekOfYear(DateOfYear, TestCulture)
                 If week.Week < 1 Or week.Week > 53 Then
                     Throw New Exception("Invalid week number")
                 End If
@@ -110,7 +110,7 @@ Namespace CompuMaster.Test.Calendar
             Dim Jahr As Integer = 2005
             For MyCounter As Integer = 0 To 364 '365 days per year
                 Dim DateOfYear As Date = New Date(Jahr, 1, 1).AddDays(MyCounter)
-                Dim WeekNo As CompuMaster.Calendar.DateInformation.WeekNumber
+                Dim WeekNo As CompuMaster.Calendar.WeekNumber
                 WeekNo = CompuMaster.Calendar.DateInformation.WeekOfYear(DateOfYear)
                 Dim FirstDayOfWeek, LastDayOfWeek As Date
                 FirstDayOfWeek = CompuMaster.Calendar.DateInformation.FirstDateOfWeek(WeekNo.Year, WeekNo.Week)
@@ -125,7 +125,7 @@ Namespace CompuMaster.Test.Calendar
             Jahr = 2004
             For MyCounter As Integer = 0 To 365 '366 days per year
                 Dim DateOfYear As Date = New Date(Jahr, 1, 1).AddDays(MyCounter)
-                Dim WeekNo As CompuMaster.Calendar.DateInformation.WeekNumber
+                Dim WeekNo As CompuMaster.Calendar.WeekNumber
                 WeekNo = CompuMaster.Calendar.DateInformation.WeekOfYear(DateOfYear)
                 Dim FirstDayOfWeek, LastDayOfWeek As Date
                 FirstDayOfWeek = CompuMaster.Calendar.DateInformation.FirstDateOfWeek(WeekNo.Year, WeekNo.Week)

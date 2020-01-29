@@ -57,7 +57,7 @@ Namespace CompuMaster.Calendar
                 Return _Year
             End Get
             Set(ByVal value As Integer)
-                If value = 0 Then Throw New ArgumentOutOfRangeException("value")
+                If value = 0 Then Throw New ArgumentOutOfRangeException(NameOf(value))
                 _Year = value
             End Set
         End Property
@@ -74,7 +74,7 @@ Namespace CompuMaster.Calendar
                 Return _Month
             End Get
             Set(ByVal value As Integer)
-                If value < 0 OrElse value > 12 Then Throw New ArgumentOutOfRangeException("value")
+                If value < 0 OrElse value > 12 Then Throw New ArgumentOutOfRangeException(NameOf(value))
                 _Month = value
             End Set
         End Property
@@ -166,7 +166,7 @@ Namespace CompuMaster.Calendar
             Pattern = Pattern.Replace("yyyy", "(?<year4>\d\d\d\d)").Replace("yy", "(?<year2>\d\d)")
             Dim RegEx As New System.Text.RegularExpressions.Regex(Pattern, Text.RegularExpressions.RegexOptions.Compiled Or Text.RegularExpressions.RegexOptions.Singleline Or Text.RegularExpressions.RegexOptions.Multiline)
             If RegEx.IsMatch(value) = False Then
-                Throw New ArgumentException("Invalid value", "value")
+                Throw New ArgumentException("Invalid value", NameOf(value))
             End If
             Dim RegMatch As System.Text.RegularExpressions.Match = RegEx.Match(value)
             Dim GroupNames As New System.Collections.Generic.List(Of String)(RegEx.GetGroupNames())
@@ -177,7 +177,7 @@ Namespace CompuMaster.Calendar
                 ElseIf GroupNames.Contains("year2") Then
                     FoundYear = culture.Calendar.ToFourDigitYear(Integer.Parse(RegMatch.Groups("year2").Value))
                 Else
-                    Throw New ArgumentException("Invalid value", "value")
+                    Throw New ArgumentException("Invalid value", NameOf(value))
                 End If
                 Dim FoundMonthName As String = RegMatch.Groups("m").Value
                 Dim FoundMonth As Integer = 0
@@ -188,12 +188,12 @@ Namespace CompuMaster.Calendar
                     End If
                 Next
                 If FoundYear = 0 OrElse FoundMonth = 0 Then
-                    Throw New ArgumentException("Invalid value", "value")
+                    Throw New ArgumentException("Invalid value", NameOf(value))
                 Else
                     Return New Month(FoundYear, FoundMonth)
                 End If
             Else
-                Throw New ArgumentException("Invalid value", "value")
+                Throw New ArgumentException("Invalid value", NameOf(value))
             End If
             Throw New NotImplementedException
         End Function
@@ -202,8 +202,10 @@ Namespace CompuMaster.Calendar
             Try
                 result = Parse(value, format, culture)
                 Return True
+#Disable Warning CA1031 ' Do not catch general exception types
             Catch
                 Return False
+#Enable Warning CA1031 ' Do not catch general exception types
             End Try
         End Function
 
@@ -215,7 +217,7 @@ Namespace CompuMaster.Calendar
             Dim Pattern As String = "(?<m>" & Strings.Join(MonthNames.ToArray, "|") & ")\/(?<y>\d\d\d\d)"
             Dim RegEx As New System.Text.RegularExpressions.Regex(Pattern, Text.RegularExpressions.RegexOptions.Compiled Or Text.RegularExpressions.RegexOptions.Singleline Or Text.RegularExpressions.RegexOptions.Multiline)
             If RegEx.IsMatch(value) = False Then
-                Throw New ArgumentException("Invalid value", "value")
+                Throw New ArgumentException("Invalid value", NameOf(value))
             End If
             Dim RegMatch As System.Text.RegularExpressions.Match = RegEx.Match(value)
             Dim GroupNames As String() = RegEx.GetGroupNames()
@@ -230,12 +232,12 @@ Namespace CompuMaster.Calendar
                     End If
                 Next
                 If FoundYear = 0 OrElse FoundMonth = 0 Then
-                    Throw New ArgumentException("Invalid value", "value")
+                    Throw New ArgumentException("Invalid value", NameOf(value))
                 Else
                     Return New Month(FoundYear, FoundMonth)
                 End If
             Else
-                Throw New ArgumentException("Invalid value", "value")
+                Throw New ArgumentException("Invalid value", NameOf(value))
             End If
         End Function
 
@@ -267,7 +269,7 @@ Namespace CompuMaster.Calendar
                 Case 12
                     Result = "Dec"
                 Case Else
-                    Throw New ArgumentOutOfRangeException("monthNo")
+                    Throw New ArgumentOutOfRangeException(NameOf(monthNo))
             End Select
             Return Result
         End Function
@@ -426,9 +428,8 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Operator -(value1 As Month, value2 As Month) As Integer
-            If value1 Is Nothing Then Throw New ArgumentNullException("value1")
-            If value2 Is Nothing Then Throw New ArgumentNullException("value2")
-            Dim Result As Integer = 0
+            If value1 Is Nothing Then Throw New ArgumentNullException(NameOf(value1))
+            If value2 Is Nothing Then Throw New ArgumentNullException(NameOf(value2))
             Dim SwappedValues As Boolean, StartMonth As Month, EndMonth As Month
             If value2 > value1 Then
                 EndMonth = value2
@@ -439,6 +440,7 @@ Namespace CompuMaster.Calendar
                 StartMonth = value2
                 SwappedValues = False
             End If
+            Dim Result As Integer
             If EndMonth.Year = StartMonth.Year Then
                 Result = EndMonth.Month - StartMonth.Month
             Else 'If EndMonth.Year - StartMonth.Year>=1
@@ -519,7 +521,7 @@ Namespace CompuMaster.Calendar
                 Return True
             End If
 
-            If ReferenceEquals(obj, Nothing) Then
+            If obj Is Nothing Then
                 Return False
             End If
 

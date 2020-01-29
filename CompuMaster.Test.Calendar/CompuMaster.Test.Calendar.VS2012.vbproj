@@ -120,6 +120,7 @@
     <Compile Include="DateInformationTest.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WeekNumber.vb" />
     <Compile Include="ZeroableMonthTest.vb" />
     <Compile Include="MonthTest.vb" />
   </ItemGroup>
