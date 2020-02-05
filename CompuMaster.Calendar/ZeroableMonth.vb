@@ -603,6 +603,10 @@ Namespace CompuMaster.Calendar
             Return Me.Year = CType(obj, ZeroableMonth).Year AndAlso Me.Month = CType(obj, ZeroableMonth).Month
         End Function
 
+        Public Shared Narrowing Operator CType(value As String) As ZeroableMonth
+            Return Parse(value)
+        End Operator
+
         Public Overrides Function GetHashCode() As Integer
             Return Me.Year * 100 + Me.Month
         End Function

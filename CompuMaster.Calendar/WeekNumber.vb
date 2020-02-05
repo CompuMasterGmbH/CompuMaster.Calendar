@@ -47,7 +47,7 @@ Namespace CompuMaster.Calendar
         End Operator
 
         Public Overrides Function ToString() As String
-            Return Me.Year & "/WK" & Me.Week
+            Return Me.Year.ToString("0000") & "/WK" & Me.Week.ToString("00")
         End Function
 
         Public Shared Widening Operator CType(value As CompuMaster.Calendar.WeekNumber) As String
@@ -57,6 +57,20 @@ Namespace CompuMaster.Calendar
                 Return value.ToString
             End If
         End Operator
+
+        Public Shared Narrowing Operator CType(value As String) As WeekNumber
+            Return Parse(value)
+        End Operator
+
+        Public Shared Function Parse(value As String) As WeekNumber
+            If value = Nothing Then
+                Return Nothing
+            ElseIf value.Length <> 9 OrElse value.Substring(4, 3) <> "/WK" Then
+                Throw New ArgumentException("value must be formatted as yyyy""/WK""ww")
+            Else
+                Return New WeekNumber(Integer.Parse(value.Substring(0, 4)), Integer.Parse(value.Substring(7, 2)))
+            End If
+        End Function
 
     End Class
 

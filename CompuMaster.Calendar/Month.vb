@@ -564,6 +564,9 @@ Namespace CompuMaster.Calendar
             End If
         End Operator
 
+        Public Shared Narrowing Operator CType(value As String) As Month
+            Return Parse(value)
+        End Operator
     End Class
 
 End Namespace

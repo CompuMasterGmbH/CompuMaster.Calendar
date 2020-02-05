@@ -315,7 +315,16 @@ Namespace CompuMaster.Test.Calendar
         End Sub
 
         <Test> Public Sub Conversions()
+            Assert.AreEqual(Nothing, CType(CType(Nothing, CompuMaster.Calendar.Month), CompuMaster.Calendar.ZeroableMonth))
+            Assert.AreEqual(Nothing, CType(CType(Nothing, CompuMaster.Calendar.ZeroableMonth), CompuMaster.Calendar.Month))
+            Assert.AreEqual(Nothing, CType(CType(Nothing, CompuMaster.Calendar.Month), String))
+            Assert.AreEqual(Nothing, CType(CType(Nothing, CompuMaster.Calendar.ZeroableMonth), String))
+            Assert.AreEqual(Nothing, CType(CType(Nothing, String), CompuMaster.Calendar.ZeroableMonth))
+            Assert.AreEqual(Nothing, CType(CType(Nothing, String), CompuMaster.Calendar.Month))
+            Assert.AreEqual(Nothing, CType(String.Empty, CompuMaster.Calendar.ZeroableMonth))
+            Assert.AreEqual(Nothing, CType(String.Empty, CompuMaster.Calendar.Month))
             Assert.AreEqual("2020-10", CType(New CompuMaster.Calendar.ZeroableMonth(2020, 10), String))
+            Assert.AreEqual("2020-10", CType("2020-10", CompuMaster.Calendar.ZeroableMonth).ToString)
             Assert.AreEqual(New CompuMaster.Calendar.ZeroableMonth(2020, 10), CType(New CompuMaster.Calendar.Month(2020, 10), CompuMaster.Calendar.ZeroableMonth))
             Assert.Catch(Of InvalidCastException)(Sub()
                                                       Dim Dummy As CompuMaster.Calendar.ZeroableMonth

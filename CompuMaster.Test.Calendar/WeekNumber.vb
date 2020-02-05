@@ -25,10 +25,15 @@ Namespace CompuMaster.Test.Calendar
 
         <Test> Public Sub WeekNumberToString()
             Assert.AreEqual("2020/WK10", New CompuMaster.Calendar.WeekNumber(2020, 10).ToString)
-            Assert.AreEqual("2020/WK1", New CompuMaster.Calendar.WeekNumber(2020, 1).ToString)
+            Assert.AreEqual("2020/WK01", New CompuMaster.Calendar.WeekNumber(2020, 1).ToString)
+            Assert.AreEqual("0020/WK01", New CompuMaster.Calendar.WeekNumber(20, 1).ToString)
         End Sub
         <Test> Public Sub Conversions()
             Assert.AreEqual("2020/WK10", CType(New CompuMaster.Calendar.WeekNumber(2020, 10), String))
+            Assert.AreEqual(Nothing, CType(CType(Nothing, CompuMaster.Calendar.WeekNumber), String))
+            Assert.AreEqual(Nothing, CType(CType(Nothing, String), CompuMaster.Calendar.WeekNumber))
+            Assert.AreEqual(Nothing, CType(String.Empty, CompuMaster.Calendar.WeekNumber))
+            Assert.AreEqual("2020/WK10", CType("2020/WK10", CompuMaster.Calendar.WeekNumber).ToString)
         End Sub
 
     End Class
