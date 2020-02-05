@@ -69,6 +69,10 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("2010-10", Buffer.ToString)
         End Sub
 
+        <Test> Public Sub Conversions()
+            Assert.AreEqual("2020-10", CType(New CompuMaster.Calendar.Month(2020, 10), String))
+        End Sub
+
         <Test> Public Sub ParseFromUniqueShortName()
             Assert.AreEqual("2010-10", CompuMaster.Calendar.Month.ParseFromUniqueShortName("Oct/2010").ToString)
             Assert.AreEqual("1900-01", CompuMaster.Calendar.Month.ParseFromUniqueShortName("Jan/1900").ToString)

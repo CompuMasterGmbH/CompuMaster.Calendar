@@ -46,7 +46,7 @@ Namespace CompuMaster.Calendar
         ''' </history>
         ''' -----------------------------------------------------------------------------
         Public Shared Function WeekOfYear(ByVal dateValue As Date, ByVal cultureInfo As System.Globalization.CultureInfo) As WeekNumber
-            Dim Result As WeekNumber
+            Dim Result As New WeekNumber
             Result.Week = cultureInfo.DateTimeFormat.Calendar.GetWeekOfYear(dateValue, System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.CalendarWeekRule, System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek)
             If dateValue.DayOfYear < 15 And Result.Week > 5 Then
                 'Week is part of the old year numbering

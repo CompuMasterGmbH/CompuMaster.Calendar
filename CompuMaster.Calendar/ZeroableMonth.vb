@@ -4,7 +4,7 @@ Option Strict On
 Namespace CompuMaster.Calendar
 
     ''' <summary>
-    ''' A representation for a month period
+    ''' A representation for a month period for years with 12 months
     ''' </summary>
     ''' <remarks></remarks>
     Public Class ZeroableMonth
@@ -39,23 +39,17 @@ Namespace CompuMaster.Calendar
                 Return New ZeroableMonth(Integer.Parse(value.Substring(0, 4)), Integer.Parse(value.Substring(5, 2)))
             End If
         End Function
+
         Private _Year As Integer
-        ''' -----------------------------------------------------------------------------
         ''' <summary>
         ''' The year of the month
         ''' </summary>
-        ''' <value></value>
-        ''' <remarks>
-        ''' </remarks>
-        ''' <history>
-        ''' 	[wezel]	12.01.2011	Created
-        ''' </history>
-        ''' -----------------------------------------------------------------------------
         Public Property Year() As Integer
             Get
                 Return _Year
             End Get
             Set(ByVal value As Integer)
+                If value < 0 Then Throw New ArgumentOutOfRangeException(NameOf(value), "Year must be a positive number or a value equal to 0")
                 _Year = value
             End Set
         End Property
@@ -476,7 +470,11 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function [NextPeriod]() As ZeroableMonth
-            Return New ZeroableMonth(BeginOfPeriod.AddMonths(1))
+            If Me.Month = 0 Then
+                Return New ZeroableMonth(Me.Year, 1)
+            Else
+                Return New ZeroableMonth(BeginOfPeriod.AddMonths(1))
+            End If
         End Function
 
         ''' <summary>
@@ -485,7 +483,11 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function [PreviousPeriod]() As ZeroableMonth
-            Return New ZeroableMonth(BeginOfPeriod.AddMonths(-1))
+            If Me.Month = 0 Then
+                Return New ZeroableMonth(Me.Year - 1, 12)
+            Else
+                Return New ZeroableMonth(BeginOfPeriod.AddMonths(-1))
+            End If
         End Function
 
         ''' <summary>
@@ -620,6 +622,22 @@ Namespace CompuMaster.Calendar
                 Return value2
             End If
         End Function
+
+        Public Shared Widening Operator CType(value As CompuMaster.Calendar.Month) As CompuMaster.Calendar.ZeroableMonth
+            If value Is Nothing Then
+                Return Nothing
+            Else
+                Return New CompuMaster.Calendar.ZeroableMonth(value.Year, value.Month)
+            End If
+        End Operator
+
+        Public Shared Widening Operator CType(value As CompuMaster.Calendar.ZeroableMonth) As String
+            If value Is Nothing Then
+                Return Nothing
+            Else
+                Return value.ToString
+            End If
+        End Operator
 
     End Class
 

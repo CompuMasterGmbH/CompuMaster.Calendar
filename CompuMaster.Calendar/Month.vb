@@ -4,7 +4,7 @@ Option Strict On
 Namespace CompuMaster.Calendar
 
     ''' <summary>
-    ''' A representation for a month period
+    ''' A representation for a month period for years with 12 months
     ''' </summary>
     ''' <remarks></remarks>
     Public Class Month
@@ -41,23 +41,15 @@ Namespace CompuMaster.Calendar
         End Function
 
         Private _Year As Integer
-        ''' -----------------------------------------------------------------------------
         ''' <summary>
         ''' The year of the month
         ''' </summary>
-        ''' <value></value>
-        ''' <remarks>
-        ''' </remarks>
-        ''' <history>
-        ''' 	[wezel]	12.01.2011	Created
-        ''' </history>
-        ''' -----------------------------------------------------------------------------
         Public Property Year() As Integer
             Get
                 Return _Year
             End Get
             Set(ByVal value As Integer)
-                If value = 0 Then Throw New ArgumentOutOfRangeException(NameOf(value))
+                If value <= 0 Then Throw New ArgumentOutOfRangeException(NameOf(value), "Year must be a positive number")
                 _Year = value
             End Set
         End Property
@@ -551,6 +543,26 @@ Namespace CompuMaster.Calendar
                 Return value2
             End If
         End Function
+
+        Public Shared Narrowing Operator CType(value As CompuMaster.Calendar.ZeroableMonth) As CompuMaster.Calendar.Month
+            If value Is Nothing Then
+                Return Nothing
+            ElseIf value.Month >= 1 AndAlso value.Month <= 12 Then
+                Return New CompuMaster.Calendar.Month(value.Year, value.Month)
+            ElseIf value.Month = 0 Then
+                Throw New InvalidCastException("Invalid month number: 0")
+            Else
+                Throw New InvalidCastException("Month value must be within 1 to 12")
+            End If
+        End Operator
+
+        Public Shared Widening Operator CType(value As CompuMaster.Calendar.Month) As String
+            If value Is Nothing Then
+                Return Nothing
+            Else
+                Return value.ToString
+            End If
+        End Operator
 
     End Class
 

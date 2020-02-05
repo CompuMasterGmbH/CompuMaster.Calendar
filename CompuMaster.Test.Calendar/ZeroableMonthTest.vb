@@ -103,6 +103,24 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("0000-12", New CompuMaster.Calendar.ZeroableMonth(0, 0).LastPeriod.ToString)
         End Sub
 
+        <Test> Public Sub NextPeriod()
+            Assert.AreEqual("2011-01", New CompuMaster.Calendar.ZeroableMonth(2010, 12).NextPeriod.ToString)
+            Assert.AreEqual("2010-01", New CompuMaster.Calendar.ZeroableMonth(2010, 0).NextPeriod.ToString)
+            Assert.AreEqual("2010-02", New CompuMaster.Calendar.ZeroableMonth(2010, 1).NextPeriod.ToString)
+            Assert.AreEqual("0001-01", New CompuMaster.Calendar.ZeroableMonth(1, 0).NextPeriod.ToString)
+            Assert.AreEqual("0000-01", New CompuMaster.Calendar.ZeroableMonth(0, 0).NextPeriod.ToString)
+        End Sub
+
+        <Test> Public Sub PreviousPeriod()
+            Assert.AreEqual("2010-11", New CompuMaster.Calendar.ZeroableMonth(2010, 12).PreviousPeriod.ToString)
+            Assert.AreEqual("2009-12", New CompuMaster.Calendar.ZeroableMonth(2010, 0).PreviousPeriod.ToString)
+            Assert.AreEqual("2009-12", New CompuMaster.Calendar.ZeroableMonth(2010, 1).PreviousPeriod.ToString)
+            Assert.AreEqual("0000-12", New CompuMaster.Calendar.ZeroableMonth(1, 0).PreviousPeriod.ToString)
+            Assert.Catch(Of ArgumentOutOfRangeException)(Sub()
+                                                             Console.WriteLine(New CompuMaster.Calendar.ZeroableMonth(0, 0).PreviousPeriod.ToString)
+                                                         End Sub)
+        End Sub
+
         <Test()> Public Sub OperatorMinus()
             Assert.AreEqual(0, New CompuMaster.Calendar.ZeroableMonth(2012, 5) - New CompuMaster.Calendar.ZeroableMonth(2012, 5))
             Assert.AreEqual(1, New CompuMaster.Calendar.ZeroableMonth(2012, 5) - New CompuMaster.Calendar.ZeroableMonth(2012, 4))
@@ -294,6 +312,15 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(value4nulled, CompuMaster.Calendar.ZeroableMonth.Max(value4nulled, value1))
             Assert.AreEqual(value4nulled, CompuMaster.Calendar.ZeroableMonth.Max(value1, value4nulled))
             Assert.AreEqual(value4nulled, CompuMaster.Calendar.ZeroableMonth.Max(value4nulled, value6nulled))
+        End Sub
+
+        <Test> Public Sub Conversions()
+            Assert.AreEqual("2020-10", CType(New CompuMaster.Calendar.ZeroableMonth(2020, 10), String))
+            Assert.AreEqual(New CompuMaster.Calendar.ZeroableMonth(2020, 10), CType(New CompuMaster.Calendar.Month(2020, 10), CompuMaster.Calendar.ZeroableMonth))
+            Assert.Catch(Of InvalidCastException)(Sub()
+                                                      Dim Dummy As CompuMaster.Calendar.ZeroableMonth
+                                                      Dummy = CType(New CompuMaster.Calendar.ZeroableMonth(2020, 0), CompuMaster.Calendar.Month)
+                                                  End Sub)
         End Sub
 
     End Class
