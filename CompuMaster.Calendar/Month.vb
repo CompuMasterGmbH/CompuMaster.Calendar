@@ -66,7 +66,7 @@ Namespace CompuMaster.Calendar
                 Return _Month
             End Get
             Set(ByVal value As Integer)
-                If value < 0 OrElse value > 12 Then Throw New ArgumentOutOfRangeException(NameOf(value))
+                If value < 0 OrElse value > 12 Then Throw New ArgumentOutOfRangeException(NameOf(value), "Invalid value " & value.ToString)
                 _Month = value
             End Set
         End Property
@@ -90,6 +90,10 @@ Namespace CompuMaster.Calendar
                 Dim SubstractYears As Integer = MonthsToGoBack \ 12
                 NewMonthValue += (SubstractYears + 1) * 12
                 NewYearValue -= SubstractYears + 1
+                If NewMonthValue = 13 Then
+                    NewMonthValue = 1
+                    NewYearValue += 1
+                End If
             End If
             Return New CompuMaster.Calendar.Month(NewYearValue, NewMonthValue)
         End Function
@@ -423,7 +427,9 @@ Namespace CompuMaster.Calendar
             If value1 Is Nothing Then Throw New ArgumentNullException(NameOf(value1))
             If value2 Is Nothing Then Throw New ArgumentNullException(NameOf(value2))
             Dim SwappedValues As Boolean, StartMonth As Month, EndMonth As Month
-            If value2 > value1 Then
+            If value1 = value2 Then
+                Return 0
+            ElseIf value2 > value1 Then
                 EndMonth = value2
                 StartMonth = value1
                 SwappedValues = True
@@ -436,7 +442,7 @@ Namespace CompuMaster.Calendar
             If EndMonth.Year = StartMonth.Year Then
                 Result = EndMonth.Month - StartMonth.Month
             Else 'If EndMonth.Year - StartMonth.Year>=1
-                Result = EndMonth.Month + (12 - StartMonth.Month + 1) + (EndMonth.Year - StartMonth.Year - 1) * 12
+                Result = EndMonth.Month + (12 - StartMonth.Month) + (EndMonth.Year - StartMonth.Year - 1) * 12
             End If
             If SwappedValues Then Result *= -1
             Return Result

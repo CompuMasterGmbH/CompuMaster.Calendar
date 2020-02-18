@@ -66,32 +66,63 @@ Namespace CompuMaster.Calendar
                 Return _Month
             End Get
             Set(ByVal value As Integer)
-                If value < 0 OrElse value > 12 Then Throw New ArgumentOutOfRangeException(NameOf(value))
+                If value < 0 OrElse value > 12 Then Throw New ArgumentOutOfRangeException(NameOf(value), "Inavlid value " & value.ToString)
                 _Month = value
             End Set
         End Property
 
+        ''' <summary>
+        ''' Add years and months to a ZeroableMonth, result will always be with a month no. between 1 and 12
+        ''' </summary>
+        ''' <param name="years"></param>
+        ''' <param name="months"></param>
+        ''' <returns></returns>
         Public Function Add(years As Integer, months As Integer) As CompuMaster.Calendar.ZeroableMonth
             Return Me.AddYears(years).AddMonths(months)
         End Function
+
+        ''' <summary>
+        ''' Add years to a ZeroableMonth, result will always keep the month unchanged, so the month no. will be between 0 and 12
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
         Public Function AddYears(value As Integer) As CompuMaster.Calendar.ZeroableMonth
             Return New CompuMaster.Calendar.ZeroableMonth(Me.Year + value, Me.Month)
         End Function
+
+        ''' <summary>
+        ''' Add months to a ZeroableMonth, result will always be with a month no. between 1 and 12
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
         Public Function AddMonths(value As Integer) As CompuMaster.Calendar.ZeroableMonth
-            Dim NewMonthValue As Integer = Me.Month + value
-            Dim NewYearValue As Integer = Me.Year
-            If NewMonthValue > 12 Then
-                Dim AddYears As Integer = NewMonthValue \ 12
-                NewMonthValue -= AddYears * 12
-                NewYearValue += AddYears
+            If value = 0 Then
+                Return New CompuMaster.Calendar.ZeroableMonth(Me.Year, Me.Month)
+            Else
+                Dim NewMonthValue As Integer
+                If value < 0 And Me.Month = 0 Then
+                    NewMonthValue = Me.Month + 1 + value
+                Else
+                    NewMonthValue = Me.Month + value
+                End If
+                Dim NewYearValue As Integer = Me.Year
+                If NewMonthValue > 12 Then
+                    Dim AddYears As Integer = NewMonthValue \ 12
+                    NewMonthValue -= AddYears * 12
+                    NewYearValue += AddYears
+                End If
+                If NewMonthValue < 1 Then
+                    Dim MonthsToGoBack As Integer = 1 - NewMonthValue
+                    Dim SubstractYears As Integer = MonthsToGoBack \ 12
+                    NewMonthValue += (SubstractYears + 1) * 12
+                    NewYearValue -= SubstractYears + 1
+                    If NewMonthValue = 13 Then
+                        NewMonthValue = 1
+                        NewYearValue += 1
+                    End If
+                End If
+                Return New CompuMaster.Calendar.ZeroableMonth(NewYearValue, NewMonthValue)
             End If
-            If NewMonthValue < 1 Then
-                Dim MonthsToGoBack As Integer = 1 - NewMonthValue
-                Dim SubstractYears As Integer = MonthsToGoBack \ 12
-                NewMonthValue += (SubstractYears + 1) * 12
-                NewYearValue -= SubstractYears + 1
-            End If
-            Return New CompuMaster.Calendar.ZeroableMonth(NewYearValue, NewMonthValue)
         End Function
 
         ''' <summary>
@@ -444,7 +475,9 @@ Namespace CompuMaster.Calendar
             If value1 Is Nothing Then Throw New ArgumentNullException(NameOf(value1))
             If value2 Is Nothing Then Throw New ArgumentNullException(NameOf(value2))
             Dim SwappedValues As Boolean, StartMonth As ZeroableMonth, EndMonth As ZeroableMonth
-            If value2 > value1 Then
+            If value1 = value2 Then
+                Return 0
+            ElseIf value2 > value1 Then
                 EndMonth = value2
                 StartMonth = value1
                 SwappedValues = True
@@ -457,7 +490,7 @@ Namespace CompuMaster.Calendar
             If EndMonth.Year = StartMonth.Year Then
                 Result = EndMonth.Month - StartMonth.Month
             Else 'If EndMonth.Year - StartMonth.Year>=1
-                Result = EndMonth.Month + (12 - StartMonth.Month + 1) + (EndMonth.Year - StartMonth.Year - 1) * 12
+                Result = EndMonth.Month + (12 - StartMonth.Month) + (EndMonth.Year - StartMonth.Year - 1) * 12
             End If
             If SwappedValues Then Result *= -1
             Return Result
