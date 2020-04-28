@@ -106,6 +106,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="WeekNumber.vb" />
+    <Compile Include="WeekNumberSpan.vb" />
     <Compile Include="ZeroableMonth.vb" />
     <Compile Include="Month.vb">
       <SubType>Code</SubType>

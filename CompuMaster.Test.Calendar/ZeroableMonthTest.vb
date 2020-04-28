@@ -354,6 +354,50 @@ Namespace CompuMaster.Test.Calendar
                                                   End Sub)
         End Sub
 
+        <Test> Public Sub SmallerBiggerEquals()
+            Assert.IsTrue(New CompuMaster.Calendar.ZeroableMonth(2010, 9) = New CompuMaster.Calendar.ZeroableMonth(2010, 9))
+            Assert.IsTrue(New CompuMaster.Calendar.ZeroableMonth(2010, 1) <> New CompuMaster.Calendar.ZeroableMonth(2010, 9))
+            Assert.IsTrue(New CompuMaster.Calendar.ZeroableMonth(2010, 1) < New CompuMaster.Calendar.ZeroableMonth(2010, 9))
+            Assert.IsTrue(New CompuMaster.Calendar.ZeroableMonth(2010, 9) > New CompuMaster.Calendar.ZeroableMonth(2010, 1))
+            Assert.IsFalse(New CompuMaster.Calendar.ZeroableMonth(2010, 9) <> New CompuMaster.Calendar.ZeroableMonth(2010, 9))
+            Assert.IsFalse(New CompuMaster.Calendar.ZeroableMonth(2010, 1) = New CompuMaster.Calendar.ZeroableMonth(2010, 9))
+            Assert.IsFalse(New CompuMaster.Calendar.ZeroableMonth(2010, 1) > New CompuMaster.Calendar.ZeroableMonth(2010, 9))
+            Assert.IsFalse(New CompuMaster.Calendar.ZeroableMonth(2010, 9) < New CompuMaster.Calendar.ZeroableMonth(2010, 1))
+
+            Assert.AreEqual(New CompuMaster.Calendar.ZeroableMonth(2010, 9), New CompuMaster.Calendar.ZeroableMonth(2010, 9))
+            Assert.AreNotEqual(New CompuMaster.Calendar.ZeroableMonth(2010, 1), New CompuMaster.Calendar.ZeroableMonth(2010, 9))
+            'Assert.Less(New CompuMaster.Calendar.ZeroableMonth(2010, 1), New CompuMaster.Calendar.ZeroableMonth(2010, 9))
+            'Assert.Greater(New CompuMaster.Calendar.ZeroableMonth(2010, 9), New CompuMaster.Calendar.ZeroableMonth(2010, 1))
+
+            Assert.IsTrue(New CompuMaster.Calendar.ZeroableMonth(2010, 0) = New CompuMaster.Calendar.ZeroableMonth(2010, 0))
+            Assert.IsTrue(New CompuMaster.Calendar.ZeroableMonth(2010, 0) <> New CompuMaster.Calendar.ZeroableMonth(2010, 1))
+            Assert.IsTrue(New CompuMaster.Calendar.ZeroableMonth(2010, 0) < New CompuMaster.Calendar.ZeroableMonth(2010, 1))
+            Assert.IsTrue(New CompuMaster.Calendar.ZeroableMonth(2010, 0) > New CompuMaster.Calendar.ZeroableMonth(2009, 12))
+            Assert.IsFalse(New CompuMaster.Calendar.ZeroableMonth(2010, 0) <> New CompuMaster.Calendar.ZeroableMonth(2010, 0))
+            Assert.IsFalse(New CompuMaster.Calendar.ZeroableMonth(2010, 0) = New CompuMaster.Calendar.ZeroableMonth(2010, 1))
+            Assert.IsFalse(New CompuMaster.Calendar.ZeroableMonth(2010, 0) > New CompuMaster.Calendar.ZeroableMonth(2010, 1))
+            Assert.IsFalse(New CompuMaster.Calendar.ZeroableMonth(2010, 0) < New CompuMaster.Calendar.ZeroableMonth(2009, 12))
+        End Sub
+
+        <Test> Public Sub Sorting()
+            Dim Values As New Generic.List(Of CompuMaster.Calendar.ZeroableMonth)
+            Values.Add(New CompuMaster.Calendar.ZeroableMonth(2010, 11))
+            Values.Add(New CompuMaster.Calendar.ZeroableMonth(1999, 10))
+            Values.Add(New CompuMaster.Calendar.ZeroableMonth(2010, 0))
+            Values.Add(New CompuMaster.Calendar.ZeroableMonth(2010, 10))
+            Values.Add(New CompuMaster.Calendar.ZeroableMonth)
+            Values.Add(New CompuMaster.Calendar.ZeroableMonth(2010, 9))
+
+            Values.Sort()
+
+            Assert.AreEqual(New CompuMaster.Calendar.ZeroableMonth, Values(0))
+            Assert.AreEqual(New CompuMaster.Calendar.ZeroableMonth(1999, 10), Values(1))
+            Assert.AreEqual(New CompuMaster.Calendar.ZeroableMonth(2010, 0), Values(2))
+            Assert.AreEqual(New CompuMaster.Calendar.ZeroableMonth(2010, 9), Values(3))
+            Assert.AreEqual(New CompuMaster.Calendar.ZeroableMonth(2010, 10), Values(4))
+            Assert.AreEqual(New CompuMaster.Calendar.ZeroableMonth(2010, 11), Values(5))
+        End Sub
+
     End Class
 
 End Namespace

@@ -409,7 +409,7 @@ Namespace CompuMaster.Calendar
             ElseIf value1 Is Nothing And value2 IsNot Nothing Then
                 Return True
             Else
-                Return value1.CompareTo(value2) < 1
+                Return value1.CompareTo(value2) < 0
             End If
         End Operator
 
@@ -426,7 +426,7 @@ Namespace CompuMaster.Calendar
             ElseIf value1 Is Nothing And value2 IsNot Nothing Then
                 Return False
             Else
-                Return value1.CompareTo(value2) > 1
+                Return value1.CompareTo(value2) > 0
             End If
         End Operator
 
@@ -443,7 +443,7 @@ Namespace CompuMaster.Calendar
             ElseIf value1 Is Nothing And value2 IsNot Nothing Then
                 Return True
             Else
-                Return value1.CompareTo(value2) <= 1
+                Return value1.CompareTo(value2) <= 0
             End If
         End Operator
 
@@ -460,7 +460,7 @@ Namespace CompuMaster.Calendar
             ElseIf value1 Is Nothing And value2 IsNot Nothing Then
                 Return False
             Else
-                Return value1.CompareTo(value2) >= 1
+                Return value1.CompareTo(value2) >= 0
             End If
         End Operator
 
@@ -592,31 +592,31 @@ Namespace CompuMaster.Calendar
         ''' <remarks></remarks>
         Public Function CompareTo(ByVal value As ZeroableMonth) As Integer
             If value Is Nothing Then
-                Return 2
-            ElseIf Me.Year = value.year AndAlso Me.month = value.month Then
                 Return 1
+            ElseIf Me.Year = value.year AndAlso Me.month = value.month Then
+                Return 0
             ElseIf Me.Month = 0 Then
                 If Me.Year < value.Year Then
-                    Return 0
+                    Return -1
                 ElseIf Me.Year > value.Year Then
-                    Return 2
+                    Return 1
                 Else 'Me.Year = value.Year, but 0 < value.Month
-                    Return 0
+                    Return -1
                 End If
             ElseIf value.Month = 0 Then
                 If Me.Year < value.Year Then
-                    Return 0
+                    Return -1
                 ElseIf Me.Year > value.Year Then
-                    Return 2
+                    Return 1
                 Else 'Me.Year = value.Year, but Me.Month > 0
-                    Return 2
+                    Return 1
                 End If
             ElseIf Me.BeginOfPeriod < value.BeginOfPeriod Then
-                Return 0
+                Return -1
             ElseIf Me.BeginOfPeriod > value.BeginOfPeriod Then
-                Return 2
-            Else
                 Return 1
+            Else
+                Return 0
             End If
         End Function
 
