@@ -212,6 +212,46 @@ Namespace CompuMaster.Test.Calendar
         End Sub
 
         <Test()> Public Sub MonthNames()
+            'Print platform/environment results for considerations/comparisons if a test failed
+            System.Console.WriteLine("## Unique month short names")
+            For MyCounter As Integer = 0 To 12
+                Dim MyPeriod As New CompuMaster.Calendar.ZeroableMonth(2000, MyCounter)
+                System.Console.WriteLine("Period " & MyPeriod.ToString("00") & "=" & MyPeriod.UniqueShortName)
+            Next
+            System.Console.WriteLine()
+
+            System.Console.WriteLine("## Month short names - en-US")
+            For MyCounter As Integer = 0 To 12
+                Dim MyPeriod As New CompuMaster.Calendar.ZeroableMonth(2000, MyCounter)
+                System.Console.WriteLine("Period " & MyPeriod.ToString("00") & "=" & MyPeriod.MonthShortName("en-US"))
+            Next
+            System.Console.WriteLine()
+
+            System.Console.WriteLine("## Month names - en-US")
+            For MyCounter As Integer = 0 To 12
+                Dim MyPeriod As New CompuMaster.Calendar.ZeroableMonth(2000, MyCounter)
+                System.Console.WriteLine("Period " & MyPeriod.ToString("00") & "=" & MyPeriod.MonthName("en-US"))
+            Next
+            System.Console.WriteLine()
+
+            System.Console.WriteLine("## Month short names - de-DE")
+            For MyCounter As Integer = 0 To 12
+                Dim MyPeriod As New CompuMaster.Calendar.ZeroableMonth(2000, MyCounter)
+                System.Console.WriteLine("Period " & MyPeriod.ToString("00") & "=" & MyPeriod.MonthShortName("de-DE"))
+            Next
+            System.Console.WriteLine()
+
+            System.Console.WriteLine("## Month names - de-DE")
+            For MyCounter As Integer = 0 To 12
+                Dim MyPeriod As New CompuMaster.Calendar.ZeroableMonth(2000, MyCounter)
+                System.Console.WriteLine("Period " & MyPeriod.ToString("00") & "=" & MyPeriod.MonthName("de-DE"))
+            Next
+            System.Console.WriteLine()
+
+
+
+
+            'Run tests
             Dim value1 As New CompuMaster.Calendar.ZeroableMonth(2010, 1)
             Dim value2 As New CompuMaster.Calendar.ZeroableMonth(2009, 12)
             Dim value3 As New CompuMaster.Calendar.ZeroableMonth(2009, 0)
