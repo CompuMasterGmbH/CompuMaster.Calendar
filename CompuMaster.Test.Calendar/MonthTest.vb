@@ -37,6 +37,8 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Dec/9999", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"), Buffer), "#012")
             Assert.AreEqual("9999-12", Buffer.ToString, "#022")
             Dim ExpectedMarchShortNameOnCurrentPlatform As String = New DateTime(2010, 3, 1).ToString("MMM""/""yyyy") 'Linux systems/Mono: "Mär", Windows systems: "Mrz"
+            System.Console.WriteLine("SPECIAL CASE HANDLING: month March in German culture appears differently between windows and linux/mono systems")
+            System.Console.WriteLine("SPECIAL CASE HANDLING: month March in German culture expected as """ & ExpectedMarchShortNameOnCurrentPlatform & """")
             Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse(ExpectedMarchShortNameOnCurrentPlatform, "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer), "#013")
             Assert.AreEqual("2010-03", Buffer.ToString, "#023")
             Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Okt/2010", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer), "#014")
