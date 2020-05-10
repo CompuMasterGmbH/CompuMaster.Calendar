@@ -36,7 +36,8 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("1900-01", Buffer.ToString, "#021")
             Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Dec/9999", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"), Buffer), "#012")
             Assert.AreEqual("9999-12", Buffer.ToString, "#022")
-            Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Mrz/2010", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer), "#013")
+            Dim ExpectedMarchShortNameOnCurrentPlatform As String = New DateTime(2010, 3, 1).ToString("MMM""/""yyyy") 'Linux systems/Mono: "Mär", Windows systems: "Mrz"
+            Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse(ExpectedMarchShortNameOnCurrentPlatform, "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer), "#013")
             Assert.AreEqual("2010-03", Buffer.ToString, "#023")
             Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Okt/2010", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer), "#014")
             Assert.AreEqual("2010-10", Buffer.ToString, "#024")
