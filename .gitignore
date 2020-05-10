@@ -7,3 +7,5 @@
 /.vs
 /packages
 /CompuMaster.Calendar/New-NuGetPackages
+/NUnit.ConsoleRunner.3.11.1
+TestResult.xml
