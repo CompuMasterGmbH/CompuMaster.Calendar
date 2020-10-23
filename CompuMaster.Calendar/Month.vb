@@ -30,6 +30,9 @@ Namespace CompuMaster.Calendar
             Me.Month = Integer.Parse(value.Substring(5, 2))
         End Sub
 
+        Public Shared ReadOnly MinValue As Month = New Month(1, 1)
+        Public Shared ReadOnly MaxValue As Month = New Month(9999, 12)
+
         Public Shared Function Parse(value As String) As Month
             If value = Nothing Then
                 Return Nothing

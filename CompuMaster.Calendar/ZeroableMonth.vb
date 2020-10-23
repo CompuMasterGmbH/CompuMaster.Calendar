@@ -30,6 +30,9 @@ Namespace CompuMaster.Calendar
             Me.Month = Integer.Parse(value.Substring(5, 2))
         End Sub
 
+        Public Shared ReadOnly MinValue As ZeroableMonth = New ZeroableMonth(0, 0)
+        Public Shared ReadOnly MaxValue As ZeroableMonth = New ZeroableMonth(9999, 12)
+
         Public Shared Function Parse(value As String) As ZeroableMonth
             If value = Nothing Then
                 Return Nothing
