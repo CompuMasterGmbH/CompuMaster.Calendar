@@ -490,6 +490,24 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
+        ''' The begin of the year
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function BeginOfYear() As CompuMaster.Calendar.Month
+            Return New CompuMaster.Calendar.Month(Year, 1)
+        End Function
+
+        ''' <summary>
+        ''' The end of the year
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function EndOfYear() As CompuMaster.Calendar.Month
+            Return New CompuMaster.Calendar.Month(Year, 1)
+        End Function
+
+        ''' <summary>
         ''' Compares a value to the current instance value
         ''' </summary>
         ''' <param name="obj"></param>

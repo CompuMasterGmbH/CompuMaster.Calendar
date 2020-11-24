@@ -578,6 +578,33 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
+        ''' The begin of the year
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function BeginOfYear() As CompuMaster.Calendar.ZeroableMonth
+            Return New CompuMaster.Calendar.Month(Year, 1)
+        End Function
+
+        ''' <summary>
+        ''' The end of the year
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function EndOfYear() As CompuMaster.Calendar.ZeroableMonth
+            Return New CompuMaster.Calendar.Month(Year, 1)
+        End Function
+
+        ''' <summary>
+        ''' The zero (=undefined) month of the year
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function ZeroMonthOfYear() As CompuMaster.Calendar.ZeroableMonth
+            Return New CompuMaster.Calendar.ZeroableMonth(Year, 0)
+        End Function
+
+        ''' <summary>
         ''' Compares a value to the current instance value
         ''' </summary>
         ''' <param name="obj"></param>
