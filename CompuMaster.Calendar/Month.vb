@@ -504,7 +504,7 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function EndOfYear() As CompuMaster.Calendar.Month
-            Return New CompuMaster.Calendar.Month(Year, 1)
+            Return New CompuMaster.Calendar.Month(Year, 12)
         End Function
 
         ''' <summary>
