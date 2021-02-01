@@ -213,7 +213,7 @@ Namespace CompuMaster.Calendar
             For MyCounter As Integer = 1 To 12
                 MonthNames.Add(UniqueMonthShortName(MyCounter))
             Next
-            Dim Pattern As String = "(?<m>" & Strings.Join(MonthNames.ToArray, "|") & ")\/(?<y>\d\d\d\d)"
+            Dim Pattern As String = "^(?<m>" & Strings.Join(MonthNames.ToArray, "|") & ")\/(?<y>\d\d\d\d)$"
             Dim RegEx As New System.Text.RegularExpressions.Regex(Pattern, Text.RegularExpressions.RegexOptions.Compiled Or Text.RegularExpressions.RegexOptions.Singleline Or Text.RegularExpressions.RegexOptions.Multiline)
             If RegEx.IsMatch(value) = False Then
                 Throw New ArgumentException("Invalid value", NameOf(value))
@@ -305,7 +305,7 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overloads Function Equals(ByVal value As Month) As Boolean
-            If Not value Is Nothing Then
+            If value IsNot Nothing Then
                 If Me.Year = value.Year AndAlso Me.Month = value.Month Then
                     Return True
                 Else

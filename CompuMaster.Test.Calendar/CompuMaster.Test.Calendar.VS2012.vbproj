@@ -121,6 +121,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GlobalSuppressions.vb" />
+    <Compile Include="MonthNumberTest.vb" />
     <Compile Include="WeekNumberTest.vb" />
     <Compile Include="ZeroableMonthTest.vb" />
     <Compile Include="MonthTest.vb" />

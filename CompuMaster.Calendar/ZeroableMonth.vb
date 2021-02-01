@@ -353,7 +353,7 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overloads Function Equals(ByVal value As ZeroableMonth) As Boolean
-            If Not value Is Nothing Then
+            If value IsNot Nothing Then
                 If Me.Year = value.Year AndAlso Me.Month = value.Month Then
                     Return True
                 Else
