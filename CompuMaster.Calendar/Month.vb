@@ -33,6 +33,14 @@ Namespace CompuMaster.Calendar
         Public Shared ReadOnly MinValue As Month = New Month(1, 1)
         Public Shared ReadOnly MaxValue As Month = New Month(9999, 12)
 
+        ''' <summary>
+        ''' The current month
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared Function Now() As Month
+            Return New Month(DateTime.Now)
+        End Function
+
         Public Shared Function Parse(value As String) As Month
             If value = Nothing Then
                 Return Nothing

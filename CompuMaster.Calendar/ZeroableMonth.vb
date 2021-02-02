@@ -33,6 +33,14 @@ Namespace CompuMaster.Calendar
         Public Shared ReadOnly MinValue As ZeroableMonth = New ZeroableMonth(0, 0)
         Public Shared ReadOnly MaxValue As ZeroableMonth = New ZeroableMonth(9999, 12)
 
+        ''' <summary>
+        ''' The current month
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared Function Now() As ZeroableMonth
+            Return New ZeroableMonth(DateTime.Now)
+        End Function
+
         Public Shared Function Parse(value As String) As ZeroableMonth
             If value = Nothing Then
                 Return Nothing
