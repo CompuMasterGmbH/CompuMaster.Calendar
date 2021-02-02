@@ -205,6 +205,17 @@ Namespace CompuMaster.Calendar
             Throw New NotImplementedException
         End Function
 
+        Public Shared Function TryParse(value As String, ByRef result As Month) As Boolean
+            Try
+                result = Parse(value)
+                Return True
+#Disable Warning CA1031 ' Do not catch general exception types
+            Catch
+                Return False
+#Enable Warning CA1031 ' Do not catch general exception types
+            End Try
+        End Function
+
         Public Shared Function TryParse(value As String, format As String, culture As System.Globalization.CultureInfo, ByRef result As Month) As Boolean
             Try
                 result = Parse(value, format, culture)
