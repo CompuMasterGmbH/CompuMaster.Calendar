@@ -41,6 +41,27 @@ Namespace CompuMaster.Calendar
             Return New ZeroableMonth(DateTime.Now)
         End Function
 
+        Public Shared Function Parse(value As Integer) As ZeroableMonth
+            If value < 0 Then Throw New InvalidCastException("Value must be a positive number")
+            Dim Year As Integer = CType(value / 100, Integer)
+            If Year > 9999 Then Throw New InvalidCastException("Year must be <= 9999")
+            Dim Month As Integer = value - Year * 100
+            If Month > 12 Then Throw New InvalidCastException("Month must be <= 12")
+            Return New ZeroableMonth(Year, Month)
+        End Function
+
+        Public Shared Function Parse(value As Long) As ZeroableMonth
+            Return Parse(CType(value, Integer))
+        End Function
+
+        'Public Shared Function Parse(value As UInteger) As ZeroableMonth
+        '    Return Parse(CType(value, Integer))
+        'End Function
+        '
+        'Public Shared Function Parse(value As ULong) As ZeroableMonth
+        '    Return Parse(CType(value, Integer))
+        'End Function
+
         Public Shared Function Parse(value As String) As ZeroableMonth
             If value = Nothing Then
                 Return Nothing
@@ -724,6 +745,29 @@ Namespace CompuMaster.Calendar
                 Return value.ToString
             End If
         End Operator
+
+        Public Shared Narrowing Operator CType(value As Int64) As ZeroableMonth
+            Return Parse(CType(value, Integer))
+        End Operator
+
+        'Public Shared Narrowing Operator CType(value As UInt64) As Month
+        '    Return Parse(CType(value, Integer))
+        'End Operator
+        Public Shared Widening Operator CType(value As CompuMaster.Calendar.ZeroableMonth) As Integer
+            If value Is Nothing Then
+                Return Nothing
+            Else
+                Return value.Year * 100 + value.Month
+            End If
+        End Operator
+
+        'Public Shared Widening Operator CType(value As CompuMaster.Calendar.ZeroableMonth) As UInteger
+        '    If value Is Nothing Then
+        '        Return Nothing
+        '    Else
+        '        Return CType(value.Year * 100 + value.Month, UInteger)
+        '    End If
+        'End Operator
 
     End Class
 
