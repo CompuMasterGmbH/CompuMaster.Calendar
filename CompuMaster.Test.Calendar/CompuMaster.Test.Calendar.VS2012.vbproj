@@ -87,6 +87,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\CompuMaster.Calendar\CompuMaster.Calendar.VS2012.vbproj">
       <Name>CompuMaster.Calendar.VS2012</Name>

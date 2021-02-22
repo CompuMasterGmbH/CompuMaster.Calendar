@@ -142,7 +142,7 @@ Namespace CompuMaster.Calendar
         ''' <summary>
         ''' Format the month with a typical datetime format string using the begin date of the period
         ''' </summary>
-        ''' <param name="format"></param>
+        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
         ''' <returns></returns>
         ''' <remarks>
         ''' </remarks>
@@ -159,19 +159,110 @@ Namespace CompuMaster.Calendar
         Public Overloads Function ToString(ByVal provider As System.IFormatProvider) As String
             Return Me.BeginOfPeriod.ToString(provider)
         End Function
+
         ''' <summary>
         ''' Format the month with a typical datetime format string and the given format provider using the begin date of the period
         ''' </summary>
-        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits</param>
+        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
         ''' <param name="provider"></param>
         ''' <returns></returns>
         ''' <remarks>
         ''' </remarks>
         Public Overloads Function ToString(ByVal format As String, ByVal provider As System.IFormatProvider) As String
-            Return Me.BeginOfPeriod.ToString(format, provider)
+            Return Me.ToString(format, provider, CType(Nothing, String()))
         End Function
 
+        ''' <summary>
+        ''' Format the month with a typical datetime format string and the given format provider using the begin date of the period
+        ''' </summary>
+        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
+        ''' <param name="provider"></param>
+        ''' <param name="customMonths">An array of 12 strings reprensenting the expected month names, starting with January up to December</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' </remarks>
+        Public Overloads Function ToString(ByVal format As String, ByVal provider As System.IFormatProvider, customMonths As String()) As String
+            If format.Contains("CCC") Then
+                If customMonths Is Nothing Then Throw New ArgumentNullException(NameOf(customMonths))
+                If customMonths.Length <> 12 Then Throw New ArgumentException("Array with 12 elements required", NameOf(customMonths))
+            End If
+            If format.Contains("CCC") OrElse format.Contains("UUU") Then
+                Dim FormatSplitted As String() = PreservingStringSplit(format, New String() {"CCC", "UUU"})
+                For MyCounter As Integer = 0 To FormatSplitted.Length - 1
+                    If FormatSplitted(MyCounter) = "CCC" Then
+                        FormatSplitted(MyCounter) = customMonths(Me.Month - 1)
+                    ElseIf FormatSplitted(MyCounter) = "UUU" Then
+                        FormatSplitted(MyCounter) = UniqueMonthShortName(Me.Month)
+                    Else
+                        FormatSplitted(MyCounter) = Me.BeginOfPeriod.ToString(FormatSplitted(MyCounter), provider)
+                    End If
+                Next
+                Return String.Join("", FormatSplitted)
+            Else
+                Return Me.BeginOfPeriod.ToString(format, provider)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' Split a string but keep the separators as items
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <param name="separators"></param>
+        ''' <returns></returns>
+        Friend Shared Function PreservingStringSplit(value As String, separators As String()) As String()
+            If value Is Nothing OrElse separators Is Nothing OrElse separators.Length = 0 Then Return New String() {}
+            Dim ValueToProcess As String = value
+            Dim Result As New System.Collections.Generic.List(Of String)
+            Do
+                'Check for a separator at first position
+                Dim SeparatorAlreadyFound As Boolean = False
+                For SeparatorCounter As Integer = 0 To separators.Length - 1
+                    If ValueToProcess.StartsWith(separators(SeparatorCounter)) Then
+                        Result.Add(separators(SeparatorCounter))
+                        ValueToProcess = ValueToProcess.Substring(separators(SeparatorCounter).Length)
+                        SeparatorAlreadyFound = True
+                    End If
+                Next
+                'Check for next separator occurance if all separators at index 0 have been cut repetitive
+                If SeparatorAlreadyFound = False Then
+                    Dim NextSeparator As Integer = ValueToProcess.Length
+                    For SeparatorCounter As Integer = 0 To separators.Length - 1
+                        Dim ValidNextSeparator As Integer = ValueToProcess.IndexOf(separators(SeparatorCounter))
+                        If ValidNextSeparator <> -1 Then NextSeparator = System.Math.Min(NextSeparator, ValidNextSeparator)
+                    Next
+                    If NextSeparator <= 0 Then
+                        Exit Do
+                    Else
+                        Result.Add(ValueToProcess.Substring(0, NextSeparator))
+                        ValueToProcess = ValueToProcess.Substring(NextSeparator)
+                    End If
+                End If
+            Loop
+            Return Result.ToArray
+        End Function
+
+        ''' <summary>
+        ''' Parse the month from a defined datetime format string and the given culture
+        ''' </summary>
+        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
+        ''' <param name="culture"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' </remarks>
         Public Shared Function Parse(value As String, format As String, culture As System.Globalization.CultureInfo) As Month
+            Return Parse(value, format, culture, CType(Nothing, String()))
+        End Function
+
+        ''' <summary>
+        ''' Parse the month from a defined datetime format string and the given culture
+        ''' </summary>
+        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
+        ''' <param name="culture"></param>
+        ''' <param name="customMonths">An array of 12 strings reprensenting the expected month names, starting with January up to December</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' </remarks>
+        Public Shared Function Parse(value As String, format As String, culture As System.Globalization.CultureInfo, customMonths As String()) As Month
             If value = Nothing Then
                 Throw New ArgumentNullException(NameOf(value))
             End If
@@ -182,16 +273,58 @@ Namespace CompuMaster.Calendar
                 MonthLongNames.Add(New Month(2000, MyCounter).MonthName(culture))
             Next
             Dim Pattern As String = System.Text.RegularExpressions.Regex.Escape(format)
-            If Pattern.Contains("MMMM") Then
-                Pattern = Pattern.Replace("MMMM", "(?<m>" & Strings.Join(MonthLongNames.ToArray, "|") & ")")
+            If Pattern.Contains("dd") Then 'won't be used, but must be present to allow parsing of date strings with day information
+                Pattern = Pattern.Replace("dd", "(?<d>\d\d)")
+            ElseIf Pattern.Contains("d") Then
+                Pattern = Pattern.Replace("d", "(?<d>\d?\d)")
+            End If
+            If Pattern.Contains("HH") Then 'won't be used, but must be present to allow parsing of date strings with day information
+                Pattern = Pattern.Replace("HH", "(?<d>\d\d)")
+            ElseIf Pattern.Contains("H") Then
+                Pattern = Pattern.Replace("H", "(?<d>\d?\d)")
+            End If
+            If Pattern.Contains("mm") Then 'won't be used, but must be present to allow parsing of date strings with day information
+                Pattern = Pattern.Replace("mm", "(?<d>\d\d)")
+            ElseIf Pattern.Contains("m") Then
+                Pattern = Pattern.Replace("m", "(?<d>\d?\d)")
+            End If
+            If Pattern.Contains("ss") Then 'won't be used, but must be present to allow parsing of date strings with day information
+                Pattern = Pattern.Replace("ss", "(?<d>\d\d)")
+            ElseIf Pattern.Contains("s") Then
+                Pattern = Pattern.Replace("s", "(?<d>\d?\d)")
+            End If
+            If Pattern.Contains("ffff") Then 'won't be used, but must be present to allow parsing of date strings with day information
+                Pattern = Pattern.Replace("ffff", "(?<d>\d\d\d\d)")
+            ElseIf Pattern.Contains("fff") Then 'won't be used, but must be present to allow parsing of date strings with day information
+                Pattern = Pattern.Replace("fff", "(?<d>\d\d\d)")
+            ElseIf Pattern.Contains("ff") Then 'won't be used, but must be present to allow parsing of date strings with day information
+                Pattern = Pattern.Replace("ff", "(?<d>\d\d)")
+            ElseIf Pattern.Contains("f") Then
+                Pattern = Pattern.Replace("f", "(?<d>\d?\d)")
+            End If
+            If Pattern.Contains("zzz") Then 'won't be used, but must be present to allow parsing of date strings with day information
+                Pattern = Pattern.Replace("zzz", "(?<d>[\-|\+|\ ]\d\d\:\d\d)")
+            End If
+            Pattern = Pattern.Replace("yyyy", "(?<year4>\d\d\d\d)").Replace("yy", "(?<year2>\d\d)")
+            If Pattern.Contains("CCC") Then
+                If customMonths Is Nothing Then Throw New ArgumentNullException(NameOf(customMonths))
+                If customMonths.Length <> 12 Then Throw New ArgumentException("Array with 12 elements required", NameOf(customMonths))
+                MonthShortNames = New Generic.List(Of String)(customMonths)
+                MonthLongNames = New Generic.List(Of String)(customMonths)
+                Pattern = Pattern.Replace("CCC", "(?<m>" & Strings.Join(EncodeForRegEx(customMonths), "|") & ")")
+            ElseIf Pattern.Contains("UUU") Then
+                MonthShortNames = New Generic.List(Of String)(UniqueMonthShortNames)
+                MonthLongNames = New Generic.List(Of String)(UniqueMonthShortNames)
+                Pattern = Pattern.Replace("UUU", "(?<m>" & Strings.Join(EncodeForRegEx(UniqueMonthShortNames), "|") & ")")
+            ElseIf Pattern.Contains("MMMM") Then
+                Pattern = Pattern.Replace("MMMM", "(?<m>" & Strings.Join(EncodeForRegEx(MonthLongNames.ToArray), "|") & ")")
             ElseIf Pattern.Contains("MMM") Then
-                Pattern = Pattern.Replace("MMM", "(?<m>" & Strings.Join(MonthShortNames.ToArray, "|") & ")")
+                Pattern = Pattern.Replace("MMM", "(?<m>" & Strings.Join(EncodeForRegEx(MonthShortNames.ToArray), "|") & ")")
             ElseIf Pattern.Contains("MM") Then
                 Pattern = Pattern.Replace("MM", "(?<m>\d\d)")
             ElseIf Pattern.Contains("M") Then
                 Pattern = Pattern.Replace("M", "(?<m>\d?\d)")
             End If
-            Pattern = Pattern.Replace("yyyy", "(?<year4>\d\d\d\d)").Replace("yy", "(?<year2>\d\d)")
             Dim RegEx As New System.Text.RegularExpressions.Regex(Pattern, Text.RegularExpressions.RegexOptions.Compiled Or Text.RegularExpressions.RegexOptions.Singleline Or Text.RegularExpressions.RegexOptions.Multiline)
             If RegEx.IsMatch(value) = False Then
                 Throw New ArgumentException("Invalid value", NameOf(value))
@@ -226,6 +359,12 @@ Namespace CompuMaster.Calendar
             Throw New NotImplementedException
         End Function
 
+        ''' <summary>
+        ''' Try to parse the month from datetime format YYYY-MM
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' </remarks>
         Public Shared Function TryParse(value As String, ByRef result As Month) As Boolean
             Try
                 result = Parse(value)
@@ -237,6 +376,14 @@ Namespace CompuMaster.Calendar
             End Try
         End Function
 
+        ''' <summary>
+        ''' Try to parse the month from a defined datetime format string and the given culture
+        ''' </summary>
+        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
+        ''' <param name="culture"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' </remarks>
         Public Shared Function TryParse(value As String, format As String, culture As System.Globalization.CultureInfo, ByRef result As Month) As Boolean
             Try
                 result = Parse(value, format, culture)
@@ -248,12 +395,34 @@ Namespace CompuMaster.Calendar
             End Try
         End Function
 
+        ''' <summary>
+        ''' Try to parse the month from a defined datetime format string and the given culture
+        ''' </summary>
+        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
+        ''' <param name="culture"></param>
+        ''' <param name="customMonths">An array of 12 strings reprensenting the expected month names, starting with January up to December</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' </remarks>
+        Public Shared Function TryParse(value As String, format As String, culture As System.Globalization.CultureInfo, customMonths As String(), ByRef result As Month) As Boolean
+            Try
+                result = Parse(value, format, culture, customMonths)
+                Return True
+#Disable Warning CA1031 ' Do not catch general exception types
+            Catch
+                Return False
+#Enable Warning CA1031 ' Do not catch general exception types
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Parse the month from a format string UUU/YYYY
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' </remarks>
         Public Shared Function ParseFromUniqueShortName(value As String) As Month
-            Dim MonthNames As New System.Collections.Generic.List(Of String)
-            For MyCounter As Integer = 1 To 12
-                MonthNames.Add(UniqueMonthShortName(MyCounter))
-            Next
-            Dim Pattern As String = "^(?<m>" & Strings.Join(MonthNames.ToArray, "|") & ")\/(?<y>\d\d\d\d)$"
+            Dim Pattern As String = "^(?<m>" & Strings.Join(EncodeForRegEx(UniqueMonthShortNames), "|") & ")\/(?<y>\d\d\d\d)$"
             Dim RegEx As New System.Text.RegularExpressions.Regex(Pattern, Text.RegularExpressions.RegexOptions.Compiled Or Text.RegularExpressions.RegexOptions.Singleline Or Text.RegularExpressions.RegexOptions.Multiline)
             If RegEx.IsMatch(value) = False Then
                 Throw New ArgumentException("Invalid value", NameOf(value))
@@ -265,7 +434,7 @@ Namespace CompuMaster.Calendar
                 Dim FoundMonthName As String = RegMatch.Groups("m").Value
                 Dim FoundMonth As Integer = 0
                 For MyCounter As Integer = 1 To 12
-                    If MonthNames(MyCounter - 1) = FoundMonthName Then
+                    If UniqueMonthShortNames(MyCounter - 1) = FoundMonthName Then
                         FoundMonth = MyCounter
                         Exit For
                     End If
@@ -280,6 +449,37 @@ Namespace CompuMaster.Calendar
             End If
         End Function
 
+        ''' <summary>
+        ''' Encode all array elements for RegEx
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Friend Shared Function EncodeForRegEx(items As String()) As String()
+            Dim Result As New System.Collections.Generic.List(Of String)
+            For MyCounter As Integer = 0 To items.Length - 1
+                Result.Add(System.Text.RegularExpressions.Regex.Escape(items(MyCounter)))
+            Next
+            Return Result.ToArray
+        End Function
+
+        ''' <summary>
+        ''' All short names in format UUU where UUU equals MMM (English names)
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Private Shared Function UniqueMonthShortNames() As String()
+            Dim MonthNames As New System.Collections.Generic.List(Of String)
+            For MyCounter As Integer = 1 To 12
+                MonthNames.Add(UniqueMonthShortName(MyCounter))
+            Next
+            Return MonthNames.ToArray
+        End Function
+
+        ''' <summary>
+        ''' A short name in format UUU where UUU equals MMM (English names)
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
         Private Shared Function UniqueMonthShortName(monthNo As Integer) As String
             Dim Result As String
             Select Case monthNo
@@ -314,7 +514,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
-        ''' A short name in format MMM/yyyy (English names)
+        ''' A short name in format UUU/YYYY where UUU equals MMM (English names)
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
@@ -322,18 +522,38 @@ Namespace CompuMaster.Calendar
             Return UniqueMonthShortName(Me.Month) & "/" & Me.Year.ToString("0000")
         End Function
 
+        ''' <summary>
+        ''' A short name in format MMM/YYYY of specified culture
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
         Public Function MonthShortName(cultureName As String) As String
             Return Me.MonthShortName(System.Globalization.CultureInfo.GetCultureInfo(cultureName))
         End Function
 
+        ''' <summary>
+        ''' A short name in format MMM/YYYY of specified culture
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
         Public Function MonthShortName(culture As System.Globalization.CultureInfo) As String
             Return Me.BeginOfPeriod.ToString("MMM", culture.DateTimeFormat)
         End Function
 
+        ''' <summary>
+        ''' A full month name in format MMMM/YYYY of specified culture
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
         Public Function MonthName(cultureName As String) As String
             Return Me.MonthName(System.Globalization.CultureInfo.GetCultureInfo(cultureName))
         End Function
 
+        ''' <summary>
+        ''' A full month name in format MMMM/YYYY of specified culture
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
         Public Function MonthName(culture As System.Globalization.CultureInfo) As String
             Return Me.BeginOfPeriod.ToString("MMMM", culture.DateTimeFormat)
         End Function

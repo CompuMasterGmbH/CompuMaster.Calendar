@@ -79,6 +79,88 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("2010-00", Buffer.ToString, "#061")
         End Sub
 
+        ''' <summary>
+        ''' March in German is formatted differently with MMM between windows and linux platforms (Mrz vs. Mär)
+        ''' </summary>
+        <Test> Public Sub MarchInGermanToStringAndReParse()
+            Dim Buffer As CompuMaster.Calendar.ZeroableMonth = Nothing
+            Dim TestNumber As Double
+
+            TestNumber = 100
+            Dim ExpectedMarchShortNameOnCurrentPlatform As String = New DateTime(2010, 3, 1).ToString("MMM""/""yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")) 'Linux systems/Mono: "Mär", Windows systems: "Mrz"
+            System.Console.WriteLine("SPECIAL CASE HANDLING: month March in German culture appears differently between windows and linux/mono systems")
+            System.Console.WriteLine("SPECIAL CASE HANDLING: month March in German culture expected as """ & ExpectedMarchShortNameOnCurrentPlatform & """")
+            Assert.AreEqual(True, CompuMaster.Calendar.ZeroableMonth.TryParse(ExpectedMarchShortNameOnCurrentPlatform, "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer), "#" & (TestNumber + 0.2).ToString)
+            Assert.AreEqual("2010-03", Buffer.ToString, "#" & (TestNumber + 0.3).ToString)
+
+            TestNumber = 200
+            Assert.AreEqual(True, CompuMaster.Calendar.ZeroableMonth.TryParse("Mar/2010", "UUU/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer), "#" & (TestNumber + 0.2).ToString)
+            Assert.AreEqual("2010-03", Buffer.ToString, "#" & (TestNumber + 0.3).ToString)
+            Assert.AreEqual("Mar.2010", Buffer.ToString("UUU/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")), "#" & (TestNumber + 0.4).ToString)
+            Assert.AreEqual("Mar/2010", Buffer.ToString("UUU\/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")), "#" & (TestNumber + 0.4).ToString)
+            Assert.AreEqual("Mar/2010", Buffer.ToString("UUU/yyyy", System.Globalization.CultureInfo.InvariantCulture), "#" & (TestNumber + 0.4).ToString)
+
+            TestNumber = 205
+            CompuMaster.Calendar.ZeroableMonth.Parse("???/2010", "UUU/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"))
+            Assert.AreEqual(True, CompuMaster.Calendar.ZeroableMonth.TryParse("???/2010", "UUU/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer), "#" & (TestNumber + 0.2).ToString)
+            Assert.AreEqual("2010-00", Buffer.ToString, "#" & (TestNumber + 0.3).ToString)
+            Assert.AreEqual("???.2010", Buffer.ToString("UUU/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")), "#" & (TestNumber + 0.4).ToString)
+            Assert.AreEqual("???/2010", Buffer.ToString("UUU\/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")), "#" & (TestNumber + 0.4).ToString)
+            Assert.AreEqual("???/2010", Buffer.ToString("UUU/yyyy", System.Globalization.CultureInfo.InvariantCulture), "#" & (TestNumber + 0.4).ToString)
+
+            TestNumber = 210
+            Select Case System.Environment.OSVersion.Platform
+                Case PlatformID.Unix, PlatformID.MacOSX
+                    TestNumber = 211
+                    Assert.AreEqual(True, CompuMaster.Calendar.ZeroableMonth.TryParse("Mär/2010", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer), "#" & (TestNumber + 0.2).ToString)
+                    Assert.AreEqual("2010-03", Buffer.ToString, "#" & (TestNumber + 0.3).ToString)
+                    Assert.AreEqual("Mär.2010", Buffer.ToString("MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")), "#" & (TestNumber + 0.4).ToString)
+                    Assert.AreEqual("Mär/2010", Buffer.ToString("MMM\/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")), "#" & (TestNumber + 0.4).ToString)
+                    Assert.AreEqual("Mar/2010", Buffer.ToString("UUU/yyyy", System.Globalization.CultureInfo.InvariantCulture), "#" & (TestNumber + 0.4).ToString)
+                Case Else
+                    TestNumber = 212
+                    Assert.AreEqual(True, CompuMaster.Calendar.ZeroableMonth.TryParse("Mrz/2010", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer), "#" & (TestNumber + 0.2).ToString)
+                    Assert.AreEqual("2010-03", Buffer.ToString, "#" & (TestNumber + 0.3).ToString)
+                    Assert.AreEqual("Mrz.2010", Buffer.ToString("MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")), "#" & (TestNumber + 0.4).ToString)
+                    Assert.AreEqual("Mrz/2010", Buffer.ToString("MMM\/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")), "#" & (TestNumber + 0.4).ToString)
+                    Assert.AreEqual("Mar/2010", Buffer.ToString("UUU/yyyy", System.Globalization.CultureInfo.InvariantCulture), "#" & (TestNumber + 0.4).ToString)
+            End Select
+
+            TestNumber = 220
+            Assert.Catch(Of ArgumentNullException)(Sub()
+                                                       CompuMaster.Calendar.ZeroableMonth.Parse("Custom.März/2010",
+                                                                                           "CCC/yyyy",
+                                                                                           System.Globalization.CultureInfo.GetCultureInfo("de-DE"))
+                                                   End Sub, "#" & (TestNumber + 0.1).ToString)
+            Assert.Catch(Of ArgumentException)(Sub()
+                                                   CompuMaster.Calendar.ZeroableMonth.Parse("Custom.März/2010",
+                                                                                       "CCC/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"),
+                                                                                       New String() {"Custom.Jan", "Custom.Feb"})
+                                               End Sub, "#" & (TestNumber + 0.2).ToString)
+
+            TestNumber = 221
+            Dim CustomMonths As String() = New String() {"???", "Custom.Jan", "Custom.Feb", "Custom.März", "Custom.Apr", "Custom.Mai", "Custom.Jun", "Custom.Jul", "Custom.Aug", "Custom.Sept", "Custom.Oct", "Custom.Nov", "Custom.Dez"}
+            Assert.AreEqual(True, CompuMaster.Calendar.ZeroableMonth.TryParse("Custom.März/2010", "CCC/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths, Buffer), "#" & (TestNumber + 0.2).ToString)
+            Assert.AreEqual("2010-03", Buffer.ToString, "#" & (TestNumber + 0.3).ToString)
+            Assert.AreEqual("Custom.März/2010", Buffer.ToString("CCC\/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths), "#" & (TestNumber + 0.4).ToString)
+            Assert.AreEqual("Custom.März.2010", Buffer.ToString("CCC/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths), "#" & (TestNumber + 0.4).ToString)
+            TestNumber = 222
+            Assert.AreEqual(True, CompuMaster.Calendar.ZeroableMonth.TryParse("13. Custom.März 2010 14:42:12", "dd. CCC yyyy HH:mm:ss", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths, Buffer), "#" & (TestNumber + 0.2).ToString)
+            Assert.AreEqual("2010-03", Buffer.ToString, "#" & (TestNumber + 0.3).ToString)
+            Assert.AreEqual("01. Custom.März 2010 00:00:00", Buffer.ToString("dd. CCC yyyy HH:mm:ss", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths), "#" & (TestNumber + 0.4).ToString)
+
+            TestNumber = 225
+            Assert.AreEqual(True, CompuMaster.Calendar.ZeroableMonth.TryParse("???/2010", "CCC/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths, Buffer), "#" & (TestNumber + 0.2).ToString)
+            Assert.AreEqual("2010-00", Buffer.ToString, "#" & (TestNumber + 0.3).ToString)
+            Assert.AreEqual("???/2010", Buffer.ToString("CCC\/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths), "#" & (TestNumber + 0.4).ToString)
+            Assert.AreEqual("???.2010", Buffer.ToString("CCC/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths), "#" & (TestNumber + 0.4).ToString)
+            TestNumber = 226
+            Assert.AreEqual(True, CompuMaster.Calendar.ZeroableMonth.TryParse("13. ??? 2010 14:42:12", "dd. CCC yyyy HH:mm:ss", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths, Buffer), "#" & (TestNumber + 0.2).ToString)
+            Assert.AreEqual("2010-00", Buffer.ToString, "#" & (TestNumber + 0.3).ToString)
+            Assert.AreEqual("01. ??? 2010 00:00:00", Buffer.ToString("dd. CCC yyyy HH:mm:ss", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths), "#" & (TestNumber + 0.4).ToString)
+
+        End Sub
+
         <Test> Public Sub ParseFromUniqueShortName()
             Assert.AreEqual("2010-10", CompuMaster.Calendar.ZeroableMonth.ParseFromUniqueShortName("Oct/2010").ToString)
             Assert.AreEqual("1900-01", CompuMaster.Calendar.ZeroableMonth.ParseFromUniqueShortName("Jan/1900").ToString)

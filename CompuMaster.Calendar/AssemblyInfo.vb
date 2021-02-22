@@ -13,6 +13,7 @@ Imports System.Runtime.InteropServices
 <Assembly: System.Security.AllowPartiallyTrustedCallers()> 
 
 <Assembly: Guid("5F847B21-B1CA-4D9E-81CB-8BDE9D59978C")>
+<Assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CompuMaster.Test.Calendar")>
 
-<Assembly: AssemblyVersion("2021.02.02.103")>
+<Assembly: AssemblyVersion("2021.02.22.100")>
 <Assembly: AssemblyDelaySign(False)>
