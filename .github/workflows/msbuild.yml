@@ -55,7 +55,7 @@ jobs:
         run: curl https://raw.githubusercontent.com/jochenwezel/nunit-transforms-to-junit-gitlab-compatible/master/nunit3-junit/nunit3-junit.xslt > nunit3-junit.xslt
 
       - name: Run Unit Tests
-        run: './NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe ./CompuMaster.Test.Calendar/bin/CompuMaster.Test.Calendar.dll --result=TestResult.xml "--result=TestResult.JUnit.xml\;transform=nunit3-junit.xslt"' 
+        run: ./NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe ./CompuMaster.Test.Calendar/bin/CompuMaster.Test.Calendar.dll --result=TestResult.xml "--result=TestResult.JUnit.xml\;transform=nunit3-junit.xslt"
  
       - name: Publish Unit Test Results
         uses: actions/upload-artifact@v2
