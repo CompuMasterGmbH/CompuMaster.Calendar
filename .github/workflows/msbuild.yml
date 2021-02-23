@@ -17,15 +17,7 @@ env:
 
 jobs:
   build:
-    runs-on: ${{ matrix.config.os }} # we run many different builds
-
-    strategy:
-      # just an example matrix
-      matrix:
-        config:
-          - os: ubuntu-latest
-          - os: macos-latest
-          - os: windows-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
