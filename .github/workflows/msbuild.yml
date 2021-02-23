@@ -36,6 +36,7 @@ jobs:
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} /p:OutputPath="artifacts"
 
     - name: Publish Artifacts
+      uses: actions/upload-artifact@v2
       with:
         path: artifacts/
 
@@ -57,6 +58,7 @@ jobs:
         run: ./NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe ./CompuMaster.Test.Calendar/bin/CompuMaster.Test.Calendar.dll --result=TestResult.xml --result=TestResult.JUnit.xml\;transform=nunit3-junit.xslt 
  
       - name: Publish Unit Test Results
+        uses: actions/upload-artifact@v2
         if: always()
         with:
           name: NUnit Test Results
