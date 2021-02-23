@@ -16,8 +16,16 @@ env:
   BUILD_CONFIGURATION: Debug
 
 jobs:
+  strategy:
+    # just an example matrix
+    matrix:
+      config:
+        - os: ubuntu-latest
+        - os: macos-latest
+        - os: windows-latest
+
   build:
-    runs-on: [ windows-latest, ubuntu-latest ]
+    runs-on: ${{ matrix.config.os }} # we run many different builds
 
     steps:
     - uses: actions/checkout@v2
