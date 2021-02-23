@@ -46,14 +46,18 @@ jobs:
       - name: Install NUnit.ConsoleRunner
         run: nuget install NUnit.ConsoleRunner -Version 3.12.0
 
-      - name: Run tests
-        run: ./NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe ./CompuMaster.Test.Calendar/bin/CompuMaster.Test.Calendar.dll --result=TestResult.xml
+      - name: Download JUnit Xslt
+        run: curl https://raw.githubusercontent.com/jochenwezel/nunit-transforms-to-junit-gitlab-compatible/master/nunit3-junit/nunit3-junit.xslt > nunit3-junit.xslt
 
-      - name: Publish Unit Test Results
-#        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: always()
+      - name: Run Unit Tests
+        run: ./NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe ./CompuMaster.Test.Calendar/bin/CompuMaster.Test.Calendar.dll --result=TestResult.xml --result=TestResult.JUnit.xml\;transform=nunit3-junit.xslt 
         with:
-          files: TestResult.xml
+          name: NUnit Test Results
+          files: TestResult.JUnit.xml
+
+#      - name: Publish Unit Test Results
+#        uses: EnricoMi/publish-unit-test-result-action@v1
+#        run: Publish Unit Test Results
 
 #      - name: Upload Unit Test Results
 #        if: always()
