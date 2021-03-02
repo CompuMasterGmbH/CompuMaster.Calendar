@@ -59,9 +59,11 @@ jobs:
  
       - name: Check current directory
         run: pwd
+        if: always()
 
       - name: Check directory listing
         run: ls -la
+        if: always()
 
       - name: Publish Unit Test Results
         uses: actions/upload-artifact@v2
