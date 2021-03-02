@@ -54,9 +54,19 @@ jobs:
       - name: Download JUnit Xslt
         run: curl https://raw.githubusercontent.com/jochenwezel/nunit-transforms-to-junit-gitlab-compatible/master/nunit3-junit/nunit3-junit.xslt > nunit3-junit.xslt
 
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+	path: artifacts/
+
+      - name: Check directory listing for artifacts
+        run: dir artifacts
+        if: always()
+
       - name: Run Unit Tests
         run: ./NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe ./CompuMaster.Test.Calendar/bin/CompuMaster.Test.Calendar.dll --result=TestResult.xml "--result=TestResult.JUnit.xml;transform=nunit3-junit.xslt"
- 
+	files: |
+		./artifacts/*
+
       - name: Check current directory
         run: pwd
         if: always()
