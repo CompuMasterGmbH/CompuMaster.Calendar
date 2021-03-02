@@ -54,7 +54,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest]
 
     # the build-and-test job might be skipped, we don't need to run this job then
     #if: success() || failure()
@@ -65,7 +65,7 @@ jobs:
     steps:
       - name: JIT-Install MS.VisualBasic
         if: startsWith(matrix.os, 'windows') == false
-        run: apt install libmono-microsoft-visualbasic10.0-cil
+        run: sudo apt-get install libmono-microsoft-visualbasic10.0-cil
 
       - name: Install NUnit.ConsoleRunner
         run: nuget install NUnit.ConsoleRunner -Version 3.12.0
