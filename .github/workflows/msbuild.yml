@@ -49,9 +49,11 @@ jobs:
 
   test:
     needs: build
+    runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
-        runs-on: [windows-latest, ubuntu-latest]
+        os: [windows-latest, ubuntu-latest]
 
     # the build-and-test job might be skipped, we don't need to run this job then
     #if: success() || failure()
@@ -78,7 +80,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: NUnit Test Results ${{ matrix.runs-on }}
+          name: NUnit Test Results ${{ matrix.os }}
           path: TestResult.JUnit.xml
 
       - name: Generate Report
