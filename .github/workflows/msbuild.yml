@@ -68,6 +68,7 @@ jobs:
         run: sudo apt-get install libmono-microsoft-visualbasic10.0-cil
 
       - name: Install NUnit.ConsoleRunner
+        shell: pwsh
         run: nuget install NUnit.ConsoleRunner -Version 3.12.0
 
       - name: Download JUnit Xslt
