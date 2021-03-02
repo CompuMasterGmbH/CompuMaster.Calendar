@@ -66,24 +66,8 @@ jobs:
         with:
           name: NUnit Tests
 
-      - name: Check directory listing (artifacts test)
-        run: dir
-        if: always()
-
-      - name: Check directory listing for artifacts
-        run: dir artifact
-        if: always()
-
       - name: Run Unit Tests
-        run: ./NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe ./artifact/CompuMaster.Test.Calendar.dll --result=TestResult.xml "--result=TestResult.JUnit.xml;transform=nunit3-junit.xslt"
-
-      - name: Check current directory
-        run: pwd
-        if: always()
-
-      - name: Check directory listing 
-        run: dir
-        if: always()
+        run: ./NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe CompuMaster.Test.Calendar.dll --result=TestResult.xml "--result=TestResult.JUnit.xml;transform=nunit3-junit.xslt"
 
       - name: Publish Unit Test Results
         uses: actions/upload-artifact@v2
