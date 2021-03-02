@@ -58,6 +58,10 @@ jobs:
         uses: actions/download-artifact@v2
 	path: artifacts/
 
+      - name: Check directory listing (artifacts test)
+        run: dir
+        if: always()
+
       - name: Check directory listing for artifacts
         run: dir artifacts
         if: always()
@@ -71,7 +75,7 @@ jobs:
         run: pwd
         if: always()
 
-      - name: Check directory listing
+      - name: Check directory listing 
         run: dir
         if: always()
 
