@@ -52,6 +52,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         os: [windows-latest, ubuntu-latest]
 
@@ -62,6 +63,10 @@ jobs:
       RESULTS_PATH: TestResult.JUnit.xml
 
     steps:
+      - name: JIT-Install MS.VisualBasic
+        if: contains(matrix.os, "windows") == false
+        run: apt install libmono-microsoft-visualbasic10.0-cil
+
       - name: Install NUnit.ConsoleRunner
         run: nuget install NUnit.ConsoleRunner -Version 3.12.0
 
