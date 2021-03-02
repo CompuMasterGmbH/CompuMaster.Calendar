@@ -49,10 +49,15 @@ jobs:
 
   test:
     needs: build
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        runs-on: [windows-latest, ubuntu-latest]
 
     # the build-and-test job might be skipped, we don't need to run this job then
     #if: success() || failure()
+
+    env:
+      RESULTS_PATH: TestResult.JUnit.xml
 
     steps:
       - name: Install NUnit.ConsoleRunner
@@ -73,8 +78,28 @@ jobs:
         uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: NUnit Test Results
+          name: NUnit Test Results ${{ matrix.runs-on }}
           path: TestResult.JUnit.xml
+
+      - name: Generate Report
+        id: xunit-viewer
+        uses: ./  #use the current project relative to root
+        with:
+          results: ${{ env.RESULTS_PATH }}
+
+      - name: The generated report
+        run: echo "The report is ${{ steps.xunit-viewer.outputs.report-file }}"    
+
+      - name: Test
+        run: |
+            [ ${{ steps.xunit-viewer.outputs.report-file }} == "${{ env.RESULTS_PATH }}/index.html" ]
+
+      - name: Attach the report
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: alternate-results-path-reports
+          path: ${{ steps.xunit-viewer.outputs.report-dir }}
 
 #      - name: Publish Unit Test Results
 #        uses: EnricoMi/publish-unit-test-result-action@v1
@@ -86,8 +111,16 @@ jobs:
 #        with:
 #          name: Unit Test Results (Python ${{ matrix.python-version }})
 #          path: pytest.xml
-#
-#      - name: Download Artifacts
-#        uses: actions/download-artifact@v2
-#        with:
-#          path: artifact
+
+  release:
+    runs-on: ubuntu-latest
+    name: Release if all tests pass on master branch
+    needs:
+      - test
+    steps:
+      - uses: actions/checkout@v1
+      - name: Semantic Release
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
