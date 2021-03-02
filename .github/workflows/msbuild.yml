@@ -64,7 +64,7 @@ jobs:
 
     steps:
       - name: JIT-Install MS.VisualBasic
-        if: contains(matrix.os, "windows") == false
+        if: startsWith(matrix.os, 'windows') == false
         run: apt install libmono-microsoft-visualbasic10.0-cil
 
       - name: Install NUnit.ConsoleRunner
