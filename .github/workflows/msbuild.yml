@@ -62,7 +62,7 @@ jobs:
         if: always()
 
       - name: Check directory listing
-        run: ls -la
+        run: dir
         if: always()
 
       - name: Publish Unit Test Results
