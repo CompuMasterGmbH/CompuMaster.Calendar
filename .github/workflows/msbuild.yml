@@ -36,10 +36,9 @@ jobs:
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} "/p:OutputPath=${{env.SOLUTION_FILE_PATH}}/artifacts"
 
     - name: Publish Artifacts
-      working-directory: ${{env.GITHUB_WORKSPACE}}
       uses: actions/upload-artifact@v2
       with:
-        path: artifacts/
+        path: ${{env.GITHUB_WORKSPACE}}/${{env.SOLUTION_FILE_PATH}}/artifacts/
 
   test:
     needs: build
