@@ -64,7 +64,7 @@ jobs:
 
     steps:
       - name: JIT-Install MS.VisualBasic
-        if: startsWith(matrix.os, 'windows') == false
+        if: startsWith(matrix.os, 'ubuntu')
         run: sudo apt-get install libmono-microsoft-visualbasic10.0-cil
 
       - name: Install NUnit.ConsoleRunner
