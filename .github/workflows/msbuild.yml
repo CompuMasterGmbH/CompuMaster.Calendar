@@ -55,6 +55,9 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
+        include: 
+          - os: macos-latest
+            runNetExe: mono
 
     # the build-and-test job might be skipped, we don't need to run this job then
     #if: success() || failure()
@@ -80,8 +83,7 @@ jobs:
           name: NUnit Tests
 
       - name: Run Unit Tests
-        shell: pwsh
-        run: ./NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe CompuMaster.Test.Calendar.dll --result=TestResult.xml "--result=TestResult.JUnit.xml;transform=nunit3-junit.xslt"
+        run: ${{ matrix.runNetExe }} ./NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe CompuMaster.Test.Calendar.dll --result=TestResult.xml "--result=TestResult.JUnit.xml;transform=nunit3-junit.xslt"
 
       - name: Publish Unit Test Results
         uses: actions/upload-artifact@v2
