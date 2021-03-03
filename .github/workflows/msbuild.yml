@@ -140,7 +140,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     name: Release if all tests pass on master branch
-    needs:
+#    needs:
 #      - test
     steps:
       - name: Checkout code
