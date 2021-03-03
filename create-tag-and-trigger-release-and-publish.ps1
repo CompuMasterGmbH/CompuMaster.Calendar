@@ -19,7 +19,7 @@ if ($branch -ne '* master')
 [string]$changes = git status -s
 if($LASTEXITCODE -ne 0)
 {
-    Throw "Some git commits are missing: there are file modifications present"
+    Throw "Some git commits are missing: git status failed"
 }
 if($changes -ne "")
 {
