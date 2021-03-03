@@ -85,6 +85,19 @@ jobs:
       - name: Run Unit Tests
         run: ${{ matrix.runNetExe }} ./NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe CompuMaster.Test.Calendar.dll --result=TestResult.xml "--result=TestResult.JUnit.xml;transform=nunit3-junit.xslt"
 
+      - name: Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        # the action is useless on pull_request events
+        # (it can not create check runs or pull request comments)
+        if: always() && github.event_name != 'pull_request'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          files: "TestResult.JUnit.xml"
+          check_run_annotations: all tests
+          comment_title: Unit Test Statistics
+          check_name: Unit Test Results
+          report_individual_runs: true
+
       - name: Publish Unit Test Results
         uses: actions/upload-artifact@v2
         if: always()
@@ -92,25 +105,25 @@ jobs:
           name: NUnit Test Results ${{ matrix.os }}
           path: TestResult.JUnit.xml
 
-      - name: Generate Report
-        id: xunit-viewer
-        uses: ./  #use the current project relative to root
-        with:
-          results: ${{ env.RESULTS_PATH }}
-
-      - name: The generated report
-        run: echo "The report is ${{ steps.xunit-viewer.outputs.report-file }}"    
-
-      - name: Test
-        run: |
-            [ ${{ steps.xunit-viewer.outputs.report-file }} == "${{ env.RESULTS_PATH }}/index.html" ]
-
-      - name: Attach the report
-        if: always()
-        uses: actions/upload-artifact@v1
-        with:
-          name: alternate-results-path-reports
-          path: ${{ steps.xunit-viewer.outputs.report-dir }}
+#      - name: Generate Report
+#        id: xunit-viewer
+#        uses: ./  #use the current project relative to root
+#        with:
+#          results: ${{ env.RESULTS_PATH }}
+#
+#      - name: The generated report
+#        run: echo "The report is ${{ steps.xunit-viewer.outputs.report-file }}"    
+#
+#      - name: Test
+#        run: |
+#            [ ${{ steps.xunit-viewer.outputs.report-file }} == "${{ env.RESULTS_PATH }}/index.html" ]
+#
+#      - name: Attach the report
+#        if: always()
+#        uses: actions/upload-artifact@v1
+#        with:
+#          name: alternate-results-path-reports
+#          path: ${{ steps.xunit-viewer.outputs.report-dir }}
 
 #      - name: Publish Unit Test Results
 #        uses: EnricoMi/publish-unit-test-result-action@v1
