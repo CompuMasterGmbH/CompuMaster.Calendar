@@ -15,6 +15,19 @@ if ($branch -ne '* master')
     Throw "Branch must be set to master before"
 }
 
+## Check for missing commits
+[string]$changes = git status -s
+if($LASTEXITCODE -ne 0)
+{
+    Throw "Some git commits are missing: there are file modifications present"
+}
+if($changes -ne "")
+{
+    "Missing commits for:"
+    $changes
+    Throw "Some git commits are missing: there are file modifications present"
+}
+
 ## Show existing list of tags
 "Existing tags:"
 git tag -n5 #max 5 lines per message
