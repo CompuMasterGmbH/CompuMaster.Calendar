@@ -21,7 +21,7 @@ if($LASTEXITCODE -ne 0)
 {
     Throw "Some git commits are missing: git status failed"
 }
-if($changes -ne "")
+if($changes -ne "" -and $changes -ne $null)
 {
     "Missing commits for:"
     $changes
