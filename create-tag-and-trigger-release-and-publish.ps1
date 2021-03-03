@@ -75,13 +75,37 @@ if ($NonInteractive -eq $false)
 ## Start creation of tag
 "Creating tag ""$tagName"" . . ."
 $tagBody
-
-if ($tagBody -eq $null -or $tagBody -eq "")
+""
+if ($tagBody -eq "")
 {
-    git tag -f -a "test-$tagName"
+    #$lastCommit = git log -1 --format=%H
+    #if($LASTEXITCODE -ne 0)
+    #{
+    #    Throw "Git last commit detection failed"
+    #}
+    #git tag -f -a "$tagName" $lastCommit
+    $lastCommitMessage = git log -1 --format=%s
+    if($LASTEXITCODE -ne 0)
+    {
+        Throw "Git last commit detection failed"
+    }
+    git tag -f -a "$tagName" -m "$lastCommitMessage"
 }
 else
 {
-    git tag -f -a "test-$tagName" -m "$tagBody"
+    git tag -f -a "$tagName" -m "$tagBody"
 }
-git push origin $tagName
+if($LASTEXITCODE -ne 0)
+{
+    Throw "Git tagging failed"
+}
+""
+
+## Pushing tag to remote
+"Pushing tag ""$tagName"" to remote . . ."
+git push origin "$tagName"
+if($LASTEXITCODE -ne 0)
+{
+    Throw "Git push failed"
+}
+""

@@ -9,9 +9,35 @@ on:
 
 jobs:
 
+  build:
+    runs-on: windows-latest
+    if: false # always skip job
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Restore NuGet packages
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      # Add additional options to the MSBuild command line here (like platform or verbosity level).
+      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} "/p:OutputPath=artifact"
+
+    - name: Publish Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Build Artifacts
+        path: CompuMaster.Calendar/artifact
+
   release:
     runs-on: ubuntu-latest
-    name: Release if all tests pass on master branch
+    name: Release to GitHub
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
