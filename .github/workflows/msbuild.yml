@@ -18,6 +18,7 @@ env:
 jobs:
   build:
     runs-on: windows-latest
+    needs: test
 
     steps:
     - uses: actions/checkout@v2
@@ -140,14 +141,24 @@ jobs:
     runs-on: ubuntu-latest
     name: Release if all tests pass on master branch
     needs:
-      - test
+#      - test
     steps:
-      - uses: actions/checkout@v1
-      - name: Semantic Release
-        id: semantic
-        uses: cycjimmy/semantic-release-action@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+#          body: |
+#            Changes in this Release
+#            - First Change
+#            - Second Change
+          draft: true
+          prerelease: false
 
   publish:
     name: Publish to NuGet gallery
