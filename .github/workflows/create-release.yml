@@ -32,6 +32,7 @@ jobs:
           prerelease: true
 
   publish:
+    if: false # always skip job
     name: Publish to NuGet gallery
     # PLEASE NOTE: Project gets published only if there's a NUGET_KEY configured in the repository
     runs-on: ubuntu-latest
