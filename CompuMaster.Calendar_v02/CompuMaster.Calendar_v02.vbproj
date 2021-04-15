@@ -1,0 +1,89 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<RootNamespace></RootNamespace>
+		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net48;net45</TargetFrameworks>
+		<Title>CompuMaster.Calendar - MIT license edition</Title>
+		<Company>CompuMaster GmbH</Company>		
+		<Product>camm Tools</Product>
+		<Copyright>2005-2021 CompuMaster GmbH</Copyright>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<AssemblyVersion>2021.02.22.100</AssemblyVersion>
+		<Version>2021.04.15.100</Version>
+		<VBRuntime>Default</VBRuntime>
+		<IsPackable>true</IsPackable>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{54F9A180-ABB4-4467-98E6-907B41789571}</ProjectGuid>
+		<FileAlignment>512</FileAlignment>
+		<MyType>Empty</MyType>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<DefineDebug>true</DefineDebug>
+		<DefineTrace>true</DefineTrace>
+		<OutputPath>bin\Debug\</OutputPath>
+		<DocumentationFile>CompuMaster.Calendar.xml</DocumentationFile>
+		<NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>pdbonly</DebugType>
+		<DefineDebug>false</DefineDebug>
+		<DefineTrace>true</DefineTrace>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\</OutputPath>
+		<DocumentationFile>CompuMaster.Calendar.xml</DocumentationFile>
+		<NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+	</PropertyGroup>
+	<PropertyGroup>
+		<OptionExplicit>On</OptionExplicit>
+	</PropertyGroup>
+	<PropertyGroup>
+		<OptionCompare>Binary</OptionCompare>
+	</PropertyGroup>
+	<PropertyGroup>
+		<OptionStrict>Off</OptionStrict>
+	</PropertyGroup>
+	<PropertyGroup>
+		<OptionInfer>On</OptionInfer>
+	</PropertyGroup>
+	<!--ignor warning CA1416 (Validate platform compatibility) if OperatingSystem is Windows-->
+	<PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">
+		<NoWarn>CA1416</NoWarn>
+	</PropertyGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
+		<Reference Include="Microsoft.VisualBasic" />
+		<Import Include="Microsoft.VisualBasic" />
+	</ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net45'">
+		<Reference Include="Microsoft.VisualBasic" />
+		<Reference Include="System" />
+		<Reference Include="System.Collections" />
+		<Reference Include="System.Data" />
+		<Reference Include="System.Xml" />
+		<Reference Include="System.Core" />
+		<Reference Include="System.Linq" />
+		<Reference Include="System.Xml.Linq" />
+		<Reference Include="System.Data.DataSetExtensions" />
+		<Reference Include="System.Net.Http" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="AssemblyInfo.vb">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="DateInformation.vb">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Month.vb">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="WorkDays.vb">
+	    <SubType>Code</SubType>
+	  </Compile>
+	</ItemGroup>
+</Project>
