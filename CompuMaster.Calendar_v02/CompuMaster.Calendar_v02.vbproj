@@ -9,7 +9,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<AssemblyVersion>2021.02.22.100</AssemblyVersion>
 		<Version>2021.04.15.100</Version>
-		<VBRuntime>Default</VBRuntime>
+		<VBRuntime>Embed</VBRuntime>
 		<IsPackable>true</IsPackable>
 	</PropertyGroup>
 	<PropertyGroup>
