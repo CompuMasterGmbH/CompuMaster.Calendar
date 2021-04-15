@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "zMYhAT3qNuVh6CzeTci/Ig9hKNSxAx0A89xN9QRL1J8QIgSXgg8NNOysckVd32QF9/HRcWehlgu1h5aNTYVuSA==",
+  "success": true,
+  "projectFilePath": "D:\\git_local_repository\\0 software-projects\\CompuMaster.Calendar\\CompuMaster.Calendar_v02\\CompuMaster.Calendar_v02.vbproj",
+  "expectedPackageFiles": [
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\schaedler\\.nuget\\packages\\microsoft.visualbasic\\10.3.0\\microsoft.visualbasic.10.3.0.nupkg.sha512",
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

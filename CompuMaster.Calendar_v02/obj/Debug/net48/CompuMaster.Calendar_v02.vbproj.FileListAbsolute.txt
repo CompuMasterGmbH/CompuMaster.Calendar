@@ -1,0 +1,10 @@
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\net48\CompuMaster.Calendar_v02.vbprojAssemblyReference.cache
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\net48\CompuMaster.Calendar_v02.AssemblyInfoInputs.cache
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\net48\CompuMaster.Calendar_v02.AssemblyInfo.vb
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\net48\CompuMaster.Calendar_v02.vbproj.CoreCompileInputs.cache
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\bin\Debug\net48\CompuMaster.Calendar_v02.dll
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\bin\Debug\net48\CompuMaster.Calendar_v02.pdb
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\bin\Debug\net48\CompuMaster.Calendar.xml
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\net48\CompuMaster.Calendar_v02.dll
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\net48\CompuMaster.Calendar.xml
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\net48\CompuMaster.Calendar_v02.pdb

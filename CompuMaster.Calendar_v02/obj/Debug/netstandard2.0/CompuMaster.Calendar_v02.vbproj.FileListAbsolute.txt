@@ -1,0 +1,4 @@
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\netstandard2.0\CompuMaster.Calendar_v02.vbprojAssemblyReference.cache
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\netstandard2.0\CompuMaster.Calendar_v02.AssemblyInfoInputs.cache
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\netstandard2.0\CompuMaster.Calendar_v02.AssemblyInfo.vb
+D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\netstandard2.0\CompuMaster.Calendar_v02.vbproj.CoreCompileInputs.cache
