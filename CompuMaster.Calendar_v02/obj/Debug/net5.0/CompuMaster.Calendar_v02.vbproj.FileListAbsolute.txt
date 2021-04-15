@@ -1,4 +1,3 @@
-D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\net5.0\CompuMaster.Calendar_v02.vbprojAssemblyReference.cache
 D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\net5.0\CompuMaster.Calendar_v02.GeneratedMSBuildEditorConfig.editorconfig
 D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\net5.0\CompuMaster.Calendar_v02.AssemblyInfoInputs.cache
 D:\git_local_repository\0 software-projects\CompuMaster.Calendar\CompuMaster.Calendar_v02\obj\Debug\net5.0\CompuMaster.Calendar_v02.AssemblyInfo.vb
