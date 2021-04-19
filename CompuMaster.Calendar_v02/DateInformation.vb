@@ -9,8 +9,8 @@ Namespace CompuMaster.Calendar
 
         Public Shared Function LastDateOfWeekday(ByVal weekDay As System.DayOfWeek) As DateTime
             For MyCounter As Integer = 0 To 6
-                If Now().AddDays(MyCounter * -1).DayOfWeek = weekDay Then
-                    Return Now().AddDays(MyCounter * -1).Date()
+                If Date.Now().AddDays(MyCounter * -1).DayOfWeek = weekDay Then
+                    Return Date.Now().AddDays(MyCounter * -1).Date()
                 End If
             Next
             Throw New Exception("Unexpected position in operation workflow")
@@ -255,7 +255,7 @@ Namespace CompuMaster.Calendar
         ''' </history>
         ''' -----------------------------------------------------------------------------
         Public Shared Function BeginOfYear(ByVal value As Date) As Date
-            BeginOfYear = DateSerial(value.Year, 1, 1)
+            BeginOfYear = New Date(value.Year, 1, 1)
         End Function
 
         ''' -----------------------------------------------------------------------------
@@ -296,7 +296,7 @@ Namespace CompuMaster.Calendar
         ''' </history>
         ''' -----------------------------------------------------------------------------
         Public Shared Function BeginOfMonth(ByVal value As Date) As Date
-            BeginOfMonth = DateSerial(Year(value), Microsoft.VisualBasic.Month(value), 1)
+            BeginOfMonth = New Date(value.Year, value.Month, 1)
         End Function
 
         ''' -----------------------------------------------------------------------------
@@ -337,7 +337,7 @@ Namespace CompuMaster.Calendar
         ''' </history>
         ''' -----------------------------------------------------------------------------
         Public Shared Function BeginOfDay(ByVal value As Date) As Date
-            BeginOfDay = DateSerial(Year(value), Microsoft.VisualBasic.Month(value), Day(value))
+            BeginOfDay = New Date(value.Year, value.Month, value.Day)
         End Function
 
         ''' -----------------------------------------------------------------------------
