@@ -197,9 +197,9 @@ Namespace CompuMaster.Calendar
             Next
             Dim Pattern As String = System.Text.RegularExpressions.Regex.Escape(format)
             If Pattern.Contains("MMMM") Then
-                Pattern = Pattern.Replace("MMMM", "(?<m>" & Strings.Join(MonthLongNames.ToArray, "|") & ")")
+                Pattern = Pattern.Replace("MMMM", "(?<m>" & String.Join("|", MonthLongNames.ToArray) & ")")
             ElseIf Pattern.Contains("MMM") Then
-                Pattern = Pattern.Replace("MMM", "(?<m>" & Strings.Join(MonthShortNames.ToArray, "|") & ")")
+                Pattern = Pattern.Replace("MMM", "(?<m>" & String.Join("|", MonthShortNames.ToArray) & ")")
             ElseIf Pattern.Contains("MM") Then
                 Pattern = Pattern.Replace("MM", "(?<m>\d\d)")
             ElseIf Pattern.Contains("M") Then
@@ -247,7 +247,7 @@ Namespace CompuMaster.Calendar
             For MyCounter As Integer = 1 To 12
                 MonthNames.Add(UniqueMonthShortName(MyCounter))
             Next
-            Dim Pattern As String = "^(?<m>" & Strings.Join(MonthNames.ToArray, "|") & ")$"
+            Dim Pattern As String = "^(?<m>" & String.Join("|", MonthNames.ToArray) & ")$"
             Dim RegEx As New System.Text.RegularExpressions.Regex(Pattern, Text.RegularExpressions.RegexOptions.Compiled Or Text.RegularExpressions.RegexOptions.Singleline Or Text.RegularExpressions.RegexOptions.Multiline)
             If RegEx.IsMatch(value) = False Then
                 Throw New ArgumentException("Invalid value", NameOf(value))

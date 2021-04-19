@@ -302,15 +302,15 @@ Namespace CompuMaster.Calendar
                 If customMonths.Length <> 13 Then Throw New ArgumentException("Array with 13 elements required", NameOf(customMonths))
                 MonthShortNames = New Generic.List(Of String)(customMonths)
                 MonthLongNames = New Generic.List(Of String)(customMonths)
-                Pattern = Pattern.Replace("CCC", "(?<m>" & Strings.Join(CompuMaster.Calendar.Month.EncodeForRegEx(customMonths), "|") & ")")
+                Pattern = Pattern.Replace("CCC", "(?<m>" & String.Join("|", CompuMaster.Calendar.Month.EncodeForRegEx(customMonths)) & ")")
             ElseIf Pattern.Contains("UUU") Then
                 MonthShortNames = New Generic.List(Of String)(UniqueMonthShortNames)
                 MonthLongNames = New Generic.List(Of String)(UniqueMonthShortNames)
-                Pattern = Pattern.Replace("UUU", "(?<m>" & Strings.Join(CompuMaster.Calendar.Month.EncodeForRegEx(UniqueMonthShortNames), "|") & ")")
+                Pattern = Pattern.Replace("UUU", "(?<m>" & String.Join("|", CompuMaster.Calendar.Month.EncodeForRegEx(UniqueMonthShortNames)) & ")")
             ElseIf Pattern.Contains("MMMM") Then
-                Pattern = Pattern.Replace("MMMM", "(?<m>" & Strings.Join(CompuMaster.Calendar.Month.EncodeForRegEx(MonthLongNames.ToArray), "|") & ")")
+                Pattern = Pattern.Replace("MMMM", "(?<m>" & String.Join("|", CompuMaster.Calendar.Month.EncodeForRegEx(MonthLongNames.ToArray)) & ")")
             ElseIf Pattern.Contains("MMM") Then
-                Pattern = Pattern.Replace("MMM", "(?<m>" & Strings.Join(CompuMaster.Calendar.Month.EncodeForRegEx(MonthShortNames.ToArray), "|") & ")")
+                Pattern = Pattern.Replace("MMM", "(?<m>" & String.Join("|", CompuMaster.Calendar.Month.EncodeForRegEx(MonthShortNames.ToArray)) & ")")
             ElseIf Pattern.Contains("MM") Then
                 Pattern = Pattern.Replace("MM", "(?<m>\d\d)")
             ElseIf Pattern.Contains("M") Then
@@ -413,7 +413,7 @@ Namespace CompuMaster.Calendar
         ''' <remarks>
         ''' </remarks>
         Public Shared Function ParseFromUniqueShortName(value As String) As ZeroableMonth
-            Dim Pattern As String = "(?<m>" & Strings.Join(CompuMaster.Calendar.Month.EncodeForRegEx(UniqueMonthShortNames), "|") & ")\/(?<y>\d\d\d\d)"
+            Dim Pattern As String = "(?<m>" & String.Join("|", CompuMaster.Calendar.Month.EncodeForRegEx(UniqueMonthShortNames)) & ")\/(?<y>\d\d\d\d)"
             Dim RegEx As New System.Text.RegularExpressions.Regex(Pattern, Text.RegularExpressions.RegexOptions.Compiled Or Text.RegularExpressions.RegexOptions.Singleline Or Text.RegularExpressions.RegexOptions.Multiline)
             If RegEx.IsMatch(value) = False Then
                 Throw New ArgumentException("Invalid value", NameOf(value))
