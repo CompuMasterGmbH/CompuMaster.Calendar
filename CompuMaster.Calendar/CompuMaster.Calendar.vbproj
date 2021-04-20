@@ -7,8 +7,8 @@
 		<Product>camm Tools</Product>
 		<Copyright>2005-2021 CompuMaster GmbH</Copyright>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<AssemblyVersion>2021.02.22.100</AssemblyVersion>
-		<Version>2021.04.15.100</Version>
+		<AssemblyVersion>2021.04.20.100</AssemblyVersion>
+		<Version>2021.04.20.100</Version>
 		<VBRuntime>Embed</VBRuntime>
 		<IsPackable>true</IsPackable>
 	</PropertyGroup>
