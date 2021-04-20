@@ -91,11 +91,6 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompuMaster.Calendar\CompuMaster.Calendar.VS2012.vbproj">
-      <Name>CompuMaster.Calendar.VS2012</Name>
-      <Project>{6BAC55A7-A1F0-44EE-B98A-35B9EC602835}</Project>
-      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
-    </ProjectReference>
     <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
@@ -155,6 +150,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CompuMaster.Calendar_v02\CompuMaster.Calendar.vbproj">
+      <Project>{54f9a180-abb4-4467-98e6-907b41789571}</Project>
+      <Name>CompuMaster.Calendar</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
