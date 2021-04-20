@@ -152,7 +152,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompuMaster.Calendar_v02\CompuMaster.Calendar.vbproj">
+    <ProjectReference Include="..\CompuMaster.Calendar\CompuMaster.Calendar.vbproj">
       <Project>{54f9a180-abb4-4467-98e6-907b41789571}</Project>
       <Name>CompuMaster.Calendar</Name>
     </ProjectReference>
