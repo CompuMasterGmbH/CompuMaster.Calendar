@@ -1,10 +1,10 @@
 name: Build and Test
 
 # PREREQUISITES FOR PUSH-BACK OF TEST RESULTS
-# Please note: test project usually required nuget package JUnitTestLogger 
-# to be able to provide JUnit compatible test results XML file (required 
+# Please note: test project usually required nuget package JUnitTestLogger
+# to be able to provide JUnit compatible test results XML file (required
 # for pushing back details on succeeded/failed tests)
-# 
+#
 # NuGet install command:
 # - Install-Package JUnitTestLogger
 
@@ -20,34 +20,33 @@ on:
     workflow_dispatch:
 
 env:
-  # Path to the solution file relative to the root of the project
-  SOLUTION_FILE_PATH: .
+    # Path to the solution file relative to the root of the project
+    SOLUTION_FILE_PATH: .
 
-  # Configuration type to build
-  BUILD_CONFIGURATION: CI_CD
+    # Configuration type to build
+    BUILD_CONFIGURATION: CI_CD
 
-  BUILD_OUTPUT: Console/bin/Debug
-  BUILD_OUTPUT_TEST: ConsoleTest/bin/Debug
+    BUILD_OUTPUT: CompuMaster.Calendar/bin/Debug
+    BUILD_OUTPUT_TEST: CompuMaster.Test.Calendar/bin/Debug
 
 jobs:
-
     test:
         #needs: build
         runs-on: ${{ matrix.os }}
 
         strategy:
-          fail-fast: false
-          matrix:
-            os: [windows-latest, ubuntu-latest, macos-latest]
-            include: 
-              - os: macos-latest
-                runNetExe: mono
+            fail-fast: false
+            matrix:
+                os: [windows-latest, ubuntu-latest, macos-latest]
+                include:
+                    - os: macos-latest
+                      runNetExe: mono
 
         # the build-and-test job might be skipped, we don't need to run this job then
         #if: success() || failure()
 
         env:
-          RESULTS_PATH: TestResults.xml
+            RESULTS_PATH: TestResults.xml
 
         steps:
             - name: Checkout
@@ -56,7 +55,7 @@ jobs:
             - name: Setup .NET Core
               uses: actions/setup-dotnet@v1
               with:
-                 dotnet-version: 5.0.x
+                  dotnet-version: 5.0.x
 
             - name: Dir Listing (Win)
               if: startsWith(matrix.os, 'windows')
@@ -90,28 +89,27 @@ jobs:
               uses: EnricoMi/publish-unit-test-result-action@v1
               if: always() && startsWith(matrix.os, 'ubuntu')
               with:
-                github_token: ${{ secrets.GITHUB_TOKEN }}
-                files: "test-results/TestResults.xml"
-                check_run_annotations: all tests
-                comment_title: Unit Test Statistics (${{matrix.os}})
-                check_name: Unit Test Results (${{matrix.os}})
-                report_individual_runs: true
-      
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  files: "test-results/TestResults.xml"
+                  check_run_annotations: all tests
+                  comment_title: Unit Test Statistics (${{matrix.os}})
+                  check_name: Unit Test Results (${{matrix.os}})
+                  report_individual_runs: true
+
             - name: Unit Test Results (Win/Mac)
               uses: EnricoMi/publish-unit-test-result-action/composite@v1
-              if: always() && (!(startsWith(matrix.os, 'ubuntu'))) 
+              if: always() && (!(startsWith(matrix.os, 'ubuntu')))
               with:
-                github_token: ${{ secrets.GITHUB_TOKEN }}
-                files: "test-results/TestResults.xml"
-                check_run_annotations: all tests
-                comment_title: Unit Test Statistics (${{matrix.os}})
-                check_name: Unit Test Results (${{matrix.os}})
-                report_individual_runs: true
-      
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  files: "test-results/TestResults.xml"
+                  check_run_annotations: all tests
+                  comment_title: Unit Test Statistics (${{matrix.os}})
+                  check_name: Unit Test Results (${{matrix.os}})
+                  report_individual_runs: true
+
             - name: Publish Unit Test Results
               uses: actions/upload-artifact@v2
               if: always()
               with:
-                name: NUnit Test Results ${{ matrix.os }}
-                path: test-results/TestResults.xml
-
+                  name: NUnit Test Results ${{ matrix.os }}
+                  path: test-results/TestResults.xml
