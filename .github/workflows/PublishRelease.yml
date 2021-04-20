@@ -19,7 +19,7 @@ env:
     SOLUTION_FILE_PATH: .
 
     # Name of project configuration for build as well as name of the bin output subdirectory (both must match for "dotnet pack" to find compiled files!)
-    BUILD_CONFIGURATION: CI_CD
+    BUILD_CONFIGURATION: Release
     # Name of build project which creates required output for packaging/deployment
     BUILD_PROJECT: CompuMaster.Calendar/CompuMaster.Calendar.vbproj
     # Name of directory (e.g. "bin") containing the subdirectory (e.g. "CI_CD") with all output files (*.dll)

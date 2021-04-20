@@ -24,7 +24,7 @@ env:
     SOLUTION_FILE_PATH: .
 
     # Configuration type to build
-    BUILD_CONFIGURATION: CI_CD
+    BUILD_CONFIGURATION: Debug
 
     BUILD_OUTPUT: CompuMaster.Calendar/bin/Debug
     BUILD_OUTPUT_TEST: CompuMaster.Test.Calendar/bin/Debug
