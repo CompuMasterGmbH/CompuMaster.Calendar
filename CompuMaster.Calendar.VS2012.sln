@@ -8,23 +8,17 @@ Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "CompuMaster.Test.Calendar",
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		CI_CD|Any CPU = CI_CD|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{54F9A180-ABB4-4467-98E6-907B41789571}.CI_CD|Any CPU.ActiveCfg = Debug|Any CPU
-		{54F9A180-ABB4-4467-98E6-907B41789571}.CI_CD|Any CPU.Build.0 = Debug|Any CPU
 		{54F9A180-ABB4-4467-98E6-907B41789571}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{54F9A180-ABB4-4467-98E6-907B41789571}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54F9A180-ABB4-4467-98E6-907B41789571}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54F9A180-ABB4-4467-98E6-907B41789571}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AC2C2A31-4BB2-4350-8862-0A7EB9513733}.CI_CD|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC2C2A31-4BB2-4350-8862-0A7EB9513733}.CI_CD|Any CPU.Build.0 = Debug|Any CPU
 		{AC2C2A31-4BB2-4350-8862-0A7EB9513733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AC2C2A31-4BB2-4350-8862-0A7EB9513733}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC2C2A31-4BB2-4350-8862-0A7EB9513733}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AC2C2A31-4BB2-4350-8862-0A7EB9513733}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
