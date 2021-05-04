@@ -7,8 +7,8 @@
 		<Product>CompuMaster.Calendar</Product>
 		<Copyright>2005-2021 CompuMaster GmbH</Copyright>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<AssemblyVersion>2021.5.4.101</AssemblyVersion>
-		<Version>2021.5.4.101</Version>
+		<AssemblyVersion>2021.5.4.102</AssemblyVersion>
+		<Version>2021.5.4.102</Version>
 		<VBRuntime>Embed</VBRuntime>
 		<IsPackable>true</IsPackable>
 	</PropertyGroup>

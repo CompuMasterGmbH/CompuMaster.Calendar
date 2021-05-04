@@ -22,6 +22,24 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("2020-01 - 2020-12", Value.ToString)
         End Sub
 
+        <Test> Public Sub OperatorsTest()
+            Assert.IsTrue(CType(Nothing, CompuMaster.Calendar.MonthRange) = CType(Nothing, CompuMaster.Calendar.MonthRange))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 12), New CompuMaster.Calendar.Month(2020, 1)) <> CType(Nothing, CompuMaster.Calendar.MonthRange))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 12), New CompuMaster.Calendar.Month(2020, 1)) > CType(Nothing, CompuMaster.Calendar.MonthRange))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)) = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)) <= New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)) >= New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 11)) <> New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)) < New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 2), New CompuMaster.Calendar.Month(2020, 12)))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)) <= New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 2), New CompuMaster.Calendar.Month(2020, 12)))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 11)) < New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 11)) <= New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 2), New CompuMaster.Calendar.Month(2020, 12)) > New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 2), New CompuMaster.Calendar.Month(2020, 12)) >= New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)) > New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 11)))
+            Assert.IsTrue(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12)) >= New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 11)))
+        End Sub
+
     End Class
 
 End Namespace

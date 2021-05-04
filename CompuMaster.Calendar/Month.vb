@@ -558,24 +558,6 @@ Namespace CompuMaster.Calendar
             Return Me.BeginOfPeriod.ToString("MMMM", culture.DateTimeFormat)
         End Function
 
-        ''' <summary>
-        ''' Equals method for period classes
-        ''' </summary>
-        ''' <param name="value"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Overloads Function Equals(ByVal value As Month) As Boolean
-            If value IsNot Nothing Then
-                If Me.Year = value.Year AndAlso Me.Month = value.Month Then
-                    Return True
-                Else
-                    Return False
-                End If
-            Else
-                Return False
-            End If
-        End Function
-
 #If Not NET_1_1 Then
         ''' <summary>
         ''' Equals operator for Month classes
@@ -795,6 +777,29 @@ Namespace CompuMaster.Calendar
             End If
         End Function
 
+        ''' <summary>
+        ''' Equals method for period classes
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Overloads Function Equals(ByVal value As Month) As Boolean
+            If value IsNot Nothing Then
+                If Me.Year = value.Year AndAlso Me.Month = value.Month Then
+                    Return True
+                Else
+                    Return False
+                End If
+            Else
+                Return False
+            End If
+        End Function
+
+        ''' <summary>
+        ''' Equals method for period classes
+        ''' </summary>
+        ''' <param name="obj"></param>
+        ''' <returns></returns>
         Public Overrides Function Equals(obj As Object) As Boolean
             If ReferenceEquals(Me, obj) Then
                 Return True

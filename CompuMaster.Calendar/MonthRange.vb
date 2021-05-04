@@ -64,6 +64,45 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
+        ''' Equals method for MonthRange classes
+        ''' </summary>
+        ''' <param name="obj"></param>
+        ''' <returns></returns>
+        Public Overrides Function Equals(obj As Object) As Boolean
+            If ReferenceEquals(Me, obj) Then
+                Return True
+            End If
+
+            If obj Is Nothing Then
+                Return False
+            End If
+
+            If GetType(MonthRange).IsInstanceOfType(obj) = False Then
+                Return False
+            End If
+
+            Return Me.FirstMonth = CType(obj, MonthRange).FirstMonth AndAlso Me.LastMonth = CType(obj, MonthRange).LastMonth
+        End Function
+
+        ''' <summary>
+        ''' Equals method for MonthRange classes
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Overloads Function Equals(ByVal value As MonthRange) As Boolean
+            If value IsNot Nothing Then
+                If Me.FirstMonth = value.FirstMonth AndAlso Me.LastMonth = value.LastMonth Then
+                    Return True
+                Else
+                    Return False
+                End If
+            Else
+                Return False
+            End If
+        End Function
+
+        ''' <summary>
         ''' Compares a value to the current instance value
         ''' </summary>
         ''' <param name="value"></param>
@@ -83,6 +122,108 @@ Namespace CompuMaster.Calendar
                 Return 0
             End If
         End Function
+
+        ''' <summary>
+        ''' Equals operator for Month classes
+        ''' </summary>
+        ''' <param name="value1"></param>
+        ''' <param name="value2"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Shared Operator =(ByVal value1 As MonthRange, ByVal value2 As MonthRange) As Boolean
+            If value1 Is Nothing And value2 Is Nothing Then
+                Return True
+            ElseIf value1 Is Nothing And value2 IsNot Nothing Then
+                Return False
+            Else
+                Return value1.Equals(value2)
+            End If
+        End Operator
+
+        ''' <summary>
+        ''' Not-Equals operator for Month classes
+        ''' </summary>
+        ''' <param name="value1"></param>
+        ''' <param name="value2"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Shared Operator <>(ByVal value1 As MonthRange, ByVal value2 As MonthRange) As Boolean
+            If value1 Is Nothing And value2 Is Nothing Then
+                Return False
+            ElseIf value1 Is Nothing And value2 IsNot Nothing Then
+                Return True
+            Else
+                Return Not value1.Equals(value2)
+            End If
+        End Operator
+
+        ''' <summary>
+        ''' Smaller than operator for Month classes
+        ''' </summary>
+        ''' <param name="value1"></param>
+        ''' <param name="value2"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Shared Operator <(ByVal value1 As MonthRange, ByVal value2 As MonthRange) As Boolean
+            If value1 Is Nothing And value2 Is Nothing Then
+                Return False
+            ElseIf value1 Is Nothing And value2 IsNot Nothing Then
+                Return True
+            Else
+                Return value1.CompareTo(value2) < 0
+            End If
+        End Operator
+
+        ''' <summary>
+        ''' Greater than operator for Month classes
+        ''' </summary>
+        ''' <param name="value1"></param>
+        ''' <param name="value2"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Shared Operator >(ByVal value1 As MonthRange, ByVal value2 As MonthRange) As Boolean
+            If value1 Is Nothing And value2 Is Nothing Then
+                Return False
+            ElseIf value1 Is Nothing And value2 IsNot Nothing Then
+                Return False
+            Else
+                Return value1.CompareTo(value2) > 0
+            End If
+        End Operator
+
+        ''' <summary>
+        ''' Smaller than operator for Month classes
+        ''' </summary>
+        ''' <param name="value1"></param>
+        ''' <param name="value2"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Shared Operator <=(ByVal value1 As MonthRange, ByVal value2 As MonthRange) As Boolean
+            If value1 Is Nothing And value2 Is Nothing Then
+                Return True
+            ElseIf value1 Is Nothing And value2 IsNot Nothing Then
+                Return True
+            Else
+                Return value1.CompareTo(value2) <= 0
+            End If
+        End Operator
+
+        ''' <summary>
+        ''' Greater than operator for Month classes
+        ''' </summary>
+        ''' <param name="value1"></param>
+        ''' <param name="value2"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Shared Operator >=(ByVal value1 As MonthRange, ByVal value2 As MonthRange) As Boolean
+            If value1 Is Nothing And value2 Is Nothing Then
+                Return True
+            ElseIf value1 Is Nothing And value2 IsNot Nothing Then
+                Return False
+            Else
+                Return value1.CompareTo(value2) >= 0
+            End If
+        End Operator
 
     End Class
 
