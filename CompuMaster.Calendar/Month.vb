@@ -8,7 +8,7 @@ Namespace CompuMaster.Calendar
     ''' </summary>
     ''' <remarks></remarks>
     Public Class Month
-        Implements IComparable
+        Implements IComparable, ICloneable
 
         Public Sub New()
             Me.Year = 1
@@ -875,6 +875,14 @@ Namespace CompuMaster.Calendar
                 Return value.Year * 100 + value.Month
             End If
         End Operator
+
+        Private Function Clone_ICloneable() As Object Implements ICloneable.Clone
+            Return New Month(Me.Year, Me.Month)
+        End Function
+
+        Public Function Clone() As Month
+            Return New Month(Me.Year, Me.Month)
+        End Function
 
         'Public Shared Widening Operator CType(value As CompuMaster.Calendar.Month) As UInteger
         '    If value Is Nothing Then

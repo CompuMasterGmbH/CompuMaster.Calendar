@@ -8,7 +8,7 @@ Namespace CompuMaster.Calendar
     ''' </summary>
     ''' <remarks></remarks>
     Public Class ZeroableMonth
-        Implements IComparable
+        Implements IComparable, ICloneable
 
         Public Sub New()
             Me.Year = 1
@@ -828,7 +828,7 @@ Namespace CompuMaster.Calendar
         Public Function CompareTo(ByVal value As ZeroableMonth) As Integer
             If value Is Nothing Then
                 Return 1
-            ElseIf Me.Year = value.year AndAlso Me.month = value.month Then
+            ElseIf Me.Year = value.Year AndAlso Me.Month = value.Month Then
                 Return 0
             ElseIf Me.Month = 0 Then
                 If Me.Year < value.Year Then
@@ -925,6 +925,14 @@ Namespace CompuMaster.Calendar
                 Return value.Year * 100 + value.Month
             End If
         End Operator
+
+        Private Function Clone_ICloneable() As Object Implements ICloneable.Clone
+            Return New CompuMaster.Calendar.ZeroableMonth(Me.Year, Me.Month)
+        End Function
+
+        Public Function Clone() As CompuMaster.Calendar.ZeroableMonth
+            Return New CompuMaster.Calendar.ZeroableMonth(Me.Year, Me.Month)
+        End Function
 
         'Public Shared Widening Operator CType(value As CompuMaster.Calendar.ZeroableMonth) As UInteger
         '    If value Is Nothing Then
