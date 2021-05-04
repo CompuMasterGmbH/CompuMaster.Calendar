@@ -4,7 +4,7 @@ Option Strict On
 Namespace CompuMaster.Calendar
 
     ''' <summary>
-    ''' A representation for a month period for years with 12 months
+    ''' A representation for a month period for years with 12 months, where the month value is allowed to be zero value
     ''' </summary>
     ''' <remarks></remarks>
     Public Class ZeroableMonth
