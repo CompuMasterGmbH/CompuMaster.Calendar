@@ -8,12 +8,12 @@ Namespace CompuMaster.Test.Calendar
             Dim Value As CompuMaster.Calendar.MonthRange
 
             Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 12))
-            Assert.AreEqual(New CompuMaster.Calendar.Month(2020, 1), Value.FirstPeriod)
-            Assert.AreEqual(New CompuMaster.Calendar.Month(2020, 12), Value.LastPeriod)
+            Assert.AreEqual(New CompuMaster.Calendar.Month(2020, 1), Value.FirstMonth)
+            Assert.AreEqual(New CompuMaster.Calendar.Month(2020, 12), Value.LastMonth)
 
             Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 12), New CompuMaster.Calendar.Month(2020, 1))
-            Assert.AreEqual(New CompuMaster.Calendar.Month(2020, 1), Value.FirstPeriod)
-            Assert.AreEqual(New CompuMaster.Calendar.Month(2020, 12), Value.LastPeriod)
+            Assert.AreEqual(New CompuMaster.Calendar.Month(2020, 1), Value.FirstMonth)
+            Assert.AreEqual(New CompuMaster.Calendar.Month(2020, 12), Value.LastMonth)
         End Sub
 
         <Test> Public Sub ToStringTest()

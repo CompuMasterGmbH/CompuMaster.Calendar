@@ -12,8 +12,8 @@ Namespace CompuMaster.Calendar
         Public Sub New(firstPeriod As CompuMaster.Calendar.Month, lastPeriod As CompuMaster.Calendar.Month)
             If firstPeriod Is Nothing Then Throw New ArgumentNullException(NameOf(firstPeriod))
             If lastPeriod Is Nothing Then Throw New ArgumentNullException(NameOf(lastPeriod))
-            Me._FirstPeriod = firstPeriod
-            Me._LastPeriod = lastPeriod
+            Me._FirstMonth = firstPeriod
+            Me._LastMonth = lastPeriod
             CheckForExchangeMonthValues()
         End Sub
 
@@ -21,37 +21,37 @@ Namespace CompuMaster.Calendar
         ''' Exchange FirstPeriod and LastPeriod values if LastPeriod is before FirstPeriod
         ''' </summary>
         Private Sub CheckForExchangeMonthValues()
-            If _FirstPeriod > _LastPeriod Then
-                Dim BufferedFirstPeriod = _FirstPeriod
-                Me._FirstPeriod = _LastPeriod
-                Me._LastPeriod = BufferedFirstPeriod
+            If _FirstMonth > _LastMonth Then
+                Dim BufferedFirstPeriod = _FirstMonth
+                Me._FirstMonth = _LastMonth
+                Me._LastMonth = BufferedFirstPeriod
             End If
         End Sub
 
-        Private _FirstPeriod As CompuMaster.Calendar.Month
-        Public Property FirstPeriod As CompuMaster.Calendar.Month
+        Private _FirstMonth As CompuMaster.Calendar.Month
+        Public Property FirstMonth As CompuMaster.Calendar.Month
             Get
-                Return _FirstPeriod
+                Return _FirstMonth
             End Get
             Set(value As CompuMaster.Calendar.Month)
-                _FirstPeriod = value
+                _FirstMonth = value
                 CheckForExchangeMonthValues()
             End Set
         End Property
 
-        Private _LastPeriod As CompuMaster.Calendar.Month
-        Public Property LastPeriod As CompuMaster.Calendar.Month
+        Private _LastMonth As CompuMaster.Calendar.Month
+        Public Property LastMonth As CompuMaster.Calendar.Month
             Get
-                Return _LastPeriod
+                Return _LastMonth
             End Get
             Set(value As CompuMaster.Calendar.Month)
-                _LastPeriod = value
+                _LastMonth = value
                 CheckForExchangeMonthValues()
             End Set
         End Property
 
         Public Overrides Function ToString() As String
-            Return Me.FirstPeriod.ToString & " - " & Me.LastPeriod.ToString
+            Return Me.FirstMonth.ToString & " - " & Me.LastMonth.ToString
         End Function
 
         ''' <summary>
@@ -71,13 +71,13 @@ Namespace CompuMaster.Calendar
         Public Function CompareTo(value As MonthRange) As Integer
             If value Is Nothing Then
                 Return 1
-            ElseIf Me.FirstPeriod < value.FirstPeriod Then
+            ElseIf Me.FirstMonth < value.FirstMonth Then
                 Return -1
-            ElseIf Me.FirstPeriod > value.FirstPeriod Then
+            ElseIf Me.FirstMonth > value.FirstMonth Then
                 Return 1
-            ElseIf Me.LastPeriod < value.LastPeriod Then
+            ElseIf Me.LastMonth < value.LastMonth Then
                 Return -1
-            ElseIf Me.LastPeriod > value.LastPeriod Then
+            ElseIf Me.LastMonth > value.LastMonth Then
                 Return 1
             Else
                 Return 0
