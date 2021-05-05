@@ -16,6 +16,7 @@ if ($branch -ne '* master')
 {
     Throw "Branch must be set to master before"
 }
+""
 
 ## Check for missing commits
 [string]$changes = git status -s
@@ -29,6 +30,20 @@ if($changes -ne "" -and $changes -ne $null)
     $changes
     Throw "Some git commits are missing: there are file modifications present"
 }
+""
+
+## Refresh local tags list
+[string]$changes = git fetch --tags --all --prune --prune-tags --force
+if($LASTEXITCODE -ne 0)
+{
+    Throw "git pull failed or incomplete"
+}
+if($changes -ne "" -and $changes -ne $null)
+{
+    "Local tags refreshing:"
+    $changes
+}
+""
 
 ## Check for missing pulls
 [string]$changes = git pull
@@ -36,6 +51,12 @@ if($LASTEXITCODE -ne 0)
 {
     Throw "git pull failed or incomplete"
 }
+if($changes -ne "" -and $changes -ne $null)
+{
+    "git pull actions:"
+    $changes
+}
+""
 
 ## Show existing list of tags
 "Existing tags:"
@@ -124,7 +145,7 @@ if($LASTEXITCODE -ne 0)
 ""
 
 ## Pushing commits to remote
-git push origin
+[string]$changes = git push origin
 if($LASTEXITCODE -ne 0)
 {
     Throw "Git push (commits) failed"
@@ -133,7 +154,7 @@ if($LASTEXITCODE -ne 0)
 
 ## Pushing tag to remote
 "Pushing tag ""$tagName"" to remote . . ."
-git push origin "$tagName"
+[string]$changes = git push origin "$tagName"
 if($LASTEXITCODE -ne 0)
 {
     Throw "Git push (tag) failed"
