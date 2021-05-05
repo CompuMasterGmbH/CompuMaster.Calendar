@@ -7,12 +7,14 @@ param(
 Add-Type -AssemblyName System.Web
 
 ## Constants of project
-$assemblyVersionSourceFilePath = ".\CompuMaster.Calendar\CompuMaster.Calendar.vbproj"
-$assemblyVersionSourceVersionPattern = '^.*\<Version\>(.*)\<\/Version\>.*$'
+[string]$githubProjectUrl = 'https://github.com/CompuMasterGmbH/CompuMaster.Calendar/' #must contain trailing slash!
+[string]$masterBranchName = "master" #ususally 'master' or 'main'
+[string]$assemblyVersionSourceFilePath = ".\CompuMaster.Calendar\CompuMaster.Calendar.vbproj"
+[string]$assemblyVersionSourceVersionPattern = '^.*\<Version\>(.*)\<\/Version\>.*$'
 
 ## Check for master branch
 $branch = git branch
-if ($branch -ne '* master')
+if ($branch -ne ('* ' + $masterBranchName))
 {
     Throw "Branch must be set to master before"
 }
@@ -162,7 +164,7 @@ if($LASTEXITCODE -ne 0)
 ""
 
 ## Open web browser for drafting release
-[Diagnostics.Process]::Start('https://github.com/CompuMasterGmbH/CompuMaster.Calendar/releases/new?tag=' + [System.Web.HttpUtility]::UrlEncode($tagName) + '&body=' + [System.Web.HttpUtility]::UrlEncode($tagBody)) | Out-Null
+[Diagnostics.Process]::Start($githubProjectUrl + 'releases/new?tag=' + [System.Web.HttpUtility]::UrlEncode($tagName) + '&body=' + [System.Web.HttpUtility]::UrlEncode($tagBody)) | Out-Null
 
 ## Final note
 "GitHub release created successfully (usually even if previous git push actions showed up with errors)"
