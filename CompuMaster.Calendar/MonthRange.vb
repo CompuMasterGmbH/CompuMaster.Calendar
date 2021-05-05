@@ -206,6 +206,38 @@ Namespace CompuMaster.Calendar
             End If
         End Operator
 
+        ''' <summary>
+        ''' The number of months covered by the range
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property MonthCount As Integer
+            Get
+                Return Me._LastMonth - Me._FirstMonth + 1
+            End Get
+        End Property
+
+        Private _Months As Month()
+#Disable Warning CA1819 ' Properties should not return arrays
+        ''' <summary>
+        ''' All months covered by the range
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Months As Month()
+#Enable Warning CA1819 ' Properties should not return arrays
+            Get
+                If _Months Is Nothing Then
+                    Dim AllMonths As New List(Of Month)
+                    Dim CurrentMonth As Month = Me._FirstMonth
+                    Do While CurrentMonth <= Me._LastMonth
+                        AllMonths.Add(CurrentMonth)
+                        CurrentMonth = CurrentMonth.NextPeriod
+                    Loop
+                    _Months = AllMonths.ToArray
+                End If
+                Return _Months
+            End Get
+        End Property
+
     End Class
 
 End Namespace

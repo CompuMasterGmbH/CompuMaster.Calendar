@@ -14,6 +14,16 @@ Namespace CompuMaster.Test.Calendar
             Assert.Catch(Of ArgumentException)(Sub()
                                                    Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 12), New CompuMaster.Calendar.Month(2020, 1))
                                                End Sub)
+            Assert.Catch(Of ArgumentException)(Sub()
+                                                   Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 12), New CompuMaster.Calendar.Month)
+                                               End Sub)
+            Assert.Catch(Of ArgumentNullException)(Sub()
+                                                       Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 12), CType(Nothing, CompuMaster.Calendar.Month))
+                                                   End Sub)
+            Assert.Catch(Of ArgumentNullException)(Sub()
+                                                       Value = New CompuMaster.Calendar.MonthRange(CType(Nothing, CompuMaster.Calendar.Month), New CompuMaster.Calendar.Month(2020, 12))
+                                                   End Sub)
+
         End Sub
 
         <Test> Public Sub ToStringTest()
@@ -49,6 +59,39 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(2020, B.FirstMonth.Year) 'failed: B.FirstYear = 2021 instead of expected 2020
             'expected by typical developer: 2020, but is now 2021 since Month is a class and 
             'MonthRange was created using a pointer/reference instead of a copy from A
+        End Sub
+
+        <Test> Public Sub MonthCount()
+            Dim Value As CompuMaster.Calendar.MonthRange
+
+            Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 12), New CompuMaster.Calendar.Month(2020, 12))
+            Assert.AreEqual(13, Value.MonthCount)
+
+            Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 1))
+            Assert.AreEqual(1, Value.MonthCount)
+
+            Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month, New CompuMaster.Calendar.Month)
+            Assert.AreEqual("0001-01", Value.FirstMonth.ToString)
+            Assert.AreEqual(1, Value.MonthCount)
+
+        End Sub
+
+        <Test> Public Sub Months()
+            Dim Value As CompuMaster.Calendar.MonthRange
+            Dim Expected As CompuMaster.Calendar.Month()
+
+            Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 12), New CompuMaster.Calendar.Month(2020, 3))
+            Expected = New CompuMaster.Calendar.Month() {New CompuMaster.Calendar.Month(2019, 12), New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 2), New CompuMaster.Calendar.Month(2020, 3)}
+            Assert.AreEqual(Expected, Value.Months)
+
+            Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 1))
+            Expected = New CompuMaster.Calendar.Month() {New CompuMaster.Calendar.Month(2020, 1)}
+            Assert.AreEqual(Expected, Value.Months)
+
+            Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month, New CompuMaster.Calendar.Month)
+            Expected = New CompuMaster.Calendar.Month() {New CompuMaster.Calendar.Month(1, 1)}
+            Assert.AreEqual(Expected, Value.Months)
+
         End Sub
 
     End Class
