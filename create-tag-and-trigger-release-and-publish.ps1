@@ -4,9 +4,11 @@ param(
     $TagMessage = $null
 )
 
+Add-Type -AssemblyName System.Web
+
 ## Constants of project
-$assemblyVersionSourceFilePath = ".\CompuMaster.Calendar\AssemblyInfo.vb"
-$assemblyVersionSourceVersionPattern = '^.*AssemblyVersion\(\"(.*)\"\).*$' #works for AssemblyInfo.cs as well as AssemblyInfo.vb
+$assemblyVersionSourceFilePath = ".\CompuMaster.Calendar\CompuMaster.Calendar.vbproj"
+$assemblyVersionSourceVersionPattern = '^.*\<Version\>(.*)\<\/Version\>.*$'
 
 ## Check for master branch
 $branch = git branch
@@ -26,6 +28,13 @@ if($changes -ne "" -and $changes -ne $null)
     "Missing commits for:"
     $changes
     Throw "Some git commits are missing: there are file modifications present"
+}
+
+## Check for missing pulls
+[string]$changes = git pull
+if($LASTEXITCODE -ne 0)
+{
+    Throw "git pull failed or incomplete"
 }
 
 ## Show existing list of tags
@@ -114,11 +123,25 @@ if($LASTEXITCODE -ne 0)
 }
 ""
 
+## Pushing commits to remote
+git push origin
+if($LASTEXITCODE -ne 0)
+{
+    Throw "Git push (commits) failed"
+}
+""
+
 ## Pushing tag to remote
 "Pushing tag ""$tagName"" to remote . . ."
 git push origin "$tagName"
 if($LASTEXITCODE -ne 0)
 {
-    Throw "Git push failed"
+    Throw "Git push (tag) failed"
 }
 ""
+
+## Open web browser for drafting release
+[Diagnostics.Process]::Start('https://github.com/CompuMasterGmbH/CompuMaster.Calendar/releases/new?tag=' + [System.Web.HttpUtility]::UrlEncode($tagName) + '&body=' + [System.Web.HttpUtility]::UrlEncode($tagBody)) | Out-Null
+
+## Final note
+"GitHub release created successfully (usually even if previous git push actions showed up with errors)"
