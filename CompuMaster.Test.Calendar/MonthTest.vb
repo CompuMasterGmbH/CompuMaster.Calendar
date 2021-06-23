@@ -26,6 +26,12 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("2010-10", CompuMaster.Calendar.Month.Parse("10/2010", "MM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US")).ToString)
             Assert.AreEqual("2001-10", CompuMaster.Calendar.Month.Parse("10/01", "MM/yy", System.Globalization.CultureInfo.GetCultureInfo("en-US")).ToString)
             Assert.AreEqual("1999-10", CompuMaster.Calendar.Month.Parse("10/99", "MM/yy", System.Globalization.CultureInfo.GetCultureInfo("en-US")).ToString)
+
+            Dim CustomMonths As String() = New String() {"Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"}
+            Assert.AreEqual("2020-03", CompuMaster.Calendar.Month.Parse("Mär 2020", "CCC yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths).ToString, "#100")
+            Assert.AreEqual("2020-12", CompuMaster.Calendar.Month.Parse("Dez 2020", "MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths).ToString, "#102")
+            Assert.AreEqual("2020-12", CompuMaster.Calendar.Month.Parse("Dez 2020", "MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")).ToString, "#104")
+            Assert.AreEqual("2020-03", CompuMaster.Calendar.Month.Parse("Mär/2020", "CCC/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths).ToString, "#110")
         End Sub
 
         <Test> Public Sub TryParse()
@@ -36,6 +42,7 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("1900-01", Buffer.ToString, "#021")
             Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Dec/9999", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"), Buffer), "#012")
             Assert.AreEqual("9999-12", Buffer.ToString, "#022")
+            Assert.IsFalse(CompuMaster.Calendar.Month.TryParse("BeginValue", "yyyy-MM", System.Globalization.CultureInfo.InvariantCulture, Nothing))
             Dim ExpectedMarchShortNameOnCurrentPlatform As String = New DateTime(2010, 3, 1).ToString("MMM""/""yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")) 'Linux systems/Mono: "Mär", Windows systems: "Mrz"
             System.Console.WriteLine("SPECIAL CASE HANDLING: month March in German culture appears differently between windows and linux/mono systems")
             System.Console.WriteLine("SPECIAL CASE HANDLING: month March in German culture expected as """ & ExpectedMarchShortNameOnCurrentPlatform & """")
@@ -70,6 +77,16 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("1900-01", Buffer.ToString, "#059")
             Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("10/2010", "M/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"), Buffer), "#040")
             Assert.AreEqual("2010-10", Buffer.ToString, "#060")
+
+            Dim CustomMonths As String() = New String() {"Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"}
+            Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Mär 2020", "CCC yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths, Buffer), "#100")
+            Assert.AreEqual("2020-03", Buffer.ToString, "#101")
+            Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Dez 2020", "MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths, Buffer), "#102")
+            Assert.AreEqual("2020-12", Buffer.ToString, "#103")
+            Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Dez 2020", "MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer), "#104")
+            Assert.AreEqual("2020-12", Buffer.ToString, "#105")
+            Assert.AreEqual(True, CompuMaster.Calendar.Month.TryParse("Mär/2020", "CCC/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths, Buffer), "#110")
+            Assert.AreEqual("2020-03", Buffer.ToString, "#111")
         End Sub
 
         <Test> Public Sub EncodeForRegEx()
