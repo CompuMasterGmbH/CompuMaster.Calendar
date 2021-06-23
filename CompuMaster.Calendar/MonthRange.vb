@@ -239,12 +239,22 @@ Namespace CompuMaster.Calendar
         End Property
 
         ''' <summary>
-        ''' Is a specified month a member of this range
+        ''' Is a specified Month a member of this range
         ''' </summary>
         ''' <param name="value"></param>
         ''' <returns></returns>
         Public Function Contains(value As Month) As Boolean
             Return value >= Me.FirstMonth AndAlso value <= Me.LastMonth
+        End Function
+
+        ''' <summary>
+        ''' Is a specified MonthRange a member of this range
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
+        Public Function Contains(value As MonthRange) As Boolean
+            If value Is Nothing Then Throw New ArgumentNullException(NameOf(value))
+            Return value.FirstMonth >= Me.FirstMonth AndAlso value.LastMonth <= Me.LastMonth
         End Function
 
     End Class

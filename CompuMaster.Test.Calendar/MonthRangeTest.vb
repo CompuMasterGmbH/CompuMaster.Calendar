@@ -97,7 +97,7 @@ Namespace CompuMaster.Test.Calendar
             Dim Value As CompuMaster.Calendar.MonthRange
 
             Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 12), New CompuMaster.Calendar.Month(2020, 3))
-            Assert.AreEqual(False, Value.Contains(Nothing))
+            Assert.AreEqual(False, Value.Contains(CType(Nothing, CompuMaster.Calendar.Month)))
             Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.Month()))
             Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.Month(2019, 11)))
             Assert.AreEqual(True, Value.Contains(New CompuMaster.Calendar.Month(2019, 12)))
@@ -107,7 +107,7 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.Month(2020, 4)))
 
             Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 1))
-            Assert.AreEqual(False, Value.Contains(Nothing))
+            Assert.AreEqual(False, Value.Contains(CType(Nothing, CompuMaster.Calendar.Month)))
             Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.Month()))
             Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.Month(2019, 11)))
             Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.Month(2019, 12)))
@@ -117,7 +117,7 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.Month(2020, 4)))
 
             Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month, New CompuMaster.Calendar.Month)
-            Assert.AreEqual(False, Value.Contains(Nothing))
+            Assert.AreEqual(False, Value.Contains(CType(Nothing, CompuMaster.Calendar.Month)))
             Assert.AreEqual(True, Value.Contains(New CompuMaster.Calendar.Month()))
             Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.Month(2019, 11)))
             Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.Month(2019, 12)))
@@ -125,6 +125,39 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.Month(2020, 2)))
             Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.Month(2020, 3)))
             Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.Month(2020, 4)))
+        End Sub
+
+        <Test> Public Sub ContainsRange()
+            Dim Value As CompuMaster.Calendar.MonthRange
+
+            Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 12), New CompuMaster.Calendar.Month(2020, 3))
+            Assert.Throws(Of ArgumentNullException)(Sub()
+                                                        Value.Contains(CType(Nothing, CompuMaster.Calendar.MonthRange))
+                                                    End Sub)
+
+            Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 12), New CompuMaster.Calendar.Month(2020, 3))
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 11), New CompuMaster.Calendar.Month(2020, 1))))
+            Assert.AreEqual(True, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 12), New CompuMaster.Calendar.Month(2020, 1))))
+            Assert.AreEqual(True, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 1))))
+            Assert.AreEqual(True, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 3))))
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 4))))
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 11), New CompuMaster.Calendar.Month(2020, 4))))
+
+            Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 1))
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 11), New CompuMaster.Calendar.Month(2020, 1))))
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 12), New CompuMaster.Calendar.Month(2020, 1))))
+            Assert.AreEqual(True, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 1))))
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 3))))
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 4))))
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 11), New CompuMaster.Calendar.Month(2020, 4))))
+
+            Value = New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month, New CompuMaster.Calendar.Month)
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 11), New CompuMaster.Calendar.Month(2020, 1))))
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 12), New CompuMaster.Calendar.Month(2020, 1))))
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 1))))
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 3))))
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 1), New CompuMaster.Calendar.Month(2020, 4))))
+            Assert.AreEqual(False, Value.Contains(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 11), New CompuMaster.Calendar.Month(2020, 4))))
         End Sub
 
     End Class
