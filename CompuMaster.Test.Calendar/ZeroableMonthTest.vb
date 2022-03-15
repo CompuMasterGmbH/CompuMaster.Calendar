@@ -109,21 +109,23 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("???/2010", Buffer.ToString("UUU/yyyy", System.Globalization.CultureInfo.InvariantCulture), "#" & (TestNumber + 0.4).ToString)
 
             TestNumber = 210
-            Select Case System.Environment.OSVersion.Platform
-                Case PlatformID.Unix, PlatformID.MacOSX
+            Select Case New CompuMaster.Calendar.Month(2020, 3).ToString("MMM", System.Globalization.CultureInfo.GetCultureInfo("de-DE"))
+                Case "Mär" 'typically on platforms PlatformID.Unix, PlatformID.MacOSX + yet unclear: newer Windows versions or on .NET Core 
                     TestNumber = 211
                     Assert.AreEqual(True, CompuMaster.Calendar.ZeroableMonth.TryParse("Mär/2010", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer), "#" & (TestNumber + 0.2).ToString)
                     Assert.AreEqual("2010-03", Buffer.ToString, "#" & (TestNumber + 0.3).ToString)
                     Assert.AreEqual("Mär.2010", Buffer.ToString("MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")), "#" & (TestNumber + 0.4).ToString)
                     Assert.AreEqual("Mär/2010", Buffer.ToString("MMM\/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")), "#" & (TestNumber + 0.4).ToString)
                     Assert.AreEqual("Mar/2010", Buffer.ToString("UUU/yyyy", System.Globalization.CultureInfo.InvariantCulture), "#" & (TestNumber + 0.4).ToString)
-                Case Else
+                Case "Mrz" 'Windows platform
                     TestNumber = 212
                     Assert.AreEqual(True, CompuMaster.Calendar.ZeroableMonth.TryParse("Mrz/2010", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), Buffer), "#" & (TestNumber + 0.2).ToString)
                     Assert.AreEqual("2010-03", Buffer.ToString, "#" & (TestNumber + 0.3).ToString)
                     Assert.AreEqual("Mrz.2010", Buffer.ToString("MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")), "#" & (TestNumber + 0.4).ToString)
                     Assert.AreEqual("Mrz/2010", Buffer.ToString("MMM\/yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")), "#" & (TestNumber + 0.4).ToString)
                     Assert.AreEqual("Mar/2010", Buffer.ToString("UUU/yyyy", System.Globalization.CultureInfo.InvariantCulture), "#" & (TestNumber + 0.4).ToString)
+                Case Else
+                    Throw New InvalidOperationException
             End Select
 
             TestNumber = 220

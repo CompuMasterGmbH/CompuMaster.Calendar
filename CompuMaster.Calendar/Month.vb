@@ -266,12 +266,17 @@ Namespace CompuMaster.Calendar
             If value = Nothing Then
                 Throw New ArgumentNullException(NameOf(value))
             End If
+            If culture Is Nothing Then culture = System.Threading.Thread.CurrentThread.CurrentCulture
             Dim MonthShortNames As New System.Collections.Generic.List(Of String)
             Dim MonthLongNames As New System.Collections.Generic.List(Of String)
             For MyCounter As Integer = 1 To 12
                 MonthShortNames.Add(New Month(2000, MyCounter).MonthShortName(culture))
                 MonthLongNames.Add(New Month(2000, MyCounter).MonthName(culture))
             Next
+            If culture.Name.StartsWith("de-") Then 'Special handling of platform-dependent differences at abbreviations of month names
+                MonthShortNames.Add("Mrz")
+                MonthShortNames.Add("Mär")
+            End If
             Dim Pattern As String = System.Text.RegularExpressions.Regex.Escape(format)
             If Pattern.Contains("dd") Then 'won't be used, but must be present to allow parsing of date strings with day information
                 Pattern = Pattern.Replace("dd", "(?<d>\d\d)")
@@ -348,6 +353,15 @@ Namespace CompuMaster.Calendar
                         Exit For
                     End If
                 Next
+                If FoundMonth = 0 Then
+                    'Special handling of platform-dependent differences at abbreviations of month names
+                    If culture.Name.StartsWith("de-") Then
+                        Select Case FoundMonthName
+                            Case "Mrz", "Mär"
+                                FoundMonth = 3
+                        End Select
+                    End If
+                End If
                 If FoundYear = 0 OrElse FoundMonth = 0 Then
                     Throw New ArgumentException("Invalid value", NameOf(value))
                 Else
