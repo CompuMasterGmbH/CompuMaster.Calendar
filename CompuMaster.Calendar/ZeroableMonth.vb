@@ -569,7 +569,6 @@ Namespace CompuMaster.Calendar
             End If
         End Function
 
-#If Not NET_1_1 Then
         ''' <summary>
         ''' Equals operator for Month classes
         ''' </summary>
@@ -703,7 +702,6 @@ Namespace CompuMaster.Calendar
             If SwappedValues Then Result *= -1
             Return Result
         End Operator
-#End If
 
         ''' <summary>
         ''' Create an instance of the following period
