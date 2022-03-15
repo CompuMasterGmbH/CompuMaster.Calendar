@@ -9,15 +9,24 @@ Namespace CompuMaster.Calendar
     Public Class MonthRange
         Implements IComparable
 
+        ''' <summary>
+        ''' Create a new instance of MonthRange with clones of first and last period (to behave more like value type instead of reference type)
+        ''' </summary>
+        ''' <param name="firstPeriod"></param>
+        ''' <param name="lastPeriod"></param>
         Public Sub New(firstPeriod As CompuMaster.Calendar.Month, lastPeriod As CompuMaster.Calendar.Month)
             If firstPeriod Is Nothing Then Throw New ArgumentNullException(NameOf(firstPeriod))
             If lastPeriod Is Nothing Then Throw New ArgumentNullException(NameOf(lastPeriod))
             If firstPeriod > lastPeriod Then Throw New ArgumentException("First period must be before last period")
-            Me._FirstMonth = firstPeriod
-            Me._LastMonth = lastPeriod
+            Me._FirstMonth = firstPeriod.Clone
+            Me._LastMonth = lastPeriod.Clone
         End Sub
 
         Private _FirstMonth As CompuMaster.Calendar.Month
+        ''' <summary>
+        ''' The first month of the range
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property FirstMonth As CompuMaster.Calendar.Month
             Get
                 Return _FirstMonth
@@ -25,12 +34,20 @@ Namespace CompuMaster.Calendar
         End Property
 
         Private _LastMonth As CompuMaster.Calendar.Month
+        ''' <summary>
+        ''' The last month of the range
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property LastMonth As CompuMaster.Calendar.Month
             Get
                 Return _LastMonth
             End Get
         End Property
 
+        ''' <summary>
+        ''' A well-formed text representation of the range: "yyyy-MM - yyyy-MM"
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToString() As String
             Return Me.FirstMonth.ToString & " - " & Me.LastMonth.ToString
         End Function
@@ -255,6 +272,19 @@ Namespace CompuMaster.Calendar
         Public Function Contains(value As MonthRange) As Boolean
             If value Is Nothing Then Throw New ArgumentNullException(NameOf(value))
             Return value.FirstMonth >= Me.FirstMonth AndAlso value.LastMonth <= Me.LastMonth
+        End Function
+
+        ''' <summary>
+        ''' Is there an overlapping of at least 1 month in both ranges
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
+        Public Function Overlaps(value As MonthRange) As Boolean
+            If value Is Nothing Then Throw New ArgumentNullException(NameOf(value))
+            For Each month As Month In value.Months
+                If Me.Contains(month) Then Return True
+            Next
+            Return False
         End Function
 
     End Class
