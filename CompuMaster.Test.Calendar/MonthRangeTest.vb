@@ -205,6 +205,32 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(False, Value.Overlaps(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2020, 4), New CompuMaster.Calendar.Month(2020, 12))))
         End Sub
 
+        <Test> Public Sub Parse()
+            Assert.Catch(Of ArgumentNullException)(Sub()
+                                                       CompuMaster.Calendar.MonthRange.Parse(Nothing)
+                                                   End Sub)
+            Assert.Catch(Of ArgumentNullException)(Sub()
+                                                       CompuMaster.Calendar.MonthRange.Parse("")
+                                                   End Sub)
+            Assert.Catch(Of FormatException)(Sub()
+                                                 CompuMaster.Calendar.MonthRange.Parse("2020-04 2020-05")
+                                             End Sub)
+
+            Parse_AssertToStringAndReParseResultIsEqual(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 11), New CompuMaster.Calendar.Month(2020, 1)))
+            Parse_AssertToStringAndReParseResultIsEqual(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2024, 1), New CompuMaster.Calendar.Month(2024, 12)))
+            Parse_AssertToStringAndReParseResultIsEqual(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 11), New CompuMaster.Calendar.Month(2019, 11)))
+
+            Parse_AssertToStringAndReParseResultIsEqual(CompuMaster.Calendar.MonthRange.Parse("2020-04 - 2020-05"))
+            Parse_AssertToStringAndReParseResultIsEqual(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2024, 1), New CompuMaster.Calendar.Month(2024, 12)))
+
+        End Sub
+
+        Private Sub Parse_AssertToStringAndReParseResultIsEqual(value As CompuMaster.Calendar.MonthRange)
+            Dim TextRepresentation As String = value.ToString
+            Assert.AreEqual(value.FirstMonth.ToString & " - " & value.LastMonth.ToString, TextRepresentation)
+            Dim Reparsed As CompuMaster.Calendar.MonthRange = CompuMaster.Calendar.MonthRange.Parse(TextRepresentation)
+            Assert.AreEqual(value, Reparsed)
+        End Sub
     End Class
 
 End Namespace

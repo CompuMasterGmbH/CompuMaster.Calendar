@@ -53,6 +53,24 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
+        ''' Parse a text with format "yyyy-MM - yyyy-MM"
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
+        Public Shared Function Parse(value As String) As MonthRange
+            If value = Nothing Then
+                Throw New ArgumentNullException(NameOf(value))
+            ElseIf value.Length <> 17 OrElse value.substring(7, 3) <> " - " Then
+                'Throw New FormatException("Value must be formatted as ""yyyy-MM - yyyy-MM"" to parse successfully")
+                Throw New FormatException("Value must be formatted as ""yyyy-MM - yyyy-MM"" to parse successfully, but found """ & value & """")
+            Else
+                Dim FirstMonth As String = value.Substring(0, 7)
+                Dim LastMonth As String = value.Substring(10, 7)
+                Return New MonthRange(Month.Parse(FirstMonth), Month.Parse(LastMonth))
+            End If
+        End Function
+
+        ''' <summary>
         ''' Compares a value to the current instance value
         ''' </summary>
         ''' <param name="obj"></param>
