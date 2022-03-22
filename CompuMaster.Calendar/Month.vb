@@ -31,6 +31,7 @@ Namespace CompuMaster.Calendar
         End Sub
 
         Public Shared ReadOnly MinValue As Month = New Month(1, 1)
+
         Public Shared ReadOnly MaxValue As Month = New Month(9999, 12)
 
         ''' <summary>
@@ -897,14 +898,6 @@ Namespace CompuMaster.Calendar
             End If
         End Operator
 
-        Public Shared Widening Operator CType(value As CompuMaster.Calendar.Month) As String
-            If value Is Nothing Then
-                Return Nothing
-            Else
-                Return value.ToString
-            End If
-        End Operator
-
         Public Shared Narrowing Operator CType(value As String) As Month
             Return Parse(value)
         End Operator
@@ -912,10 +905,6 @@ Namespace CompuMaster.Calendar
         Public Shared Narrowing Operator CType(value As Int64) As Month
             Return Parse(CType(value, Integer))
         End Operator
-
-        'Public Shared Narrowing Operator CType(value As UInt64) As Month
-        '    Return Parse(CType(value, Integer))
-        'End Operator
 
         ''' <summary>
         ''' An integer represenation with 6 digits format "yyyyMM"
@@ -932,14 +921,6 @@ Namespace CompuMaster.Calendar
         Public Function Clone() As Month
             Return New Month(Me.Year, Me.Month)
         End Function
-
-        'Public Shared Widening Operator CType(value As CompuMaster.Calendar.Month) As UInteger
-        '    If value Is Nothing Then
-        '        Return Nothing
-        '    Else
-        '        Return CType(value.Year * 100 + value.Month, UInteger)
-        '    End If
-        'End Operator
 
     End Class
 

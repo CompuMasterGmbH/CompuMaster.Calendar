@@ -180,8 +180,8 @@ Namespace CompuMaster.Test.Calendar
         End Sub
 
         <Test> Public Sub Conversions()
-            Assert.AreEqual("2020-10", CType(New CompuMaster.Calendar.Month(2020, 10), String))
-            Assert.AreEqual(Nothing, CType(CType(Nothing, CompuMaster.Calendar.Month), String))
+            Assert.AreEqual("2020-10", (New CompuMaster.Calendar.Month(2020, 10).ToString))
+            Assert.AreEqual(Nothing, CType(Nothing, CompuMaster.Calendar.Month)?.ToString)
             Assert.AreEqual(Nothing, CType(CType(Nothing, String), CompuMaster.Calendar.Month))
             Assert.AreEqual(Nothing, CType(String.Empty, CompuMaster.Calendar.Month))
             Assert.AreEqual("2020-10", CType("2020-10", CompuMaster.Calendar.Month).ToString)

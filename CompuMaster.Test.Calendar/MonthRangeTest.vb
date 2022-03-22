@@ -1,4 +1,7 @@
-﻿Imports NUnit.Framework
+﻿Option Explicit On
+Option Strict Off
+
+Imports NUnit.Framework
 
 Namespace CompuMaster.Test.Calendar
 
@@ -231,17 +234,6 @@ Namespace CompuMaster.Test.Calendar
             Dim Reparsed As CompuMaster.Calendar.MonthRange = CompuMaster.Calendar.MonthRange.Parse(TextRepresentation)
             Assert.AreEqual(value, Reparsed)
         End Sub
-
-        Private Sub CompilerErrorExpected()
-            Dim z As New CompuMaster.Calendar.ZeroableMonth(New CompuMaster.Calendar.Month(Now))
-            Dim m As New CompuMaster.Calendar.Month(Now)
-            Dim i As Integer
-            i = z
-            i = m
-
-        End Sub
-
-
 
     End Class
 

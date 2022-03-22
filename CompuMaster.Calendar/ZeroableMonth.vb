@@ -992,21 +992,9 @@ Namespace CompuMaster.Calendar
             End If
         End Operator
 
-        Public Shared Widening Operator CType(value As CompuMaster.Calendar.ZeroableMonth) As String
-            If value Is Nothing Then
-                Return Nothing
-            Else
-                Return value.ToString
-            End If
-        End Operator
-
         Public Shared Narrowing Operator CType(value As Int64) As ZeroableMonth
             Return Parse(CType(value, Integer))
         End Operator
-
-        'Public Shared Narrowing Operator CType(value As UInt64) As Month
-        '    Return Parse(CType(value, Integer))
-        'End Operator
 
         ''' <summary>
         ''' An integer represenation with 6 digits format "yyyyMM"
@@ -1023,14 +1011,6 @@ Namespace CompuMaster.Calendar
         Public Function Clone() As CompuMaster.Calendar.ZeroableMonth
             Return New CompuMaster.Calendar.ZeroableMonth(Me.Year, Me.Month)
         End Function
-
-        'Public Shared Widening Operator CType(value As CompuMaster.Calendar.ZeroableMonth) As UInteger
-        '    If value Is Nothing Then
-        '        Return Nothing
-        '    Else
-        '        Return CType(value.Year * 100 + value.Month, UInteger)
-        '    End If
-        'End Operator
 
     End Class
 
