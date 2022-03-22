@@ -20,8 +20,12 @@ Namespace CompuMaster.Test.Calendar
         End Sub
 
         <Test> Public Sub ZeroableMonthToInt32()
-            Assert.AreEqual(200000, CType(New CompuMaster.Calendar.ZeroableMonth(2000, 0), Integer))
-            Assert.AreEqual(200001, CType(New CompuMaster.Calendar.ZeroableMonth(2000, 1), Integer))
+            Assert.Catch(Of System.InvalidCastException)(Sub()
+                                                             Assert.AreEqual(200000, CType(New CompuMaster.Calendar.ZeroableMonth(2000, 0), Integer))
+                                                         End Sub)
+
+            Assert.AreEqual(200000, (New CompuMaster.Calendar.ZeroableMonth(2000, 0).ToInteger))
+            Assert.AreEqual(200001, (New CompuMaster.Calendar.ZeroableMonth(2000, 1).ToInteger))
         End Sub
 
         <Test> Public Sub MonthToZeroableMonth()
@@ -33,7 +37,10 @@ Namespace CompuMaster.Test.Calendar
         End Sub
 
         <Test> Public Sub MonthToInt32()
-            Assert.AreEqual(200001, CType(New CompuMaster.Calendar.Month(2000, 1), Integer))
+            Assert.Catch(Of System.InvalidCastException)(Sub()
+                                                             Assert.AreEqual(200001, CType(New CompuMaster.Calendar.Month(2000, 1), Integer))
+                                                         End Sub)
+            Assert.AreEqual(200001, (New CompuMaster.Calendar.Month(2000, 1).ToInteger))
         End Sub
 
         <Test> Public Sub Int32ToMonth()

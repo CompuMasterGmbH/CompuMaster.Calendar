@@ -917,13 +917,13 @@ Namespace CompuMaster.Calendar
         '    Return Parse(CType(value, Integer))
         'End Operator
 
-        Public Shared Widening Operator CType(value As CompuMaster.Calendar.Month) As Integer
-            If value Is Nothing Then
-                Return Nothing
-            Else
-                Return value.Year * 100 + value.Month
-            End If
-        End Operator
+        ''' <summary>
+        ''' An integer represenation with 6 digits format "yyyyMM"
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function ToInteger() As Integer
+            Return Me.Year * 100 + Me.Month
+        End Function
 
         Private Function Clone_ICloneable() As Object Implements ICloneable.Clone
             Return New Month(Me.Year, Me.Month)
