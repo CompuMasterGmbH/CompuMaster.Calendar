@@ -15,6 +15,9 @@ Namespace CompuMaster.Test.Calendar
         End Sub
 
         <Test> Public Sub ZeroableMonthToString()
+            Assert.AreEqual(Nothing, CType(CType(Nothing, CompuMaster.Calendar.ZeroableMonth), String))
+            Assert.AreEqual("0000-00", CType(New CompuMaster.Calendar.ZeroableMonth(0, 0), String))
+            Assert.AreEqual("0001-01", CType(New CompuMaster.Calendar.ZeroableMonth(1, 1), String))
             Assert.AreEqual("2000-00", CType(New CompuMaster.Calendar.ZeroableMonth(2000, 0), String))
             Assert.AreEqual("2000-01", CType(New CompuMaster.Calendar.ZeroableMonth(2000, 1), String))
         End Sub
@@ -33,6 +36,8 @@ Namespace CompuMaster.Test.Calendar
         End Sub
 
         <Test> Public Sub MonthToString()
+            Assert.AreEqual(Nothing, CType(CType(Nothing, CompuMaster.Calendar.Month), String))
+            Assert.AreEqual("0001-01", CType(New CompuMaster.Calendar.Month(1, 1), String))
             Assert.AreEqual("2000-01", CType(New CompuMaster.Calendar.Month(2000, 1), String))
         End Sub
 
