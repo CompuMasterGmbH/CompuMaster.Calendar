@@ -174,7 +174,7 @@ Namespace CompuMaster.Calendar
         ''' <remarks>
         ''' </remarks>
         Public Overloads Function ToString(ByVal format As String) As String
-            Return Me.BeginOfPeriod.ToString(format)
+            Return Me.BeginOfMonth.ToString(format)
         End Function
         ''' <summary>
         ''' Format the month with a typical datetime format using the given format provider and using the begin date of the period
@@ -184,7 +184,7 @@ Namespace CompuMaster.Calendar
         ''' <remarks>
         ''' </remarks>
         Public Overloads Function ToString(ByVal provider As System.IFormatProvider) As String
-            Return Me.BeginOfPeriod.ToString(provider)
+            Return Me.BeginOfMonth.ToString(provider)
         End Function
         ''' <summary>
         ''' Format the month with a typical datetime format string and the given format provider using the begin date of the period
@@ -221,14 +221,14 @@ Namespace CompuMaster.Calendar
                         FormatSplitted(MyCounter) = UniqueMonthShortName(Me.Month)
                     ElseIf Me.Month = 0 Then
                         If FormatSplitted(MyCounter).Contains("M") Then Throw New NotSupportedException("MMMM, MMM, MM or M not supported if CCC or UUU is present")
-                        FormatSplitted(MyCounter) = Me.FirstPeriod.ToString(FormatSplitted(MyCounter), provider)
+                        FormatSplitted(MyCounter) = Me.FirstMonth.ToString(FormatSplitted(MyCounter), provider)
                     Else
-                        FormatSplitted(MyCounter) = Me.BeginOfPeriod.ToString(FormatSplitted(MyCounter), provider)
+                        FormatSplitted(MyCounter) = Me.BeginOfMonth.ToString(FormatSplitted(MyCounter), provider)
                     End If
                 Next
                 Return String.Join("", FormatSplitted)
             Else
-                Return Me.BeginOfPeriod.ToString(format, provider)
+                Return Me.BeginOfMonth.ToString(format, provider)
             End If
         End Function
 
@@ -538,7 +538,7 @@ Namespace CompuMaster.Calendar
                 Case 0
                     Return "???"
                 Case Else
-                    Return Me.BeginOfPeriod.ToString("MMM", culture.DateTimeFormat)
+                    Return Me.BeginOfMonth.ToString("MMM", culture.DateTimeFormat)
             End Select
         End Function
 
@@ -561,7 +561,7 @@ Namespace CompuMaster.Calendar
                 Case 0
                     Return "???"
                 Case Else
-                    Return Me.BeginOfPeriod.ToString("MMMM", culture.DateTimeFormat)
+                    Return Me.BeginOfMonth.ToString("MMMM", culture.DateTimeFormat)
             End Select
         End Function
 
@@ -722,11 +722,11 @@ Namespace CompuMaster.Calendar
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function [NextPeriod]() As ZeroableMonth
+        <Obsolete("Use [NextMonth] instead"), System.ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)> Public Function [NextPeriod]() As ZeroableMonth
             If Me.Month = 0 Then
                 Return New ZeroableMonth(Me.Year, 1)
             Else
-                Return New ZeroableMonth(BeginOfPeriod.AddMonths(1))
+                Return New ZeroableMonth(BeginOfMonth.AddMonths(1))
             End If
         End Function
 
@@ -735,11 +735,37 @@ Namespace CompuMaster.Calendar
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function [PreviousPeriod]() As ZeroableMonth
+        <Obsolete("Use PreviousMonth instead"), System.ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)> Public Function [PreviousPeriod]() As ZeroableMonth
             If Me.Month = 0 Then
                 Return New ZeroableMonth(Me.Year - 1, 12)
             Else
-                Return New ZeroableMonth(BeginOfPeriod.AddMonths(-1))
+                Return New ZeroableMonth(BeginOfMonth.AddMonths(-1))
+            End If
+        End Function
+
+        ''' <summary>
+        ''' Create an instance of the following period
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function [NextMonth]() As ZeroableMonth
+            If Me.Month = 0 Then
+                Return New ZeroableMonth(Me.Year, 1)
+            Else
+                Return New ZeroableMonth(BeginOfMonth.AddMonths(1))
+            End If
+        End Function
+
+        ''' <summary>
+        ''' Create an instance of the previous period
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function [PreviousMonth]() As ZeroableMonth
+            If Me.Month = 0 Then
+                Return New ZeroableMonth(Me.Year - 1, 12)
+            Else
+                Return New ZeroableMonth(BeginOfMonth.AddMonths(-1))
             End If
         End Function
 
@@ -747,7 +773,7 @@ Namespace CompuMaster.Calendar
         ''' Create an instance of ZeroablePeriod with same year, but month part is zeroed
         ''' </summary>
         ''' <returns></returns>
-        Public Function ZeroPeriod() As ZeroableMonth
+        <Obsolete("Use ZeroMonth instead"), System.ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)> Public Function ZeroPeriod() As ZeroableMonth
             Return New ZeroableMonth(Me.Year, 0)
         End Function
 
@@ -755,7 +781,7 @@ Namespace CompuMaster.Calendar
         ''' Create an instance of ZeroablePeriod with same year, but first month
         ''' </summary>
         ''' <returns></returns>
-        Public Function FirstPeriod() As ZeroableMonth
+        <Obsolete("Use FirstMonth instead"), System.ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)> Public Function FirstPeriod() As ZeroableMonth
             Return New ZeroableMonth(Me.Year, 1)
         End Function
 
@@ -763,7 +789,7 @@ Namespace CompuMaster.Calendar
         ''' Create an instance of ZeroablePeriod with same year, but last month
         ''' </summary>
         ''' <returns></returns>
-        Public Function LastPeriod() As ZeroableMonth
+        <Obsolete("Use LastMonth instead"), System.ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)> Public Function LastPeriod() As ZeroableMonth
             Return New ZeroableMonth(Me.Year, 12)
         End Function
 
@@ -772,7 +798,7 @@ Namespace CompuMaster.Calendar
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function BeginOfPeriod() As DateTime
+        <Obsolete("Use BeginOfMonth instead"), System.ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)> Public Function BeginOfPeriod() As DateTime
             If Month = 0 Then
                 Throw New ArgumentException("Only month periods between 1 and 12 can be converted to DateTime")
             Else
@@ -786,11 +812,62 @@ Namespace CompuMaster.Calendar
         ''' <param name="precision"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function EndOfPeriod(ByVal precision As CompuMaster.Calendar.DateInformation.Accuracy) As DateTime
+        <Obsolete("Use EndOfMonth instead"), System.ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)> Public Function EndOfPeriod(ByVal precision As CompuMaster.Calendar.DateInformation.Accuracy) As DateTime
             If Month = 0 Then
                 Throw New ArgumentException("Only month periods between 1 and 12 can be converted to DateTime")
             Else
-                Return CompuMaster.Calendar.DateInformation.EndOfMonth(BeginOfPeriod, precision)
+                Return CompuMaster.Calendar.DateInformation.EndOfMonth(BeginOfMonth, precision)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' Create an instance of ZeroablePeriod with same year, but month part is zeroed
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function ZeroMonth() As ZeroableMonth
+            Return New ZeroableMonth(Me.Year, 0)
+        End Function
+
+        ''' <summary>
+        ''' Create an instance of ZeroablePeriod with same year, but first month
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function FirstMonth() As ZeroableMonth
+            Return New ZeroableMonth(Me.Year, 1)
+        End Function
+
+        ''' <summary>
+        ''' Create an instance of ZeroablePeriod with same year, but last month
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function LastMonth() As ZeroableMonth
+            Return New ZeroableMonth(Me.Year, 12)
+        End Function
+
+        ''' <summary>
+        ''' The begin of the month
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function BeginOfMonth() As DateTime
+            If Month = 0 Then
+                Throw New ArgumentException("Only month periods between 1 and 12 can be converted to DateTime")
+            Else
+                Return New DateTime(Year, Month, 1)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' The end of the month
+        ''' </summary>
+        ''' <param name="precision"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function EndOfMonth(ByVal precision As CompuMaster.Calendar.DateInformation.Accuracy) As DateTime
+            If Month = 0 Then
+                Throw New ArgumentException("Only month periods between 1 and 12 can be converted to DateTime")
+            Else
+                Return CompuMaster.Calendar.DateInformation.EndOfMonth(BeginOfMonth, precision)
             End If
         End Function
 
@@ -858,9 +935,9 @@ Namespace CompuMaster.Calendar
                 Else 'Me.Year = value.Year, but Me.Month > 0
                     Return 1
                 End If
-            ElseIf Me.BeginOfPeriod < value.BeginOfPeriod Then
+            ElseIf Me.BeginOfMonth < value.BeginOfMonth Then
                 Return -1
-            ElseIf Me.BeginOfPeriod > value.BeginOfPeriod Then
+            ElseIf Me.BeginOfMonth > value.BeginOfMonth Then
                 Return 1
             Else
                 Return 0

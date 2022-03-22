@@ -170,41 +170,41 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("1900-00", CompuMaster.Calendar.ZeroableMonth.ParseFromUniqueShortName("???/1900").ToString)
         End Sub
 
-        <Test> Public Sub ZeroPeriod()
+        <Test> Public Sub ZeroMonth()
             Assert.AreEqual("2010-00", New CompuMaster.Calendar.ZeroableMonth(2010, 0).ToString)
             Assert.AreEqual("0001-00", New CompuMaster.Calendar.ZeroableMonth(1, 0).ToString)
-            Assert.AreEqual("2010-00", New CompuMaster.Calendar.ZeroableMonth(2010, 4).ZeroPeriod.ToString)
-            Assert.AreEqual("0001-00", New CompuMaster.Calendar.ZeroableMonth(1, 4).ZeroPeriod.ToString)
-            Assert.AreEqual("0000-00", New CompuMaster.Calendar.ZeroableMonth(0, 4).ZeroPeriod.ToString)
+            Assert.AreEqual("2010-00", New CompuMaster.Calendar.ZeroableMonth(2010, 4).ZeroMonth.ToString)
+            Assert.AreEqual("0001-00", New CompuMaster.Calendar.ZeroableMonth(1, 4).ZeroMonth.ToString)
+            Assert.AreEqual("0000-00", New CompuMaster.Calendar.ZeroableMonth(0, 4).ZeroMonth.ToString)
         End Sub
 
-        <Test> Public Sub FirstPeriod()
-            Assert.AreEqual("2010-01", New CompuMaster.Calendar.ZeroableMonth(2010, 0).FirstPeriod.ToString)
-            Assert.AreEqual("0001-01", New CompuMaster.Calendar.ZeroableMonth(1, 0).FirstPeriod.ToString)
-            Assert.AreEqual("0000-01", New CompuMaster.Calendar.ZeroableMonth(0, 0).FirstPeriod.ToString)
+        <Test> Public Sub FirstMonth()
+            Assert.AreEqual("2010-01", New CompuMaster.Calendar.ZeroableMonth(2010, 0).FirstMonth.ToString)
+            Assert.AreEqual("0001-01", New CompuMaster.Calendar.ZeroableMonth(1, 0).FirstMonth.ToString)
+            Assert.AreEqual("0000-01", New CompuMaster.Calendar.ZeroableMonth(0, 0).FirstMonth.ToString)
         End Sub
 
-        <Test> Public Sub LastPeriod()
-            Assert.AreEqual("2010-12", New CompuMaster.Calendar.ZeroableMonth(2010, 0).LastPeriod.ToString)
-            Assert.AreEqual("0001-12", New CompuMaster.Calendar.ZeroableMonth(1, 0).LastPeriod.ToString)
-            Assert.AreEqual("0000-12", New CompuMaster.Calendar.ZeroableMonth(0, 0).LastPeriod.ToString)
+        <Test> Public Sub LastMonth()
+            Assert.AreEqual("2010-12", New CompuMaster.Calendar.ZeroableMonth(2010, 0).LastMonth.ToString)
+            Assert.AreEqual("0001-12", New CompuMaster.Calendar.ZeroableMonth(1, 0).LastMonth.ToString)
+            Assert.AreEqual("0000-12", New CompuMaster.Calendar.ZeroableMonth(0, 0).LastMonth.ToString)
         End Sub
 
-        <Test> Public Sub NextPeriod()
-            Assert.AreEqual("2011-01", New CompuMaster.Calendar.ZeroableMonth(2010, 12).NextPeriod.ToString)
-            Assert.AreEqual("2010-01", New CompuMaster.Calendar.ZeroableMonth(2010, 0).NextPeriod.ToString)
-            Assert.AreEqual("2010-02", New CompuMaster.Calendar.ZeroableMonth(2010, 1).NextPeriod.ToString)
-            Assert.AreEqual("0001-01", New CompuMaster.Calendar.ZeroableMonth(1, 0).NextPeriod.ToString)
-            Assert.AreEqual("0000-01", New CompuMaster.Calendar.ZeroableMonth(0, 0).NextPeriod.ToString)
+        <Test> Public Sub NextMonth()
+            Assert.AreEqual("2011-01", New CompuMaster.Calendar.ZeroableMonth(2010, 12).NextMonth.ToString)
+            Assert.AreEqual("2010-01", New CompuMaster.Calendar.ZeroableMonth(2010, 0).NextMonth.ToString)
+            Assert.AreEqual("2010-02", New CompuMaster.Calendar.ZeroableMonth(2010, 1).NextMonth.ToString)
+            Assert.AreEqual("0001-01", New CompuMaster.Calendar.ZeroableMonth(1, 0).NextMonth.ToString)
+            Assert.AreEqual("0000-01", New CompuMaster.Calendar.ZeroableMonth(0, 0).NextMonth.ToString)
         End Sub
 
-        <Test> Public Sub PreviousPeriod()
-            Assert.AreEqual("2010-11", New CompuMaster.Calendar.ZeroableMonth(2010, 12).PreviousPeriod.ToString)
-            Assert.AreEqual("2009-12", New CompuMaster.Calendar.ZeroableMonth(2010, 0).PreviousPeriod.ToString)
-            Assert.AreEqual("2009-12", New CompuMaster.Calendar.ZeroableMonth(2010, 1).PreviousPeriod.ToString)
-            Assert.AreEqual("0000-12", New CompuMaster.Calendar.ZeroableMonth(1, 0).PreviousPeriod.ToString)
+        <Test> Public Sub PreviousMonth()
+            Assert.AreEqual("2010-11", New CompuMaster.Calendar.ZeroableMonth(2010, 12).PreviousMonth.ToString)
+            Assert.AreEqual("2009-12", New CompuMaster.Calendar.ZeroableMonth(2010, 0).PreviousMonth.ToString)
+            Assert.AreEqual("2009-12", New CompuMaster.Calendar.ZeroableMonth(2010, 1).PreviousMonth.ToString)
+            Assert.AreEqual("0000-12", New CompuMaster.Calendar.ZeroableMonth(1, 0).PreviousMonth.ToString)
             Assert.Catch(Of ArgumentOutOfRangeException)(Sub()
-                                                             Console.WriteLine(New CompuMaster.Calendar.ZeroableMonth(0, 0).PreviousPeriod.ToString)
+                                                             Console.WriteLine(New CompuMaster.Calendar.ZeroableMonth(0, 0).PreviousMonth.ToString)
                                                          End Sub)
         End Sub
 

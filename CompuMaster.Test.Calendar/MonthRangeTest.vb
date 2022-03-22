@@ -231,6 +231,7 @@ Namespace CompuMaster.Test.Calendar
             Dim Reparsed As CompuMaster.Calendar.MonthRange = CompuMaster.Calendar.MonthRange.Parse(TextRepresentation)
             Assert.AreEqual(value, Reparsed)
         End Sub
+
     End Class
 
 End Namespace

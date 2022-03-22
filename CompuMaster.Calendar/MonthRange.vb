@@ -265,7 +265,7 @@ Namespace CompuMaster.Calendar
                     Dim CurrentMonth As Month = Me._FirstMonth
                     Do While CurrentMonth <= Me._LastMonth
                         AllMonths.Add(CurrentMonth)
-                        CurrentMonth = CurrentMonth.NextPeriod
+                        CurrentMonth = CurrentMonth.NextMonth
                     Loop
                     _Months = AllMonths.ToArray
                 End If

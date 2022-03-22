@@ -147,7 +147,7 @@ Namespace CompuMaster.Calendar
         ''' <remarks>
         ''' </remarks>
         Public Overloads Function ToString(ByVal format As String) As String
-            Return Me.BeginOfPeriod.ToString(format)
+            Return Me.BeginOfMonth.ToString(format)
         End Function
         ''' <summary>
         ''' Format the month with a typical datetime format using the given format provider and using the begin date of the period
@@ -157,7 +157,7 @@ Namespace CompuMaster.Calendar
         ''' <remarks>
         ''' </remarks>
         Public Overloads Function ToString(ByVal provider As System.IFormatProvider) As String
-            Return Me.BeginOfPeriod.ToString(provider)
+            Return Me.BeginOfMonth.ToString(provider)
         End Function
 
         ''' <summary>
@@ -194,12 +194,12 @@ Namespace CompuMaster.Calendar
                     ElseIf FormatSplitted(MyCounter) = "UUU" Then
                         FormatSplitted(MyCounter) = UniqueMonthShortName(Me.Month)
                     Else
-                        FormatSplitted(MyCounter) = Me.BeginOfPeriod.ToString(FormatSplitted(MyCounter), provider)
+                        FormatSplitted(MyCounter) = Me.BeginOfMonth.ToString(FormatSplitted(MyCounter), provider)
                     End If
                 Next
                 Return String.Join("", FormatSplitted)
             Else
-                Return Me.BeginOfPeriod.ToString(format, provider)
+                Return Me.BeginOfMonth.ToString(format, provider)
             End If
         End Function
 
@@ -551,7 +551,7 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function MonthShortName(culture As System.Globalization.CultureInfo) As String
-            Return Me.BeginOfPeriod.ToString("MMM", culture.DateTimeFormat)
+            Return Me.BeginOfMonth.ToString("MMM", culture.DateTimeFormat)
         End Function
 
         ''' <summary>
@@ -569,7 +569,7 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function MonthName(culture As System.Globalization.CultureInfo) As String
-            Return Me.BeginOfPeriod.ToString("MMMM", culture.DateTimeFormat)
+            Return Me.BeginOfMonth.ToString("MMMM", culture.DateTimeFormat)
         End Function
 
         ''' <summary>
@@ -711,8 +711,8 @@ Namespace CompuMaster.Calendar
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function [NextPeriod]() As Month
-            Return New Month(BeginOfPeriod.AddMonths(1))
+        <Obsolete("Use [NextMonth] instead"), System.ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)> Public Function [NextPeriod]() As Month
+            Return New Month(BeginOfMonth.AddMonths(1))
         End Function
 
         ''' <summary>
@@ -720,8 +720,26 @@ Namespace CompuMaster.Calendar
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function [PreviousPeriod]() As Month
-            Return New Month(BeginOfPeriod.AddMonths(-1))
+        <Obsolete("Use PreviousMonth instead"), System.ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)> Public Function [PreviousPeriod]() As Month
+            Return New Month(BeginOfMonth.AddMonths(-1))
+        End Function
+
+        ''' <summary>
+        ''' Create an instance of the following period
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function [NextMonth]() As Month
+            Return New Month(BeginOfMonth.AddMonths(1))
+        End Function
+
+        ''' <summary>
+        ''' Create an instance of the previous period
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function [PreviousMonth]() As Month
+            Return New Month(BeginOfMonth.AddMonths(-1))
         End Function
 
         ''' <summary>
@@ -729,7 +747,7 @@ Namespace CompuMaster.Calendar
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function BeginOfPeriod() As DateTime
+        <Obsolete("Use BeginOfMonth instead"), System.ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)> Public Function BeginOfPeriod() As DateTime
             Return New DateTime(Year, Month, 1)
         End Function
 
@@ -739,8 +757,27 @@ Namespace CompuMaster.Calendar
         ''' <param name="precision"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function EndOfPeriod(ByVal precision As CompuMaster.Calendar.DateInformation.Accuracy) As DateTime
-            Return CompuMaster.Calendar.DateInformation.EndOfMonth(BeginOfPeriod, precision)
+        <Obsolete("Use EndOfMonth instead"), System.ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)> Public Function EndOfPeriod(ByVal precision As CompuMaster.Calendar.DateInformation.Accuracy) As DateTime
+            Return CompuMaster.Calendar.DateInformation.EndOfMonth(BeginOfMonth, precision)
+        End Function
+
+        ''' <summary>
+        ''' The begin of the month
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function BeginOfMonth() As DateTime
+            Return New DateTime(Year, Month, 1)
+        End Function
+
+        ''' <summary>
+        ''' The end of the month
+        ''' </summary>
+        ''' <param name="precision"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function EndOfMonth(ByVal precision As CompuMaster.Calendar.DateInformation.Accuracy) As DateTime
+            Return CompuMaster.Calendar.DateInformation.EndOfMonth(BeginOfMonth, precision)
         End Function
 
         ''' <summary>
@@ -780,9 +817,9 @@ Namespace CompuMaster.Calendar
         Public Function CompareTo(ByVal value As Month) As Integer
             If value Is Nothing Then
                 Return 1
-            ElseIf Me.BeginOfPeriod < value.BeginOfPeriod Then
+            ElseIf Me.BeginOfMonth < value.BeginOfMonth Then
                 Return -1
-            ElseIf Me.BeginOfPeriod > value.BeginOfPeriod Then
+            ElseIf Me.BeginOfMonth > value.BeginOfMonth Then
                 Return 1
             Else
                 Return 0
