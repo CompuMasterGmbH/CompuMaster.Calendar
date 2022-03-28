@@ -10,16 +10,29 @@ Namespace CompuMaster.Calendar
         Implements IComparable
 
         ''' <summary>
-        ''' Create a new instance of MonthRange with clones of first and last period (to behave more like value type instead of reference type)
+        ''' Create a new instance of MonthRange with clones of first and last month (to behave more like value type instead of reference type)
         ''' </summary>
-        ''' <param name="firstPeriod"></param>
-        ''' <param name="lastPeriod"></param>
-        Public Sub New(firstPeriod As CompuMaster.Calendar.Month, lastPeriod As CompuMaster.Calendar.Month)
-            If firstPeriod Is Nothing Then Throw New ArgumentNullException(NameOf(firstPeriod))
-            If lastPeriod Is Nothing Then Throw New ArgumentNullException(NameOf(lastPeriod))
-            If firstPeriod > lastPeriod Then Throw New ArgumentException("First period must be before last period")
-            Me._FirstMonth = firstPeriod.Clone
-            Me._LastMonth = lastPeriod.Clone
+        ''' <param name="firstMonth"></param>
+        ''' <param name="lastMonth"></param>
+        Public Sub New(firstMonth As CompuMaster.Calendar.Month, lastMonth As CompuMaster.Calendar.Month)
+            If firstMonth Is Nothing Then Throw New ArgumentNullException(NameOf(firstMonth))
+            If lastMonth Is Nothing Then Throw New ArgumentNullException(NameOf(lastMonth))
+            Me._FirstMonth = firstMonth.Clone
+            Me._LastMonth = lastMonth.Clone
+            If Me._FirstMonth > Me._LastMonth Then Throw New ArgumentException("First month must be before last month")
+        End Sub
+
+        ''' <summary>
+        ''' Create a new instance of MonthRange with clones of first and last month (to behave more like value type instead of reference type)
+        ''' </summary>
+        ''' <param name="startYear"></param>
+        ''' <param name="startMonth"></param>
+        ''' <param name="endYear"></param>
+        ''' <param name="endMonth"></param>
+        Public Sub New(startYear As Integer, startMonth As Integer, endYear As Integer, endMonth As Integer)
+            Me._FirstMonth = New Month(startYear, startMonth)
+            Me._LastMonth = New Month(endYear, endMonth)
+            If Me._FirstMonth > Me._LastMonth Then Throw New ArgumentException("Start month must be before last month")
         End Sub
 
         Private _FirstMonth As CompuMaster.Calendar.Month
