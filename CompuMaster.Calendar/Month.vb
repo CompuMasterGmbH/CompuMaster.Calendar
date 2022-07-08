@@ -914,6 +914,14 @@ Namespace CompuMaster.Calendar
             Return Me.Year * 100 + Me.Month
         End Function
 
+        ''' <summary>
+        ''' Convert to ZeroableMonth
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function ToZeroableMonth() As ZeroableMonth
+            Return CType(Me, ZeroableMonth)
+        End Function
+
         Private Function Clone_ICloneable() As Object Implements ICloneable.Clone
             Return New Month(Me.Year, Me.Month)
         End Function

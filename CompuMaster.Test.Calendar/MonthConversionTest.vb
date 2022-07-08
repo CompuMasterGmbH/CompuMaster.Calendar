@@ -29,6 +29,7 @@ Namespace CompuMaster.Test.Calendar
 
         <Test> Public Sub MonthToZeroableMonth()
             Assert.AreEqual(New CompuMaster.Calendar.ZeroableMonth(2000, 1), CType(New CompuMaster.Calendar.Month(2000, 1), CompuMaster.Calendar.ZeroableMonth))
+            Assert.AreEqual(New CompuMaster.Calendar.ZeroableMonth(2000, 1), (New CompuMaster.Calendar.Month(2000, 1)).ToZeroableMonth())
         End Sub
 
         <Test> Public Sub MonthToString()
