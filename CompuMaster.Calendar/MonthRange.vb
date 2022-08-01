@@ -318,6 +318,34 @@ Namespace CompuMaster.Calendar
             Return False
         End Function
 
+        ''' <summary>
+        ''' Move the whole MonthRange (with begin and end) into future (or in case of negative values: into past)
+        ''' </summary>
+        ''' <param name="years">Number of years to add</param>
+        ''' <param name="months">Number of months to add</param>
+        ''' <returns></returns>
+        Public Function Add(years As Integer, months As Integer) As MonthRange
+            Return New MonthRange(Me.FirstMonth.Add(years, months), Me.LastMonth.Add(years, months))
+        End Function
+
+        ''' <summary>
+        ''' Move the whole MonthRange (with begin and end) into future (or in case of negative values: into past)
+        ''' </summary>
+        ''' <param name="value">Number of years to add</param>
+        ''' <returns></returns>
+        Public Function AddYears(value As Integer) As MonthRange
+            Return New MonthRange(Me.FirstMonth.AddYears(value), Me.LastMonth.AddYears(value))
+        End Function
+
+        ''' <summary>
+        ''' Move the whole MonthRange (with begin and end) into future (or in case of negative values: into past)
+        ''' </summary>
+        ''' <param name="value">Number of months to add</param>
+        ''' <returns></returns>
+        Public Function AddMonths(value As Integer) As MonthRange
+            Return New MonthRange(Me.FirstMonth.AddMonths(value), Me.LastMonth.AddMonths(value))
+        End Function
+
     End Class
 
 End Namespace

@@ -235,6 +235,29 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(value, Reparsed)
         End Sub
 
+        Public Sub Add()
+            Dim OriginRange As CompuMaster.Calendar.MonthRange = CompuMaster.Calendar.MonthRange.Parse("2000-01 - 2020-12")
+            Assert.AreEqual("2000-01 - 2020-12", OriginRange.Add(0, 0))
+            Assert.AreEqual("2010-01 - 2030-12", OriginRange.Add(10, 0))
+            Assert.AreEqual("2001-01 - 2021-12", OriginRange.Add(0, 12))
+            Assert.AreEqual("2015-02 - 2036-01", OriginRange.Add(4, 13))
+            Assert.AreEqual("1994-12 - 2015-11", OriginRange.Add(-4, -13))
+        End Sub
+
+        Public Sub AddMonths()
+            Dim OriginRange As CompuMaster.Calendar.MonthRange = CompuMaster.Calendar.MonthRange.Parse("2000-01 - 2020-12")
+            Assert.AreEqual("2000-01 - 2020-12", OriginRange.AddMonths(0))
+            Assert.AreEqual("2000-05 - 2021-04", OriginRange.AddMonths(4))
+            Assert.AreEqual("1999-09 - 2019-08", OriginRange.AddMonths(-4))
+        End Sub
+
+        Public Sub AddYears()
+            Dim OriginRange As CompuMaster.Calendar.MonthRange = CompuMaster.Calendar.MonthRange.Parse("2000-01 - 2020-12")
+            Assert.AreEqual("2000-01 - 2020-12", OriginRange.AddYears(0))
+            Assert.AreEqual("2004-01 - 2024-12", OriginRange.AddYears(4))
+            Assert.AreEqual("1996-01 - 2016-12", OriginRange.AddYears(-4))
+        End Sub
+
     End Class
 
 End Namespace
