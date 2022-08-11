@@ -1004,6 +1004,19 @@ Namespace CompuMaster.Calendar
             Return Me.Year * 100 + Me.Month
         End Function
 
+        ''' <summary>
+        ''' Convert to Month
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <exception cref="InvalidCastException">Conversion fails if Month=0</exception>
+        Public Function ToMonth() As Month
+            If Me.Month = 0 Then
+                Throw New InvalidCastException("Conversion to Month not supported for ZeroableMonth with Month=0")
+            Else
+                Return CType(Me, Month)
+            End If
+        End Function
+
         Private Function Clone_ICloneable() As Object Implements ICloneable.Clone
             Return New CompuMaster.Calendar.ZeroableMonth(Me.Year, Me.Month)
         End Function

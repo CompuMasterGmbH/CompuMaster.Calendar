@@ -10,6 +10,13 @@ Namespace CompuMaster.Calendar
         Implements IComparable
 
         ''' <summary>
+        ''' Create a new empty instance of MonthRange
+        ''' </summary>
+        Public Sub New()
+            Me._IsEmpty = True
+        End Sub
+
+        ''' <summary>
         ''' Create a new instance of MonthRange with clones of first and last month (to behave more like value type instead of reference type)
         ''' </summary>
         ''' <param name="firstMonth"></param>
@@ -34,6 +41,27 @@ Namespace CompuMaster.Calendar
             Me._LastMonth = New Month(endYear, endMonth)
             If Me._FirstMonth > Me._LastMonth Then Throw New ArgumentException("Start month must be before last month")
         End Sub
+
+        ''' <summary>
+        ''' An empty MonthRange, containing no months
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared ReadOnly Property Empty As MonthRange
+            Get
+                Return New MonthRange
+            End Get
+        End Property
+
+        Private _IsEmpty As Boolean
+        ''' <summary>
+        ''' An empty range, containing no months
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property IsEmpty As Boolean
+            Get
+                Return _IsEmpty
+            End Get
+        End Property
 
         Private _FirstMonth As CompuMaster.Calendar.Month
         ''' <summary>
@@ -62,17 +90,21 @@ Namespace CompuMaster.Calendar
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return Me.FirstMonth.ToString & " - " & Me.LastMonth.ToString
+            If Me._IsEmpty Then
+                Return ""
+            Else
+                Return Me.FirstMonth.ToString & " - " & Me.LastMonth.ToString
+            End If
         End Function
 
         ''' <summary>
-        ''' Parse a text with format "yyyy-MM - yyyy-MM"
+        ''' Parse a text with format "yyyy-MM - yyyy-MM" (valid range) or an empty string (empty range)
         ''' </summary>
         ''' <param name="value"></param>
         ''' <returns></returns>
         Public Shared Function Parse(value As String) As MonthRange
             If value = Nothing Then
-                Throw New ArgumentNullException(NameOf(value))
+                Return MonthRange.Empty
             ElseIf value.Length <> 17 OrElse value.substring(7, 3) <> " - " Then
                 'Throw New FormatException("Value must be formatted as ""yyyy-MM - yyyy-MM"" to parse successfully")
                 Throw New FormatException("Value must be formatted as ""yyyy-MM - yyyy-MM"" to parse successfully, but found """ & value & """")
@@ -81,6 +113,21 @@ Namespace CompuMaster.Calendar
                 Dim LastMonth As String = value.Substring(10, 7)
                 Return New MonthRange(Month.Parse(FirstMonth), Month.Parse(LastMonth))
             End If
+        End Function
+
+        ''' <summary>
+        ''' Parse a text with format "yyyy-MM - yyyy-MM" (valid range) or an empty string (empty range)
+        ''' </summary>
+        ''' <param name="s"></param>
+        ''' <param name="result"></param>
+        ''' <returns></returns>
+        Public Shared Function TryParse(s As String, ByRef result As MonthRange) As Boolean
+            Try
+                result = Parse(s)
+                Return True
+            Catch
+                Return False
+            End Try
         End Function
 
         ''' <summary>
@@ -110,7 +157,7 @@ Namespace CompuMaster.Calendar
                 Return False
             End If
 
-            Return Me.FirstMonth = CType(obj, MonthRange).FirstMonth AndAlso Me.LastMonth = CType(obj, MonthRange).LastMonth
+            Return Me.FirstMonth = CType(obj, MonthRange).FirstMonth AndAlso Me.LastMonth = CType(obj, MonthRange).LastMonth AndAlso Me.IsEmpty = CType(obj, MonthRange).IsEmpty
         End Function
 
         ''' <summary>
@@ -121,7 +168,7 @@ Namespace CompuMaster.Calendar
         ''' <remarks></remarks>
         Public Overloads Function Equals(ByVal value As MonthRange) As Boolean
             If value IsNot Nothing Then
-                If Me.FirstMonth = value.FirstMonth AndAlso Me.LastMonth = value.LastMonth Then
+                If Me.FirstMonth = value.FirstMonth AndAlso Me.LastMonth = value.LastMonth AndAlso Me.IsEmpty = value.IsEmpty Then
                     Return True
                 Else
                     Return False
@@ -139,6 +186,12 @@ Namespace CompuMaster.Calendar
         Public Function CompareTo(value As MonthRange) As Integer
             If value Is Nothing Then
                 Return 1
+            ElseIf Me.IsEmpty And Not value.IsEmpty Then
+                Return -1
+            ElseIf Not Me.IsEmpty And value.IsEmpty Then
+                Return 1
+            ElseIf Me.IsEmpty And value.IsEmpty Then
+                Return 0
             ElseIf Me.FirstMonth < value.FirstMonth Then
                 Return -1
             ElseIf Me.FirstMonth > value.FirstMonth Then
@@ -260,7 +313,11 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         Public ReadOnly Property MonthCount As Integer
             Get
-                Return Me._LastMonth - Me._FirstMonth + 1
+                If Me.IsEmpty Then
+                    Return 0
+                Else
+                    Return Me._LastMonth - Me._FirstMonth + 1
+                End If
             End Get
         End Property
 
@@ -274,13 +331,17 @@ Namespace CompuMaster.Calendar
 #Enable Warning CA1819 ' Properties should not return arrays
             Get
                 If _Months Is Nothing Then
-                    Dim AllMonths As New List(Of Month)
-                    Dim CurrentMonth As Month = Me._FirstMonth
-                    Do While CurrentMonth <= Me._LastMonth
-                        AllMonths.Add(CurrentMonth)
-                        CurrentMonth = CurrentMonth.NextMonth
-                    Loop
-                    _Months = AllMonths.ToArray
+                    If Me.IsEmpty Then
+                        _Months = New Month() {}
+                    Else
+                        Dim AllMonths As New List(Of Month)
+                        Dim CurrentMonth As Month = Me._FirstMonth
+                        Do While CurrentMonth <= Me._LastMonth
+                            AllMonths.Add(CurrentMonth)
+                            CurrentMonth = CurrentMonth.NextMonth
+                        Loop
+                        _Months = AllMonths.ToArray
+                    End If
                 End If
                 Return _Months
             End Get
@@ -292,7 +353,11 @@ Namespace CompuMaster.Calendar
         ''' <param name="value"></param>
         ''' <returns></returns>
         Public Function Contains(value As Month) As Boolean
-            Return value >= Me.FirstMonth AndAlso value <= Me.LastMonth
+            If Me.IsEmpty Then
+                Return False
+            Else
+                Return value >= Me.FirstMonth AndAlso value <= Me.LastMonth
+            End If
         End Function
 
         ''' <summary>
@@ -302,7 +367,11 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         Public Function Contains(value As MonthRange) As Boolean
             If value Is Nothing Then Throw New ArgumentNullException(NameOf(value))
-            Return value.FirstMonth >= Me.FirstMonth AndAlso value.LastMonth <= Me.LastMonth
+            If Me.IsEmpty Then
+                Return False
+            Else
+                Return value.FirstMonth >= Me.FirstMonth AndAlso value.LastMonth <= Me.LastMonth
+            End If
         End Function
 
         ''' <summary>
@@ -312,10 +381,14 @@ Namespace CompuMaster.Calendar
         ''' <returns></returns>
         Public Function Overlaps(value As MonthRange) As Boolean
             If value Is Nothing Then Throw New ArgumentNullException(NameOf(value))
-            For Each month As Month In value.Months
-                If Me.Contains(month) Then Return True
-            Next
-            Return False
+            If Me.IsEmpty Or value.IsEmpty Then
+                Return False
+            Else
+                For Each month As Month In value.Months
+                    If Me.Contains(month) Then Return True
+                Next
+                Return False
+            End If
         End Function
 
         ''' <summary>
@@ -325,6 +398,7 @@ Namespace CompuMaster.Calendar
         ''' <param name="months">Number of months to add</param>
         ''' <returns></returns>
         Public Function Add(years As Integer, months As Integer) As MonthRange
+            If Me.IsEmpty Then Throw New InvalidOperationException("Can't add to MonthRange.Empty")
             Return New MonthRange(Me.FirstMonth.Add(years, months), Me.LastMonth.Add(years, months))
         End Function
 
@@ -334,6 +408,7 @@ Namespace CompuMaster.Calendar
         ''' <param name="value">Number of years to add</param>
         ''' <returns></returns>
         Public Function AddYears(value As Integer) As MonthRange
+            If Me.IsEmpty Then Throw New InvalidOperationException("Can't add to MonthRange.Empty")
             Return New MonthRange(Me.FirstMonth.AddYears(value), Me.LastMonth.AddYears(value))
         End Function
 
@@ -343,6 +418,7 @@ Namespace CompuMaster.Calendar
         ''' <param name="value">Number of months to add</param>
         ''' <returns></returns>
         Public Function AddMonths(value As Integer) As MonthRange
+            If Me.IsEmpty Then Throw New InvalidOperationException("Can't add to MonthRange.Empty")
             Return New MonthRange(Me.FirstMonth.AddMonths(value), Me.LastMonth.AddMonths(value))
         End Function
 
