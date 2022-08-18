@@ -11,7 +11,7 @@ Namespace CompuMaster.Calendar
         Implements IComparable, ICloneable
 
         Public Sub New()
-            Me.Year = 1
+            Me.Year = 0
             Me.Month = 0
         End Sub
         Public Sub New(ByVal value As DateTime)

@@ -5,9 +5,9 @@ Namespace CompuMaster.Test.Calendar
     <TestFixture()> Public Class ZeroableMonthTest
 
         <Test> Public Sub Parse()
-            Assert.AreEqual("2010-10", CompuMaster.Calendar.Month.Parse("2010-10").ToString)
-            Assert.AreEqual("1900-01", CompuMaster.Calendar.Month.Parse("1900-01").ToString)
-            Assert.AreEqual("2010-00", CompuMaster.Calendar.Month.Parse("2010-00").ToString)
+            Assert.AreEqual("2010-10", CompuMaster.Calendar.ZeroableMonth.Parse("2010-10").ToString)
+            Assert.AreEqual("1900-01", CompuMaster.Calendar.ZeroableMonth.Parse("1900-01").ToString)
+            Assert.AreEqual("2010-00", CompuMaster.Calendar.ZeroableMonth.Parse("2010-00").ToString)
             Assert.AreEqual("2010-10", CompuMaster.Calendar.ZeroableMonth.Parse("Oct/2010", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US")).ToString)
             Assert.AreEqual("1900-01", CompuMaster.Calendar.ZeroableMonth.Parse("Jan/1900", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US")).ToString)
             Assert.AreEqual("9999-12", CompuMaster.Calendar.ZeroableMonth.Parse("Dec/9999", "MMM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US")).ToString)
