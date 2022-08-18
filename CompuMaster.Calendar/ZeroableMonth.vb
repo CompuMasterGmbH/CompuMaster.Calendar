@@ -19,8 +19,18 @@ Namespace CompuMaster.Calendar
             Me.Month = value.Month
         End Sub
         Public Sub New(ByVal year As Integer, ByVal month As Integer)
-            Me.Year = year
-            Me.Month = month
+            If year < 0 Then
+                Throw New ArgumentOutOfRangeException(NameOf(year), "Must be zero or a positive number")
+            ElseIf year > 9999 Then
+                Throw New ArgumentOutOfRangeException(NameOf(year), "Must be less or equal to 9999")
+            ElseIf month < 0 Then
+                Throw New ArgumentOutOfRangeException(NameOf(year), "Must be zero or a positive number")
+            ElseIf month > 12 Then
+                Throw New ArgumentOutOfRangeException(NameOf(year), "Must be less or equal to 12")
+            Else
+                Me.Year = year
+                Me.Month = month
+            End If
         End Sub
         Public Sub New(ByVal value As String)
             If value = Nothing OrElse value.Length <> 7 OrElse value.Substring(4, 1) <> "-" Then

@@ -19,8 +19,18 @@ Namespace CompuMaster.Calendar
             Me.Month = value.Month
         End Sub
         Public Sub New(ByVal year As Integer, ByVal month As Integer)
-            Me.Year = year
-            Me.Month = month
+            If year < 1 Then
+                Throw New ArgumentOutOfRangeException(NameOf(year), "Must be a positive number")
+            ElseIf year > 9999 Then
+                Throw New ArgumentOutOfRangeException(NameOf(year), "Must be less or equal to 9999")
+            ElseIf month < 1 Then
+                Throw New ArgumentOutOfRangeException(NameOf(year), "Must be a positive number")
+            ElseIf month > 12 Then
+                Throw New ArgumentOutOfRangeException(NameOf(year), "Must be less or equal to 12")
+            Else
+                Me.Year = year
+                Me.Month = month
+            End If
         End Sub
         Public Sub New(ByVal value As String)
             If value = Nothing OrElse value.Length <> 7 OrElse value.Substring(4, 1) <> "-" Then
@@ -43,7 +53,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         Public Shared Function Parse(value As Integer) As Month
-            If value < 0 Then Throw New InvalidCastException("Value must be a positive number")
+            If value < 101 Then Throw New InvalidCastException("Value must be a positive number >= 101")
             Dim Year As Integer = CType(value / 100, Integer)
             If Year > 9999 Then Throw New InvalidCastException("Year must be <= 9999")
             Dim Month As Integer = value - Year * 100
@@ -99,7 +109,7 @@ Namespace CompuMaster.Calendar
                 Return _Month
             End Get
             Set(ByVal value As Integer)
-                If value < 0 OrElse value > 12 Then Throw New ArgumentOutOfRangeException(NameOf(value), "Invalid value " & value.ToString)
+                If value < 1 OrElse value > 12 Then Throw New ArgumentOutOfRangeException(NameOf(value), "Invalid value " & value.ToString)
                 _Month = value
             End Set
         End Property

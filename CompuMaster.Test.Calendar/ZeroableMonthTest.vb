@@ -4,6 +4,66 @@ Namespace CompuMaster.Test.Calendar
 
     <TestFixture()> Public Class ZeroableMonthTest
 
+        <Test> Public Sub Init()
+            Dim TestMonthNo As Integer, TestYear As Integer
+
+            Assert.AreEqual(0, (New CompuMaster.Calendar.ZeroableMonth).Year, "Init with zero alias empty value")
+            Assert.AreEqual(0, (New CompuMaster.Calendar.ZeroableMonth).Month, "Init with zero alias empty value")
+            Assert.AreEqual(New CompuMaster.Calendar.ZeroableMonth, New CompuMaster.Calendar.ZeroableMonth(0, 0), "Init with zero alias empty value")
+            Assert.AreEqual(CompuMaster.Calendar.ZeroableMonth.MinValue, New CompuMaster.Calendar.ZeroableMonth(0, 0), "Init with zero alias min value")
+
+            TestYear = 0
+            TestMonthNo = 0
+            Assert.AreEqual(TestYear, (New CompuMaster.Calendar.ZeroableMonth(TestYear, TestYear).Year))
+            Assert.AreEqual(TestMonthNo, (New CompuMaster.Calendar.ZeroableMonth(TestYear, TestMonthNo).Month))
+
+            For MonthCounter As Integer = 0 To 12
+                TestYear = 1
+                Assert.AreEqual(TestYear, (New CompuMaster.Calendar.ZeroableMonth(TestYear, MonthCounter).Year))
+                Assert.AreEqual(MonthCounter, (New CompuMaster.Calendar.ZeroableMonth(TestYear, MonthCounter).Month))
+
+                TestYear = 9999
+                Assert.AreEqual(TestYear, (New CompuMaster.Calendar.ZeroableMonth(TestYear, MonthCounter).Year))
+                Assert.AreEqual(MonthCounter, (New CompuMaster.Calendar.ZeroableMonth(TestYear, MonthCounter).Month))
+            Next
+
+            TestYear = 1
+            TestMonthNo = 13
+            Assert.Catch(Of ArgumentOutOfRangeException)(Function()
+                                                             Return New CompuMaster.Calendar.ZeroableMonth(TestYear, TestMonthNo)
+                                                         End Function)
+
+            TestYear = 1
+            TestMonthNo = -1
+            Assert.Catch(Of ArgumentOutOfRangeException)(Function()
+                                                             Return New CompuMaster.Calendar.ZeroableMonth(TestYear, TestMonthNo)
+                                                         End Function)
+
+            TestYear = 0
+            TestMonthNo = -1
+            Assert.Catch(Of ArgumentOutOfRangeException)(Function()
+                                                             Return New CompuMaster.Calendar.ZeroableMonth(TestYear, TestMonthNo)
+                                                         End Function)
+
+            TestYear = -1
+            TestMonthNo = 1
+            Assert.Catch(Of ArgumentOutOfRangeException)(Function()
+                                                             Return New CompuMaster.Calendar.ZeroableMonth(TestYear, TestMonthNo)
+                                                         End Function)
+
+            TestYear = -1
+            TestMonthNo = 0
+            Assert.Catch(Of ArgumentOutOfRangeException)(Function()
+                                                             Return New CompuMaster.Calendar.ZeroableMonth(TestYear, TestMonthNo)
+                                                         End Function)
+
+            TestYear = 10000
+            TestMonthNo = 1
+            Assert.Catch(Of ArgumentOutOfRangeException)(Function()
+                                                             Return New CompuMaster.Calendar.Month(TestYear, TestMonthNo)
+                                                         End Function)
+        End Sub
+
         <Test> Public Sub Parse()
             Assert.AreEqual("2010-10", CompuMaster.Calendar.ZeroableMonth.Parse("2010-10").ToString)
             Assert.AreEqual("1900-01", CompuMaster.Calendar.ZeroableMonth.Parse("1900-01").ToString)
