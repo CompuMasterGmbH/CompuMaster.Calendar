@@ -488,7 +488,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
-        ''' All short names in format UUU where UUU equals MMM (English names)
+        ''' All short names in format UUU where UUU equals MMM with English names
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
@@ -501,7 +501,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
-        ''' A short name in format UUU where UUU equals MMM (English names)
+        ''' A short name in format UUU where UUU equals MMM with English names
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
@@ -539,7 +539,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
-        ''' A short name in format UUU/YYYY where UUU equals MMM (English names)
+        ''' A short name in format UUU/YYYY where UUU equals MMM with English names
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
@@ -548,7 +548,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
-        ''' A short name in format MMM/YYYY of specified culture
+        ''' A short name in format MMM of specified culture
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
@@ -557,7 +557,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
-        ''' A short name in format MMM/YYYY of specified culture
+        ''' A short name in format MMM of specified culture
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
@@ -566,7 +566,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
-        ''' A full month name in format MMMM/YYYY of specified culture
+        ''' A full month name in format MMMM of specified culture
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
@@ -575,7 +575,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
-        ''' A full month name in format MMMM/YYYY of specified culture
+        ''' A full month name in format MMMM of specified culture
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
