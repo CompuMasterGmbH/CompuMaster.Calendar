@@ -75,6 +75,7 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("2010-10", CompuMaster.Calendar.Month.Parse("10/2010", "MM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US")).ToString)
             Assert.AreEqual("2001-10", CompuMaster.Calendar.Month.Parse("10/01", "MM/yy", System.Globalization.CultureInfo.GetCultureInfo("en-US")).ToString)
             Assert.AreEqual("1999-10", CompuMaster.Calendar.Month.Parse("10/99", "MM/yy", System.Globalization.CultureInfo.GetCultureInfo("en-US")).ToString)
+            Assert.AreEqual("2023-03", CompuMaster.Calendar.Month.Parse("März 2023", "MMMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE")).ToString)
 
             Dim CustomMonths As String() = New String() {"Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"}
             Assert.AreEqual("2020-03", CompuMaster.Calendar.Month.Parse("Mär 2020", "CCC yyyy", System.Globalization.CultureInfo.GetCultureInfo("de-DE"), CustomMonths).ToString, "#100")
