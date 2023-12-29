@@ -352,6 +352,14 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(New CompuMaster.Calendar.MonthRange(), CompuMaster.Calendar.MonthRange.Empty)
         End Sub
 
+        <Test> Public Sub SimplifiedName()
+            Assert.AreEqual("", New CompuMaster.Calendar.MonthRange().SimplifiedName)
+            Assert.AreEqual("2000", New CompuMaster.Calendar.MonthRange(2000, 1, 2000, 12).SimplifiedName)
+            Assert.AreEqual("2000-01 - 2020-12", New CompuMaster.Calendar.MonthRange(2000, 1, 2020, 12).SimplifiedName)
+            Assert.AreEqual("2000-02 - 2000-12", New CompuMaster.Calendar.MonthRange(2000, 2, 2000, 12).SimplifiedName)
+            Assert.AreEqual("2000-01 - 2000-11", New CompuMaster.Calendar.MonthRange(2000, 1, 2000, 11).SimplifiedName)
+        End Sub
+
     End Class
 
 End Namespace

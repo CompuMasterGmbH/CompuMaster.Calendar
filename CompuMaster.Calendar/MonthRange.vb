@@ -98,6 +98,22 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
+        ''' A range matching a whole year (January till December) is represented simply by the year number, all other ranges are represented by "yyyy-MM - yyyy-MM" (valid range) or an empty string (empty range)
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property SimplifiedName As String
+            Get
+                If Me._IsEmpty Then
+                    Return ""
+                ElseIf _FirstMonth.Year = _LastMonth.Year AndAlso _FirstMonth.Month = 1 AndAlso _LastMonth.Month = 12 Then
+                    Return _FirstMonth.Year.ToString
+                Else
+                    Return Me.ToString
+                End If
+            End Get
+        End Property
+
+        ''' <summary>
         ''' Parse a text with format "yyyy-MM - yyyy-MM" (valid range) or an empty string (empty range)
         ''' </summary>
         ''' <param name="value"></param>
