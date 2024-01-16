@@ -120,7 +120,7 @@ Namespace CompuMaster.Test.Calendar
 
             Range1 = New DateTimeRange()
             Range2 = Nothing
-            ExpectedAsEqual = False
+            ExpectedAsEqual = True
             Assert.AreEqual(ExpectedAsEqual, DateTimeRange.Equals(Range1, Range2))
             Assert.AreEqual(ExpectedAsEqual, Range1.Equals(Range2))
             Assert.AreEqual(ExpectedAsEqual, Range1 = Range2)

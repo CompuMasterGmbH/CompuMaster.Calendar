@@ -6,14 +6,8 @@ Namespace CompuMaster.Calendar
     ''' <summary>
     ''' A date range with optional date limits
     ''' </summary>
-    Public Class DateTimeRange
+    Public Structure DateTimeRange
         Implements IEqualityComparer, IEqualityComparer(Of DateTimeRange), IComparable
-
-        ''' <summary>
-        ''' Create a new date range without any date limits
-        ''' </summary>
-        Public Sub New()
-        End Sub
 
         ''' <summary>
         ''' Create a new date range with date limits
@@ -129,15 +123,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         Public Shared Operator =(ByVal a As DateTimeRange, ByVal b As DateTimeRange) As Boolean
-            If a Is Nothing AndAlso b Is Nothing Then
-                Return True
-            ElseIf a Is Nothing AndAlso b IsNot Nothing Then
-                Return False
-            ElseIf a IsNot Nothing AndAlso b Is Nothing Then
-                Return False
-            Else
-                Return a.From.GetValueOrDefault = b.From.GetValueOrDefault AndAlso a.Till.GetValueOrDefault(DateTime.MaxValue) = b.Till.GetValueOrDefault(DateTime.MaxValue)
-            End If
+            Return a.From.GetValueOrDefault = b.From.GetValueOrDefault AndAlso a.Till.GetValueOrDefault(DateTime.MaxValue) = b.Till.GetValueOrDefault(DateTime.MaxValue)
         End Operator
 
         Public Shared Operator <>(ByVal a As DateTimeRange, ByVal b As DateTimeRange) As Boolean
@@ -214,12 +200,12 @@ Namespace CompuMaster.Calendar
         End Function
 
         Private Function IEqualityComparer_OfDateTimeRange_GetHashCode(obj As DateTimeRange) As Integer Implements IEqualityComparer(Of DateTimeRange).GetHashCode
-            If obj Is Nothing OrElse obj.IsUnlimitedRange Then
+            If obj.IsUnlimitedRange Then
                 Return 0
             Else
                 Return obj.GetHashCode
             End If
         End Function
-    End Class
+    End Structure
 
 End Namespace
