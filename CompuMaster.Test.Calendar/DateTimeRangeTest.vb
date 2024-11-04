@@ -1,5 +1,6 @@
 ﻿Imports NUnit.Framework
 Imports CompuMaster.Calendar
+Imports System.Text.RegularExpressions
 
 Namespace CompuMaster.Test.Calendar
 
@@ -15,6 +16,21 @@ Namespace CompuMaster.Test.Calendar
             Return Result
         End Function
 
+        ''' <summary>
+        ''' Convert a DateTimeRange object to a string while also converting NNBSP (narrow no-break space, unicode char 8239) characters to normal spaces
+        ''' </summary>
+        ''' <param name="value">DateTimeRange object to be converted to a string</param>
+        ''' <param name="culture">Culture for formatting the date values</param>
+        ''' <returns></returns>
+        Private Function TestRangeToString(value As DateTimeRange, culture As System.Globalization.CultureInfo) As String
+            Return value.ToString(culture).Replace(ChrW(8239), " "c)
+        End Function
+
+        ''' <summary>
+        ''' Test the string representation of a DateTimeRange object
+        ''' </summary>
+        ''' <param name="cultureName"></param>
+        ''' <remarks>Mac systems might present "1/1/2005 12:00:00 AM - *" with an NNBSP char between seconds and AM, so convert them to regular space char just for this test</remarks>
         <Test()> Public Sub ToStringTest(<Values("", "de-DE", "en-US", "en-UK", "fr-FR")> cultureName As String)
             Dim TestCulture As System.Globalization.CultureInfo = LookupTestCulture(cultureName)
             Dim TestRange As New DateTimeRange
@@ -22,36 +38,36 @@ Namespace CompuMaster.Test.Calendar
             TestRange.From = New Date(2005, 1, 1)
             Select Case cultureName
                 Case "de-DE"
-                    Assert.AreEqual("01.01.2005 00:00:00 - *", TestRange.ToString(TestCulture))
+                    Assert.AreEqual("01.01.2005 00:00:00 - *", TestRangeToString(TestRange, TestCulture))
                 Case "en-US"
-                    Assert.AreEqual("1/1/2005 12:00:00 AM - *", TestRange.ToString(TestCulture))
+                    Assert.AreEqual("1/1/2005 12:00:00 AM - *", TestRangeToString(TestRange, TestCulture))
                 Case "", Nothing
                     Assert.AreEqual(TestRange.From.ToString & " - *", TestRange.ToString)
-                    Assert.AreEqual("2005-01-01 00:00:00 - *", TestRange.ToString(TestCulture))
+                    Assert.AreEqual("2005-01-01 00:00:00 - *", TestRangeToString(TestRange, TestCulture))
                 Case Else
                     Assert.AreEqual(TestRange.From.Value.ToString(TestCulture) & " - *", TestRange.ToString(TestCulture))
             End Select
             TestRange.Till = New Date(2005, 12, 31, 23, 59, 59, 999, DateTimeKind.Utc)
             Select Case cultureName
                 Case "de-DE"
-                    Assert.AreEqual("01.01.2005 00:00:00 - 31.12.2005 23:59:59", TestRange.ToString(TestCulture))
+                    Assert.AreEqual("01.01.2005 00:00:00 - 31.12.2005 23:59:59", TestRangeToString(TestRange, TestCulture))
                 Case "en-US"
-                    Assert.AreEqual("1/1/2005 12:00:00 AM - 12/31/2005 11:59:59 PM", TestRange.ToString(TestCulture))
+                    Assert.AreEqual("1/1/2005 12:00:00 AM - 12/31/2005 11:59:59 PM", TestRangeToString(TestRange, TestCulture))
                 Case "", Nothing
                     Assert.AreEqual(TestRange.From.ToString & " - " & TestRange.Till.ToString, TestRange.ToString)
-                    Assert.AreEqual("2005-01-01 00:00:00 - 2005-12-31 23:59:59", TestRange.ToString(TestCulture))
+                    Assert.AreEqual("2005-01-01 00:00:00 - 2005-12-31 23:59:59", TestRangeToString(TestRange, TestCulture))
                 Case Else
                     Assert.AreEqual(TestRange.From.Value.ToString(TestCulture) & " - " & TestRange.Till.Value.ToString(TestCulture), TestRange.ToString(TestCulture))
             End Select
             TestRange.From = Nothing
             Select Case cultureName
                 Case "de-DE"
-                    Assert.AreEqual("* - 31.12.2005 23:59:59", TestRange.ToString(TestCulture))
+                    Assert.AreEqual("* - 31.12.2005 23:59:59", TestRangeToString(TestRange, TestCulture))
                 Case "en-US"
-                    Assert.AreEqual("* - 12/31/2005 11:59:59 PM", TestRange.ToString(TestCulture))
+                    Assert.AreEqual("* - 12/31/2005 11:59:59 PM", TestRangeToString(TestRange, TestCulture))
                 Case "", Nothing
                     Assert.AreEqual("* - " & TestRange.Till.ToString, TestRange.ToString)
-                    Assert.AreEqual("* - 2005-12-31 23:59:59", TestRange.ToString(TestCulture))
+                    Assert.AreEqual("* - 2005-12-31 23:59:59", TestRangeToString(TestRange, TestCulture))
                 Case Else
                     Assert.AreEqual("* - " & TestRange.Till.Value.ToString(TestCulture), TestRange.ToString(TestCulture))
             End Select
