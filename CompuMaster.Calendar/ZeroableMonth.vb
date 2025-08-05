@@ -199,7 +199,7 @@ Namespace CompuMaster.Calendar
         ''' <summary>
         ''' Format the month with a typical datetime format string and the given format provider using the begin date of the period
         ''' </summary>
-        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits</param>
+        ''' <param name="format">yyyy for 4-digit year, yy for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits</param>
         ''' <param name="provider"></param>
         ''' <returns></returns>
         ''' <remarks>
@@ -211,7 +211,7 @@ Namespace CompuMaster.Calendar
         ''' <summary>
         ''' Format the month with a typical datetime format string and the given format provider using the begin date of the period
         ''' </summary>
-        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
+        ''' <param name="format">yyyy for 4-digit year, yy for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
         ''' <param name="provider"></param>
         ''' <param name="customMonths">An array of 13 strings reprensenting the expected month names, starting with an element for 0-month followed by January up to December</param>
         ''' <returns></returns>
@@ -245,7 +245,7 @@ Namespace CompuMaster.Calendar
         ''' <summary>
         ''' Parse the month from a defined datetime format string and the given culture
         ''' </summary>
-        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
+        ''' <param name="format">yyyy for 4-digit year, yy for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
         ''' <param name="culture"></param>
         ''' <returns></returns>
         ''' <remarks>
@@ -257,7 +257,7 @@ Namespace CompuMaster.Calendar
         ''' <summary>
         ''' Parse the month from a defined datetime format string and the given culture
         ''' </summary>
-        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
+        ''' <param name="format">yyyy for 4-digit year, yy for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
         ''' <param name="culture"></param>
         ''' <param name="customMonths">An array of 13 strings reprensenting the expected month names, starting with an element for 0-month followed by January up to December</param>
         ''' <returns></returns>
@@ -312,6 +312,7 @@ Namespace CompuMaster.Calendar
                 Pattern = Pattern.Replace("zzz", "(?<d>[\-|\+|\ ]\d\d\:\d\d)")
             End If
             Pattern = Pattern.Replace("yyyy", "(?<year4>\d\d\d\d)").Replace("yy", "(?<year2>\d\d)")
+            Pattern = Pattern.Replace("YYYY", "(?<year4>\d\d\d\d)").Replace("YY", "(?<year2>\d\d)")
             If Pattern.Contains("CCC") Then
                 If customMonths Is Nothing Then Throw New ArgumentNullException(NameOf(customMonths))
                 If customMonths.Length <> 13 Then Throw New ArgumentException("Array with 13 elements required", NameOf(customMonths))
@@ -375,7 +376,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
-        ''' Try to parse the month from datetime format YYYY-MM
+        ''' Try to parse the month from datetime format yyyy-MM
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks>
@@ -394,7 +395,7 @@ Namespace CompuMaster.Calendar
         ''' <summary>
         ''' Try to parse the month from a defined datetime format string and the given culture
         ''' </summary>
-        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
+        ''' <param name="format">yyyy for 4-digit year, yy for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
         ''' <param name="culture"></param>
         ''' <returns></returns>
         ''' <remarks>
@@ -413,7 +414,7 @@ Namespace CompuMaster.Calendar
         ''' <summary>
         ''' Try to parse the month from a defined datetime format string and the given culture
         ''' </summary>
-        ''' <param name="format">YYYY for 4-digit year, YY for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
+        ''' <param name="format">yyyy for 4-digit year, yy for 2-digit year, MMMM for long month name, MMM for month name abbreviation, MM for always-2-digit month number, M for month number with 1 or 2 digits, UUU for unique short name of month (might depend on system platform), CCC for a custom set of expected names from January to December</param>
         ''' <param name="culture"></param>
         ''' <param name="customMonths">An array of 12 strings reprensenting the expected month names, starting with January up to December</param>
         ''' <returns></returns>
@@ -431,7 +432,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
-        ''' Parse the month from a format string UUU/YYYY
+        ''' Parse the month from a format string UUU/yyyy
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks>
@@ -521,7 +522,7 @@ Namespace CompuMaster.Calendar
         End Function
 
         ''' <summary>
-        ''' A short name in format UUU/YYYY where UUU equals MMM with English names
+        ''' A short name in format UUU/yyyy where UUU equals MMM with English names
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
