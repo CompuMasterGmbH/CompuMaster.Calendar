@@ -134,16 +134,41 @@ Namespace CompuMaster.Calendar
         ''' <summary>
         ''' Parse a text with format "yyyy-MM - yyyy-MM" (valid range) or an empty string (empty range)
         ''' </summary>
-        ''' <param name="s"></param>
+        ''' <param name="value"></param>
         ''' <param name="result"></param>
         ''' <returns></returns>
-        Public Shared Function TryParse(s As String, ByRef result As MonthRange) As Boolean
+        Public Shared Function TryParse(value As String, ByRef result As MonthRange) As Boolean
+            If value = Nothing Then
+                result = MonthRange.Empty
+                Return True
+            ElseIf value.Length <> 17 OrElse value.Substring(7, 3) <> " - " Then
+                result = Nothing
+                Return False
+            Else
+                Dim FirstMonth As String = value.Substring(0, 7)
+                Dim LastMonth As String = value.Substring(10, 7)
+                Dim Success As Boolean
+                Dim ConvertedFirstMonth As Month = Nothing
+                Dim ConvertedLastMonth As Month = Nothing
+                Success = Month.TryParse(FirstMonth, ConvertedFirstMonth)
+                Success = Success AndAlso Month.TryParse(LastMonth, ConvertedLastMonth)
+                If Success Then
+                    result = New MonthRange(ConvertedFirstMonth, ConvertedLastMonth)
+                    Return True
+                Else
+                    result = Nothing
+                    Return False
+                End If
+            End If
+#If False Then
+            'Disabled alternative implementation with higher code reusage factor, but using expensive exception handling
             Try
-                result = Parse(s)
+                result = Parse(value)
                 Return True
             Catch
                 Return False
             End Try
+#End If
         End Function
 
         ''' <summary>

@@ -291,6 +291,43 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual(value, Reparsed)
         End Sub
 
+        <Test> Public Sub TryParse()
+            Dim Buffer As CompuMaster.Calendar.MonthRange
+            Assert.True(CompuMaster.Calendar.MonthRange.TryParse(Nothing, Buffer))
+            Assert.True(Buffer.IsEmpty)
+            Assert.True(CompuMaster.Calendar.MonthRange.TryParse("", Buffer))
+            Assert.True(Buffer.IsEmpty)
+            Assert.False(CompuMaster.Calendar.MonthRange.TryParse("2020-04 2020-05", Buffer))
+            Assert.That(Buffer, [Is].Null)
+            Assert.True(CompuMaster.Calendar.MonthRange.TryParse("2020-04 - 2020-05", Buffer))
+            Assert.That(Buffer, [Is].Not.Null)
+            Assert.False(CompuMaster.Calendar.MonthRange.TryParse("2020-00 - 2020-05", Buffer))
+            Assert.That(Buffer, [Is].Null)
+            Assert.False(CompuMaster.Calendar.MonthRange.TryParse("A020-04 - 2020-05", Buffer))
+            Assert.That(Buffer, [Is].Null)
+
+            TryParse_AssertToStringAndReParseResultIsEqual(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 11), New CompuMaster.Calendar.Month(2020, 1)))
+            TryParse_AssertToStringAndReParseResultIsEqual(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2024, 1), New CompuMaster.Calendar.Month(2024, 12)))
+            TryParse_AssertToStringAndReParseResultIsEqual(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2019, 11), New CompuMaster.Calendar.Month(2019, 11)))
+
+            TryParse_AssertToStringAndReParseResultIsEqual(CompuMaster.Calendar.MonthRange.Parse("2020-04 - 2020-05"))
+            TryParse_AssertToStringAndReParseResultIsEqual(New CompuMaster.Calendar.MonthRange(New CompuMaster.Calendar.Month(2024, 1), New CompuMaster.Calendar.Month(2024, 12)))
+
+            TryParse_AssertToStringAndReParseResultIsEqual(CompuMaster.Calendar.MonthRange.Parse(""))
+        End Sub
+
+        Private Sub TryParse_AssertToStringAndReParseResultIsEqual(value As CompuMaster.Calendar.MonthRange)
+            Dim TextRepresentation As String = value.ToString
+            If value.IsEmpty Then
+                Assert.AreEqual("", TextRepresentation)
+            Else
+                Assert.AreEqual(value.FirstMonth.ToString & " - " & value.LastMonth.ToString, TextRepresentation)
+            End If
+            Dim Reparsed As CompuMaster.Calendar.MonthRange = Nothing
+            Assert.True(CompuMaster.Calendar.MonthRange.TryParse(TextRepresentation, Reparsed))
+            Assert.AreEqual(value, Reparsed)
+        End Sub
+
         <Test> Public Sub Add()
             Dim OriginRange As CompuMaster.Calendar.MonthRange = CompuMaster.Calendar.MonthRange.Parse("2000-01 - 2020-12")
             Assert.AreEqual("2000-01 - 2020-12", OriginRange.Add(0, 0).ToString)

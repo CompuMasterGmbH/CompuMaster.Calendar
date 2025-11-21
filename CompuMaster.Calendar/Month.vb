@@ -411,9 +411,12 @@ Namespace CompuMaster.Calendar
         ''' <remarks>
         ''' </remarks>
         Public Shared Function TryParse(value As String, format As String, culture As System.Globalization.CultureInfo, ByRef result As Month) As Boolean
-            If format = "yyyy-MM" Then
+            If value = Nothing Then
+                result = Nothing
+                Return False
+            ElseIf format = "yyyy-MM" Then
                 'Optimized handling for standard format
-                If value = Nothing OrElse value.Length <> 7 OrElse value(4) <> "-"c Then
+                If value.Length <> 7 OrElse value(4) <> "-"c Then
                     result = Nothing
                     Return False
                 Else
@@ -430,15 +433,16 @@ Namespace CompuMaster.Calendar
                         Return False
                     End If
                 End If
-            End If
-            Try
-                result = Parse(value, format, culture)
-                Return True
+            Else
+                Try
+                    result = Parse(value, format, culture)
+                    Return True
 #Disable Warning CA1031 ' Do not catch general exception types
-            Catch
-                Return False
+                Catch
+                    Return False
 #Enable Warning CA1031 ' Do not catch general exception types
-            End Try
+                End Try
+            End If
         End Function
 
         ''' <summary>

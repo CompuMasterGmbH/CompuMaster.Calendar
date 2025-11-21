@@ -421,14 +421,38 @@ Namespace CompuMaster.Calendar
         ''' <remarks>
         ''' </remarks>
         Public Shared Function TryParse(value As String, format As String, culture As System.Globalization.CultureInfo, customMonths As String(), ByRef result As ZeroableMonth) As Boolean
-            Try
-                result = Parse(value, format, culture, customMonths)
-                Return True
-#Disable Warning CA1031 ' Do not catch general exception types
-            Catch
+            If value = Nothing Then
+                result = Nothing
                 Return False
+            ElseIf format = "yyyy-MM" Then
+                'Optimized handling for standard format
+                If value.Length <> 7 OrElse value(4) <> "-"c Then
+                    result = Nothing
+                    Return False
+                Else
+                    Dim Success As Boolean
+                    Dim Year As Integer
+                    Dim Month As Integer
+                    Success = Integer.TryParse(value.Substring(0, 4), Year)
+                    Success = Success AndAlso Integer.TryParse(value.Substring(5, 2), Month)
+                    If Success Then
+                        result = New ZeroableMonth(Year, Month)
+                        Return True
+                    Else
+                        result = Nothing
+                        Return False
+                    End If
+                End If
+            Else
+                Try
+                    result = Parse(value, format, culture, customMonths)
+                    Return True
+#Disable Warning CA1031 ' Do not catch general exception types
+                Catch
+                    Return False
 #Enable Warning CA1031 ' Do not catch general exception types
-            End Try
+                End Try
+            End If
         End Function
 
         ''' <summary>

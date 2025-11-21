@@ -210,7 +210,7 @@ Namespace CompuMaster.Test.Calendar
         ''' <summary>
         ''' March in German is formatted differently with MMM between windows and linux platforms (Mrz vs. Mär)
         ''' </summary>
-                <Test> Public Sub MarchInGermanToStringAndReParse()
+        <Test> Public Sub MarchInGermanToStringAndReParse()
             Dim Buffer As CompuMaster.Calendar.Month = Nothing
             Dim TestNumber As Double
 
@@ -333,7 +333,7 @@ Namespace CompuMaster.Test.Calendar
             Dim value2 As New CompuMaster.Calendar.Month(2009, 12)
             Dim value3 As New CompuMaster.Calendar.Month(2010, 1)
             Assert.AreEqual(True, value1 > value2)
-            Assert.AreEqual(False, value1 <value2)
+            Assert.AreEqual(False, value1 < value2)
             Assert.AreEqual(True, value1 >= value2)
             Assert.AreEqual(False, value1 <= value2)
             Assert.AreEqual(True, value1 >= value3)
