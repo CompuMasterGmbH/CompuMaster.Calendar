@@ -5,9 +5,9 @@
 		<Title>CompuMaster.Calendar - MIT license edition</Title>
 		<Company>CompuMaster GmbH</Company>		
 		<Product>CompuMaster.Calendar</Product>
-		<Copyright>2005-2024 CompuMaster GmbH</Copyright>
+		<Copyright>2005-2025 CompuMaster GmbH</Copyright>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>2024.01.16.100</Version>
+		<Version>2025.11.21.100</Version>
 		<VBRuntime>Embed</VBRuntime>
 		<IsPackable>true</IsPackable>
 	</PropertyGroup>
