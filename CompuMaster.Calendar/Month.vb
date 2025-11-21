@@ -411,6 +411,26 @@ Namespace CompuMaster.Calendar
         ''' <remarks>
         ''' </remarks>
         Public Shared Function TryParse(value As String, format As String, culture As System.Globalization.CultureInfo, ByRef result As Month) As Boolean
+            If format = "yyyy-MM" Then
+                'Optimized handling for standard format
+                If value = Nothing OrElse value.Length <> 7 OrElse value(4) <> "-"c Then
+                    result = Nothing
+                    Return False
+                Else
+                    Dim Success As Boolean
+                    Dim Year As Integer
+                    Dim Month As Integer
+                    Success = Integer.TryParse(value.Substring(0, 4), Year)
+                    Success = Success AndAlso Integer.TryParse(value.Substring(5, 2), Month)
+                    If Success Then
+                        result = New Month(Year, Month)
+                        Return True
+                    Else
+                        result = Nothing
+                        Return False
+                    End If
+                End If
+            End If
             Try
                 result = Parse(value, format, culture)
                 Return True

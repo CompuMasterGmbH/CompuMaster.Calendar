@@ -139,6 +139,65 @@ Namespace CompuMaster.Test.Calendar
             Assert.AreEqual("2020-03", Buffer.ToString, "#111")
         End Sub
 
+        <Test> Public Sub TryParsePerformance()
+            Const TableXmlSchema As String =
+                "<?xml version=""1.0"" standalone=""yes""?>" & ControlChars.CrLf &
+                "<xs:schema id=""NewDataSet"" xmlns="""" xmlns:xs=""http://www.w3.org/2001/XMLSchema"" xmlns:msdata=""urn:schemas-microsoft-com:xml-msdata"">" & ControlChars.CrLf &
+                "  <xs:element name=""NewDataSet"" msdata:IsDataSet=""true"" msdata:MainDataTable=""SuSa"" msdata:UseCurrentLocale=""true"">" & ControlChars.CrLf &
+                "    <xs:complexType>" & ControlChars.CrLf &
+                "      <xs:choice minOccurs=""0"" maxOccurs=""unbounded"">" & ControlChars.CrLf &
+                "        <xs:element name=""SuSa"">" & ControlChars.CrLf &
+                "          <xs:complexType>" & ControlChars.CrLf &
+                "            <xs:sequence>" & ControlChars.CrLf &
+                "              <xs:element name=""AccountNumber"" type=""xs:string"" />" & ControlChars.CrLf &
+                "              <xs:element name=""AccountName"" type=""xs:string"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""BeginValue"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""_x0032_024-01"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""_x0032_024-02"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""_x0032_024-03"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""_x0032_024-04"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""_x0032_024-05"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""_x0032_024-06"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""_x0032_024-07"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""_x0032_024-08"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""_x0032_024-09"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""_x0032_024-10"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""_x0032_024-11"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""_x0032_024-12"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "              <xs:element name=""EndValue"" type=""xs:double"" minOccurs=""0"" />" & ControlChars.CrLf &
+                "            </xs:sequence>" & ControlChars.CrLf &
+                "          </xs:complexType>" & ControlChars.CrLf &
+                "        </xs:element>" & ControlChars.CrLf &
+                "      </xs:choice>" & ControlChars.CrLf &
+                "    </xs:complexType>" & ControlChars.CrLf &
+                "    <xs:unique name=""Constraint1"" msdata:PrimaryKey=""true"">" & ControlChars.CrLf &
+                "      <xs:selector xpath="".//SuSa"" />" & ControlChars.CrLf &
+                "      <xs:field xpath=""AccountNumber"" />" & ControlChars.CrLf &
+                "    </xs:unique>" & ControlChars.CrLf &
+                "  </xs:element>" & ControlChars.CrLf &
+                "</xs:schema>" & ControlChars.CrLf
+
+            Dim table As New System.Data.DataTable
+            table.ReadXmlSchema(System.Xml.XmlReader.Create(New System.IO.StringReader(TableXmlSchema)))
+            TryParsePerformance_LastFilledDataPeriod(table)
+        End Sub
+
+        Private Function TryParsePerformance_LastFilledDataPeriod(table As System.Data.DataTable) As CompuMaster.Calendar.Month
+            Dim Result As CompuMaster.Calendar.Month = Nothing
+            For LoopCounter As Integer = 0 To 200
+                For MyCounter As Integer = 0 To table.Columns.Count - 1
+                    If CompuMaster.Calendar.Month.TryParse(table.Columns(MyCounter).ColumnName, "yyyy-MM", System.Globalization.CultureInfo.InvariantCulture, Nothing) Then
+                        Dim FoundDataMonth As New CompuMaster.Calendar.Month(table.Columns(MyCounter).ColumnName)
+                        If LoopCounter = 0 Then
+                            System.Console.WriteLine("Found data month: " & FoundDataMonth.ToString)
+                            Assert.NotNull(FoundDataMonth)
+                        End If
+                    End If
+                Next
+            Next
+            Return Result
+        End Function
+
         <Test> Public Sub EncodeForRegEx()
             Dim Items As New System.Collections.Generic.List(Of String)
             Dim Expected As New System.Collections.Generic.List(Of String)
@@ -151,7 +210,7 @@ Namespace CompuMaster.Test.Calendar
         ''' <summary>
         ''' March in German is formatted differently with MMM between windows and linux platforms (Mrz vs. Mär)
         ''' </summary>
-        <Test> Public Sub MarchInGermanToStringAndReParse()
+                <Test> Public Sub MarchInGermanToStringAndReParse()
             Dim Buffer As CompuMaster.Calendar.Month = Nothing
             Dim TestNumber As Double
 
@@ -274,7 +333,7 @@ Namespace CompuMaster.Test.Calendar
             Dim value2 As New CompuMaster.Calendar.Month(2009, 12)
             Dim value3 As New CompuMaster.Calendar.Month(2010, 1)
             Assert.AreEqual(True, value1 > value2)
-            Assert.AreEqual(False, value1 < value2)
+            Assert.AreEqual(False, value1 <value2)
             Assert.AreEqual(True, value1 >= value2)
             Assert.AreEqual(False, value1 <= value2)
             Assert.AreEqual(True, value1 >= value3)
