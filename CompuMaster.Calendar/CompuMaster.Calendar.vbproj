@@ -7,7 +7,7 @@
 		<Product>CompuMaster.Calendar</Product>
 		<Copyright>2005-2025 CompuMaster GmbH</Copyright>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>2025.11.21.100</Version>
+		<Version>2025.12.29.0</Version>
 		<VBRuntime>Embed</VBRuntime>
 		<IsPackable>true</IsPackable>
 	</PropertyGroup>
@@ -89,7 +89,13 @@
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>
-	<ItemGroup>
+  <PropertyGroup>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="../README.md" Pack="true" PackagePath="/"/>
+  </ItemGroup>
+  <ItemGroup>
 	  <None Include="..\logo_64x64.png">
 	    <Pack>True</Pack>
 	    <PackagePath></PackagePath>
