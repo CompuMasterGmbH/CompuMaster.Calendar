@@ -33,10 +33,10 @@ jobs:
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - name: Setup .NET Core
-              uses: actions/setup-dotnet@v4
+              uses: actions/setup-dotnet@v6
               with:
                   dotnet-version: 8.0.x
 
@@ -51,7 +51,7 @@ jobs:
                   (cd ${{env.BUILD_OUTPUT_BASEDIR}}/${{env.BUILD_CONFIGURATION}} && zip $OLDPWD/bin.zip -r .)
 
             - name: Publish binaries
-              uses: softprops/action-gh-release@v1
+              uses: softprops/action-gh-release@v3
               with:
                   files: "bin.zip"
               env:
@@ -64,7 +64,7 @@ jobs:
               run: dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
 
             - name: Publish Package Artifacts
-              uses: actions/upload-artifact@v4
+              uses: actions/upload-artifact@v7
               with:
                   name: Nupkg Artifacts
                   path: ./**/*.nupkg
