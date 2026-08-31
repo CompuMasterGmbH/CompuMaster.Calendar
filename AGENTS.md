@@ -30,6 +30,11 @@
 - Add durable unit tests for new behavior.
 - Test methods should preferably include short comments or XML summaries explaining why the test exists and what workbook behavior it verifies, but this is guidance and not a mandatory API documentation requirement.
 
+## Branch Cleanup
+
+- After a pull request has been merged and all required pipelines have completed successfully, delete its feature branch both locally and on the remote. If either branch has already been deleted, clean up the remaining branch.
+- Do not delete branches for open pull requests or branches whose required pipelines are still running or have failed.
+
 ## File Encoding and Line Endings
 
 - Save text files as UTF-8 with BOM and CRLF line endings, matching `.editorconfig`.
